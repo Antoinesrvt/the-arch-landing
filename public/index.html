@@ -5,6 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Arch Consulting - Stratégie & Conseil Web3</title>
     <meta name="description" content="Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.">
+    <meta name="keywords" content="conseil, transformation digitale, stratégie, tokenomics, blockchain, innovation, finance, entreprise, web3">
+    <meta name="author" content="The Arch Consulting">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#8A70D6">
+    <meta name="msapplication-TileColor" content="#8A70D6">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thearch.consulting/">
+    <meta property="og:title" content="The Arch Consulting - Stratégie & Conseil Web3">
+    <meta property="og:description" content="Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.">
+    <meta property="og:image" content="https://thearch.consulting/og-image.jpg">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="The Arch Consulting">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://thearch.consulting/">
+    <meta property="twitter:title" content="The Arch Consulting - Stratégie & Conseil Web3">
+    <meta property="twitter:description" content="Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.">
+    <meta property="twitter:image" content="https://thearch.consulting/twitter-image.jpg">
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +38,90 @@
     
     <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Polyfills for older browsers -->
+    <script>
+        // Add polyfills for older browsers
+        (function() {
+            // IntersectionObserver polyfill
+            if (!window.IntersectionObserver) {
+                const script = document.createElement('script');
+                script.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+                script.async = true;
+                document.head.appendChild(script);
+            }
+            
+            // requestAnimationFrame polyfill
+            if (!window.requestAnimationFrame) {
+                window.requestAnimationFrame = function(callback) {
+                    return setTimeout(callback, 1000 / 60);
+                };
+            }
+            
+            // cancelAnimationFrame polyfill
+            if (!window.cancelAnimationFrame) {
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+            }
+            
+            // Hardware concurrency fallback
+            if (!navigator.hardwareConcurrency) {
+                Object.defineProperty(navigator, 'hardwareConcurrency', {
+                    value: 4,
+                    writable: false
+                });
+            }
+            
+            // Touch detection fallback
+            if (!('ontouchstart' in window) && !navigator.maxTouchPoints) {
+                Object.defineProperty(navigator, 'maxTouchPoints', {
+                    value: 0,
+                    writable: false
+                });
+            }
+        })();
+    </script>
+    
+    <script>
+        // Load Three.js with fallback
+        function loadThreeJS() {
+            return new Promise((resolve, reject) => {
+                if (typeof THREE !== 'undefined') {
+                    resolve(THREE);
+                    return;
+                }
+                
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+                script.onload = () => {
+                    console.log('Three.js loaded from CDN');
+                    resolve(THREE);
+                };
+                script.onerror = () => {
+                    console.warn('Failed to load Three.js from CDN, trying fallback...');
+                    // Try alternative CDN
+                    const fallbackScript = document.createElement('script');
+                    fallbackScript.src = 'https://unpkg.com/three@0.128.0/build/three.min.js';
+                    fallbackScript.onload = () => {
+                        console.log('Three.js loaded from fallback CDN');
+                        resolve(THREE);
+                    };
+                    fallbackScript.onerror = () => {
+                        console.error('Failed to load Three.js from all CDNs');
+                        reject(new Error('Three.js failed to load'));
+                    };
+                    document.head.appendChild(fallbackScript);
+                };
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Load Three.js immediately
+        loadThreeJS().catch(error => {
+            console.error('Three.js loading failed:', error);
+        });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -29,7 +134,7 @@
 </head>
 <body class="antialiased">
     <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-purple text-white px-4 py-2 rounded-lg z-50">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-purple text-white px-4 py-2 rounded-lg z-50" aria-label="Aller au contenu principal">
         Aller au contenu principal
     </a>
 

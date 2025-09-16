@@ -181,12 +181,29 @@ main > section {
 /* Ensure grid layout works properly */
 #philosophie .grid {
     display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
 }
 
 #philosophie .grid > * {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
+}
+
+/* Fallback for browsers that don't support CSS Grid */
+@supports not (display: grid) {
+    #philosophie .grid {
+        display: flex !important;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    #philosophie .grid > * {
+        flex: 1 1 300px;
+        margin: 1rem;
+        max-width: 350px;
+    }
 }
 
 /* Section Spacing */
@@ -238,6 +255,13 @@ a[href="#main-content"]:focus {
 #mobile-menu {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(20px)) {
+    #mobile-menu {
+        background: rgba(0, 0, 0, 0.95);
+    }
 }
 
 .mobile-nav-link {

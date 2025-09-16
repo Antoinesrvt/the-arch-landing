@@ -17,32 +17,140 @@ class ThreeSceneManager {
     }
 
     init() {
+        // Wait for Three.js to be available
         if (typeof THREE === 'undefined') {
-            console.warn('Three.js not loaded, skipping 3D scene initialization');
-            return;
-        }
-
-        // Check if device is mobile or has limited capabilities
-        const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
-        
-        if (isMobile || isLowEndDevice) {
-            console.log('Mobile or low-end device detected, using simplified 3D scene');
-            this.setupSimplifiedScene();
+            console.warn('Three.js not loaded, retrying in 100ms...');
+            setTimeout(() => this.init(), 100);
             return;
         }
 
         const heroContainer = document.getElementById('hero-canvas-container');
-        if (!heroContainer) return;
+        if (!heroContainer) {
+            console.warn('Hero container not found, retrying in 100ms...');
+            setTimeout(() => this.init(), 100);
+            return;
+        }
 
-        this.setupScene(heroContainer);
-        this.setupCamera(heroContainer);
-        this.setupRenderer(heroContainer);
-        this.setupLights();
-        this.createArchGroup();
-        this.createParticles();
-        this.setupEventListeners();
-        this.animate();
+        // Check browser compatibility
+        const browserInfo = this.detectBrowser();
+        const webglSupport = this.checkWebGLSupport();
+        
+        console.log('Browser info:', browserInfo);
+        console.log('WebGL support:', webglSupport);
+        
+        // Check if device is mobile or has limited capabilities
+        const isMobile = window.innerWidth < 768;
+        const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
+        const isOldBrowser = !window.requestAnimationFrame || !window.IntersectionObserver;
+        const hasWebGLIssues = !webglSupport.supported || webglSupport.hasIssues;
+        
+        console.log('Device capabilities:', {
+            isMobile,
+            isLowEndDevice,
+            isOldBrowser,
+            hasWebGLIssues,
+            hardwareConcurrency: navigator.hardwareConcurrency,
+            userAgent: navigator.userAgent.substring(0, 50)
+        });
+        
+        if (isMobile || isLowEndDevice || isOldBrowser || hasWebGLIssues) {
+            console.log('Using simplified scene for compatibility');
+            this.setupSimplifiedScene();
+            return;
+        }
+
+        try {
+            this.setupScene(heroContainer);
+            this.setupCamera(heroContainer);
+            this.setupRenderer(heroContainer);
+            this.setupLights();
+            this.createArchGroup();
+            this.createParticles();
+            this.setupEventListeners();
+            this.animate();
+            console.log('3D scene initialized successfully');
+        } catch (error) {
+            console.error('Failed to initialize 3D scene:', error);
+            this.setupSimplifiedScene();
+        }
+    }
+
+    detectBrowser() {
+        const ua = navigator.userAgent;
+        let browser = 'Unknown';
+        let version = 'Unknown';
+        
+        if (ua.includes('Chrome') && !ua.includes('Edg')) {
+            browser = 'Chrome';
+            version = ua.match(/Chrome\/(\d+)/)?.[1] || 'Unknown';
+        } else if (ua.includes('Firefox')) {
+            browser = 'Firefox';
+            version = ua.match(/Firefox\/(\d+)/)?.[1] || 'Unknown';
+        } else if (ua.includes('Safari') && !ua.includes('Chrome')) {
+            browser = 'Safari';
+            version = ua.match(/Version\/(\d+)/)?.[1] || 'Unknown';
+        } else if (ua.includes('Edg')) {
+            browser = 'Edge';
+            version = ua.match(/Edg\/(\d+)/)?.[1] || 'Unknown';
+        } else if (ua.includes('Brave')) {
+            browser = 'Brave';
+            version = 'Chromium-based';
+        }
+        
+        return { browser, version, userAgent: ua };
+    }
+
+    checkWebGLSupport() {
+        try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            
+            if (!gl) {
+                return {
+                    supported: false,
+                    hasIssues: true,
+                    error: 'WebGL not supported'
+                };
+            }
+            
+            // Check for common WebGL issues
+            const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+            const maxVertexAttribs = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
+            const maxVaryingVectors = gl.getParameter(gl.MAX_VARYING_VECTORS);
+            
+            // Check for browser-specific issues
+            const browserInfo = this.detectBrowser();
+            let hasIssues = false;
+            let issues = [];
+            
+            if (browserInfo.browser === 'Firefox' && maxTextureSize < 4096) {
+                hasIssues = true;
+                issues.push('Limited texture size in Firefox');
+            }
+            
+            if (browserInfo.browser === 'Safari' && maxVaryingVectors < 8) {
+                hasIssues = true;
+                issues.push('Limited varying vectors in Safari');
+            }
+            
+            return {
+                supported: true,
+                hasIssues: hasIssues,
+                issues: issues,
+                maxTextureSize: maxTextureSize,
+                maxVertexAttribs: maxVertexAttribs,
+                maxVaryingVectors: maxVaryingVectors,
+                version: gl.getParameter(gl.VERSION),
+                vendor: gl.getParameter(gl.VENDOR),
+                renderer: gl.getParameter(gl.RENDERER)
+            };
+        } catch (error) {
+            return {
+                supported: false,
+                hasIssues: true,
+                error: error.message
+            };
+        }
     }
 
     setupScene(container) {
@@ -61,14 +169,92 @@ class ThreeSceneManager {
     }
 
     setupRenderer(container) {
-        const canvas = document.getElementById('hero-canvas');
-        this.renderer = new THREE.WebGLRenderer({ 
-            canvas: canvas, 
-            alpha: true, 
-            antialias: true 
-        });
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        // Create canvas if it doesn't exist
+        let canvas = document.getElementById('hero-canvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.id = 'hero-canvas';
+            container.appendChild(canvas);
+        }
+
+        // Browser-specific WebGL context attributes
+        const browserInfo = this.detectBrowser();
+        const webglSupport = this.checkWebGLSupport();
+        
+        let contextAttributes = {
+            alpha: true,
+            antialias: true,
+            depth: true,
+            stencil: false,
+            preserveDrawingBuffer: false,
+            powerPreference: "high-performance",
+            failIfMajorPerformanceCaveat: false
+        };
+        
+        // Browser-specific optimizations
+        if (browserInfo.browser === 'Firefox') {
+            // Firefox-specific settings
+            contextAttributes.antialias = false; // Disable antialiasing for better performance
+            contextAttributes.powerPreference = "default";
+        } else if (browserInfo.browser === 'Safari') {
+            // Safari-specific settings
+            contextAttributes.antialias = true;
+            contextAttributes.powerPreference = "default";
+        } else if (browserInfo.browser === 'Edge') {
+            // Edge-specific settings
+            contextAttributes.powerPreference = "high-performance";
+        }
+        
+        // Adjust based on WebGL capabilities
+        if (webglSupport.hasIssues) {
+            contextAttributes.antialias = false;
+            contextAttributes.powerPreference = "default";
+        }
+
+        try {
+            this.renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                ...contextAttributes
+            });
+            
+            this.renderer.setSize(container.clientWidth, container.clientHeight);
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            this.renderer.setClearColor(0x000000, 0); // Transparent background
+            
+            // Browser-specific renderer settings
+            if (browserInfo.browser === 'Firefox') {
+                this.renderer.shadowMap.enabled = false; // Disable shadows for better performance
+            }
+            
+            console.log('Renderer setup complete:', {
+                browser: browserInfo.browser,
+                width: container.clientWidth,
+                height: container.clientHeight,
+                pixelRatio: this.renderer.getPixelRatio(),
+                antialias: contextAttributes.antialias,
+                powerPreference: contextAttributes.powerPreference
+            });
+            
+        } catch (error) {
+            console.error('Failed to create WebGL renderer:', error);
+            
+            // Fallback to basic renderer
+            try {
+                this.renderer = new THREE.WebGLRenderer({ 
+                    canvas: canvas, 
+                    alpha: true,
+                    antialias: false,
+                    powerPreference: "default"
+                });
+                this.renderer.setSize(container.clientWidth, container.clientHeight);
+                this.renderer.setPixelRatio(1);
+                this.renderer.setClearColor(0x000000, 0);
+                console.log('Fallback renderer created');
+            } catch (fallbackError) {
+                console.error('Fallback renderer also failed:', fallbackError);
+                throw fallbackError;
+            }
+        }
     }
 
     setupLights() {
@@ -162,32 +348,40 @@ class ThreeSceneManager {
     }
 
     animate() {
+        if (!this.renderer || !this.scene || !this.camera) {
+            console.warn('3D scene components not ready, skipping animation');
+            return;
+        }
+
         this.animationId = requestAnimationFrame(() => this.animate());
         
-        const elapsedTime = this.clock.getElapsedTime();
+        try {
+            const elapsedTime = this.clock.getElapsedTime();
 
-        // Multi-axis rotation for the arch group
-        if (this.archGroup) {
-            this.archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * 0.2) * 0.25;
-            this.archGroup.rotation.y = elapsedTime * 0.15;
-            this.archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * 0.2) * 0.25;
-        }
+            // Multi-axis rotation for the arch group
+            if (this.archGroup) {
+                this.archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * 0.2) * 0.25;
+                this.archGroup.rotation.y = elapsedTime * 0.15;
+                this.archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * 0.2) * 0.25;
+            }
 
-        // Camera parallax effect
-        if (this.camera) {
-            this.camera.position.x += (this.mouseX * 5 - this.camera.position.x) * 0.05;
-            this.camera.position.y += (-this.mouseY * 5 - this.camera.position.y) * 0.05;
-            this.camera.lookAt(this.archGroup.position);
-        }
+            // Camera parallax effect
+            if (this.camera) {
+                this.camera.position.x += (this.mouseX * 5 - this.camera.position.x) * 0.05;
+                this.camera.position.y += (-this.mouseY * 5 - this.camera.position.y) * 0.05;
+                this.camera.lookAt(this.archGroup.position);
+            }
 
-        // Particles rotation
-        if (this.particlesMesh) {
-            this.particlesMesh.rotation.y = -elapsedTime * 0.03;
-        }
+            // Particles rotation
+            if (this.particlesMesh) {
+                this.particlesMesh.rotation.y = -elapsedTime * 0.03;
+            }
 
-        // Render
-        if (this.renderer && this.scene && this.camera) {
+            // Render
             this.renderer.render(this.scene, this.camera);
+        } catch (error) {
+            console.error('Animation error:', error);
+            this.setupSimplifiedScene();
         }
     }
 
@@ -222,6 +416,8 @@ class ThreeSceneManager {
         const heroContainer = document.getElementById('hero-canvas-container');
         if (!heroContainer) return;
 
+        console.log('Setting up simplified scene');
+
         // Create a simple static background instead of 3D scene
         heroContainer.innerHTML = `
             <div style="
@@ -244,6 +440,17 @@ class ThreeSceneManager {
                 border-radius: 50%;
                 animation: pulse 4s ease-in-out infinite;
             "></div>
+            <div style="
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100px;
+                height: 100px;
+                background: radial-gradient(circle, rgba(52, 211, 153, 0.2) 0%, transparent 70%);
+                border-radius: 50%;
+                animation: pulse 3s ease-in-out infinite reverse;
+            "></div>
             <style>
                 @keyframes pulse {
                     0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
@@ -254,7 +461,40 @@ class ThreeSceneManager {
     }
 }
 
-// Initialize Three.js scene when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize Three.js scene when DOM is loaded and Three.js is available
+function initializeThreeScene() {
+    if (typeof THREE === 'undefined') {
+        console.warn('Three.js not available, retrying in 100ms...');
+        setTimeout(initializeThreeScene, 100);
+        return;
+    }
+    
+    console.log('Initializing Three.js scene...');
     window.threeSceneManager = new ThreeSceneManager();
+}
+
+// Wait for DOM and Three.js to be ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if Three.js is already loaded
+    if (typeof THREE !== 'undefined') {
+        initializeThreeScene();
+    } else {
+        // Wait for Three.js to load
+        const checkThreeJS = setInterval(() => {
+            if (typeof THREE !== 'undefined') {
+                clearInterval(checkThreeJS);
+                initializeThreeScene();
+            }
+        }, 100);
+        
+        // Timeout after 10 seconds
+        setTimeout(() => {
+            clearInterval(checkThreeJS);
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js failed to load after 10 seconds');
+                // Initialize with simplified scene
+                window.threeSceneManager = new ThreeSceneManager();
+            }
+        }, 10000);
+    }
 });
