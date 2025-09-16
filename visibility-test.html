@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visibility Test - The Arch Landing</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/animations.css">
+    <style>
+        .test-section {
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .test-content {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        
+        /* Test hero section styling */
+        #test-hero {
+            background: linear-gradient(135deg, #0A0F19 0%, #111827 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-section">
+        <h1>Visibility Test</h1>
+        
+        <!-- Test Hero Section -->
+        <div id="test-hero">
+            <div class="hero-content">
+                <h1 data-lang-key="hero_title">L'architecture de votre succès en Web3</h1>
+                <p data-lang-key="hero_subtitle">Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.</p>
+                <button data-lang-key="hero_cta1">Planifier un appel</button>
+            </div>
+        </div>
+        
+        <!-- Test Philosophy Section -->
+        <div class="test-content">
+            <h2>Philosophy Section Test</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <article class="animate-card p-6" style="background: #f8f9fa; border-radius: 8px;">
+                    <h3 data-lang-key="benefit1_title">Transformer l'Idée en Projet Rentable</h3>
+                    <p data-lang-key="benefit1_desc">Nous ne construisons pas seulement de la technologie.</p>
+                </article>
+                <article class="animate-card p-6" style="background: #f8f9fa; border-radius: 8px;">
+                    <h3 data-lang-key="benefit2_title">Sécuriser Vos Actifs Numériques</h3>
+                    <p data-lang-key="benefit2_desc">Dans un monde décentralisé, la confiance est primordiale.</p>
+                </article>
+                <article class="animate-card p-6" style="background: #f8f9fa; border-radius: 8px;">
+                    <h3 data-lang-key="benefit3_title">Créer une Communauté Engagée</h3>
+                    <p data-lang-key="benefit3_desc">Un projet ne vit que par sa communauté.</p>
+                </article>
+            </div>
+        </div>
+        
+        <div id="test-results"></div>
+        
+        <button onclick="testVisibility()">Test Visibility</button>
+        <button onclick="checkElements()">Check Elements</button>
+    </div>
+
+    <script src="assets/js/data/translations.js"></script>
+    <script src="assets/js/modules/translations.js"></script>
+    
+    <script>
+        function testVisibility() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Visibility Test Results:</h3>';
+            
+            // Test hero section
+            const heroTitle = document.querySelector('[data-lang-key="hero_title"]');
+            const heroSubtitle = document.querySelector('[data-lang-key="hero_subtitle"]');
+            
+            if (heroTitle) {
+                const computedStyle = window.getComputedStyle(heroTitle);
+                const isVisible = computedStyle.opacity !== '0' && 
+                                computedStyle.visibility !== 'hidden' && 
+                                computedStyle.display !== 'none';
+                
+                results.innerHTML += `<div class="status ${isVisible ? 'success' : 'error'}">
+                    ${isVisible ? '✅' : '❌'} Hero Title: "${heroTitle.textContent}" (opacity: ${computedStyle.opacity}, visibility: ${computedStyle.visibility}, display: ${computedStyle.display})
+                </div>`;
+            }
+            
+            if (heroSubtitle) {
+                const computedStyle = window.getComputedStyle(heroSubtitle);
+                const isVisible = computedStyle.opacity !== '0' && 
+                                computedStyle.visibility !== 'hidden' && 
+                                computedStyle.display !== 'none';
+                
+                results.innerHTML += `<div class="status ${isVisible ? 'success' : 'error'}">
+                    ${isVisible ? '✅' : '❌'} Hero Subtitle: "${heroSubtitle.textContent}" (opacity: ${computedStyle.opacity}, visibility: ${computedStyle.visibility}, display: ${computedStyle.display})
+                </div>`;
+            }
+            
+            // Test philosophy cards
+            const cards = document.querySelectorAll('.animate-card');
+            cards.forEach((card, index) => {
+                const computedStyle = window.getComputedStyle(card);
+                const isVisible = computedStyle.opacity !== '0' && 
+                                computedStyle.visibility !== 'hidden' && 
+                                computedStyle.display !== 'none';
+                
+                results.innerHTML += `<div class="status ${isVisible ? 'success' : 'error'}">
+                    ${isVisible ? '✅' : '❌'} Card ${index + 1}: (opacity: ${computedStyle.opacity}, visibility: ${computedStyle.visibility}, display: ${computedStyle.display})
+                </div>`;
+            });
+        }
+        
+        function checkElements() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<h3>Element Check:</h3>';
+            
+            const elements = document.querySelectorAll('[data-lang-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                const content = el.textContent.trim();
+                const computedStyle = window.getComputedStyle(el);
+                
+                results.innerHTML += `<div class="status ${content ? 'success' : 'error'}">
+                    ${content ? '✅' : '❌'} ${key}: "${content}" (opacity: ${computedStyle.opacity})
+                </div>`;
+            });
+        }
+        
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testVisibility();
+                checkElements();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

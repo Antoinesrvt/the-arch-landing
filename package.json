@@ -1,0 +1,34 @@
+{
+  "name": "the-arch-landing",
+  "version": "1.0.0",
+  "description": "The Arch Consulting - Modern Web3 Landing Page",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "build": "echo 'Build process would go here'",
+    "lint": "echo 'Linting would go here'",
+    "test": "echo 'Tests would go here'"
+  },
+  "keywords": [
+    "web3",
+    "blockchain",
+    "consulting",
+    "landing-page",
+    "modern",
+    "responsive"
+  ],
+  "author": "The Arch Consulting",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "dependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

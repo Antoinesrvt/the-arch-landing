@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - The Arch Landing</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+        .debug-section { margin: 20px 0; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .warning { color: orange; font-weight: bold; }
+        .code { background: #f5f5f5; padding: 10px; border-radius: 4px; font-family: monospace; margin: 10px 0; }
+        .title-test { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 The Arch Landing - Debug Page</h1>
+    
+    <div class="debug-section">
+        <h2>📊 Translation System Status</h2>
+        <div id="translation-status">Checking...</div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>📝 Title Elements Test</h2>
+        <div id="title-test">Testing titles...</div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>🔧 Console Debug</h2>
+        <p>Open browser console (F12) and run:</p>
+        <div class="code">window.translationManager.debug()</div>
+        <p>This will show detailed translation system information.</p>
+    </div>
+    
+    <div class="debug-section">
+        <h2>🎯 Quick Fix Test</h2>
+        <button onclick="testTranslations()">Test Translation System</button>
+        <button onclick="forceLoadTranslations()">Force Load Translations</button>
+        <div id="fix-results"></div>
+    </div>
+
+    <script src="assets/js/data/translations.js"></script>
+    <script src="assets/js/data/case-studies.js"></script>
+    <script src="assets/js/modules/translations.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        function testTranslations() {
+            const results = document.getElementById('fix-results');
+            results.innerHTML = '<h3>Translation Test Results:</h3>';
+            
+            // Test 1: Check if data is loaded
+            if (window.TranslationsData) {
+                results.innerHTML += '<p class="success">✅ TranslationsData loaded</p>';
+            } else {
+                results.innerHTML += '<p class="error">❌ TranslationsData not loaded</p>';
+            }
+            
+            // Test 2: Check translation manager
+            if (window.translationManager) {
+                results.innerHTML += '<p class="success">✅ TranslationManager initialized</p>';
+                window.translationManager.debug();
+            } else {
+                results.innerHTML += '<p class="error">❌ TranslationManager not initialized</p>';
+            }
+            
+            // Test 3: Check elements
+            const elements = document.querySelectorAll('[data-lang-key]');
+            results.innerHTML += `<p class="success">✅ Found ${elements.length} elements with data-lang-key</p>`;
+            
+            // Test 4: Check specific titles
+            const titles = document.querySelectorAll('h1, h2, h3');
+            let emptyTitles = 0;
+            titles.forEach(title => {
+                if (!title.textContent.trim()) {
+                    emptyTitles++;
+                }
+            });
+            
+            if (emptyTitles > 0) {
+                results.innerHTML += `<p class="warning">⚠️ Found ${emptyTitles} empty title elements</p>`;
+            } else {
+                results.innerHTML += '<p class="success">✅ All titles have content</p>';
+            }
+        }
+        
+        function forceLoadTranslations() {
+            const results = document.getElementById('fix-results');
+            results.innerHTML = '<h3>Force Loading Translations:</h3>';
+            
+            if (window.translationManager && window.TranslationsData) {
+                window.translationManager.translations = window.TranslationsData;
+                window.translationManager.setLanguage('fr');
+                results.innerHTML += '<p class="success">✅ Translations force-loaded successfully</p>';
+            } else {
+                results.innerHTML += '<p class="error">❌ Cannot force load - missing dependencies</p>';
+            }
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testTranslations();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
