@@ -234,6 +234,38 @@ a[href="#main-content"]:focus {
     z-index: 1000;
 }
 
+/* Mobile Navigation Styles */
+#mobile-menu {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.mobile-nav-link {
+    position: relative;
+    padding: 12px 0;
+    display: block;
+}
+
+.mobile-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-purple);
+    transition: width 0.3s ease;
+}
+
+.mobile-nav-link:hover::after {
+    width: 100%;
+}
+
+/* Mobile Menu Animation */
+#mobile-menu.show {
+    transform: translateX(0);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     :root {
@@ -243,6 +275,46 @@ a[href="#main-content"]:focus {
     
     html {
         font-size: 14px;
+    }
+    
+    /* Mobile-specific improvements */
+    .hero-content {
+        padding: 2rem 0;
+        min-height: 70vh;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+        line-height: 1.1;
+    }
+    
+    .hero-content p {
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+    }
+    
+    /* Mobile button improvements */
+    .hero-content .flex {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .hero-content .flex a {
+        width: 100%;
+        text-align: center;
+        padding: 1rem 2rem;
+    }
+    
+    /* Mobile card improvements */
+    .glass-card {
+        padding: 1.5rem;
+    }
+    
+    /* Mobile modal improvements */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
     }
 }
 

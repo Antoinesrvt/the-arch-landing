@@ -13,11 +13,12 @@ class TheArchApp {
         this.setupExpertiseTabs();
         this.setupTouchDetection();
         this.setupAccessibility();
+        this.setupMobileNavigation();
         this.populateExpertises();
-        
+
         // Ensure titles are visible as fallback
         this.ensureTitlesVisible();
-        
+
         // Listen for language changes
         document.addEventListener('languageChanged', (e) => {
             this.currentLang = e.detail.language;
@@ -101,6 +102,50 @@ class TheArchApp {
         if (isTouchDevice) {
             document.body.classList.add('is-touch-device');
         }
+    }
+
+    setupMobileNavigation() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        if (!mobileMenuToggle || !mobileMenu) return;
+
+        // Toggle mobile menu
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('show');
+            mobileMenuToggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        // Close mobile menu
+        const closeMobileMenu = () => {
+            mobileMenu.classList.remove('show');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        };
+
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on nav links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Close menu when clicking outside
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('show')) {
+                closeMobileMenu();
+            }
+        });
     }
 
     setupAccessibility() {

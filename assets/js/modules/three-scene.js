@@ -22,6 +22,16 @@ class ThreeSceneManager {
             return;
         }
 
+        // Check if device is mobile or has limited capabilities
+        const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+        
+        if (isMobile || isLowEndDevice) {
+            console.log('Mobile or low-end device detected, using simplified 3D scene');
+            this.setupSimplifiedScene();
+            return;
+        }
+
         const heroContainer = document.getElementById('hero-canvas-container');
         if (!heroContainer) return;
 
@@ -206,6 +216,41 @@ class ThreeSceneManager {
         if (this.scene) {
             this.scene.clear();
         }
+    }
+
+    setupSimplifiedScene() {
+        const heroContainer = document.getElementById('hero-canvas-container');
+        if (!heroContainer) return;
+
+        // Create a simple static background instead of 3D scene
+        heroContainer.innerHTML = `
+            <div style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #0A0F19 0%, #111827 50%, #1E293B 100%);
+                opacity: 0.8;
+            "></div>
+            <div style="
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, rgba(138, 112, 214, 0.3) 0%, transparent 70%);
+                border-radius: 50%;
+                animation: pulse 4s ease-in-out infinite;
+            "></div>
+            <style>
+                @keyframes pulse {
+                    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+                    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+                }
+            </style>
+        `;
     }
 }
 
