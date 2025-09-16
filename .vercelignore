@@ -9,3 +9,10 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 *.log
+build.js
+DEPLOYMENT.md
+test.html
+debug.html
+hero-debug.html
+translation-test.html
+visibility-test.html

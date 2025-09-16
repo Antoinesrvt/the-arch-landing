@@ -5,10 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "npx serve . -p 3000",
-    "build": "node build.js",
-    "start": "npx serve . -p 3000",
-    "lint": "echo 'Linting would go here'",
-    "test": "echo 'Tests would go here'"
+    "build": "./build.sh"
   },
   "keywords": [
     "web3",
