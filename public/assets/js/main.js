@@ -109,6 +109,8 @@ class TheArchApp {
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileMenuClose = document.getElementById('mobile-menu-close');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const mobileLangSwitch = document.getElementById('mobile-lang-switch');
+        const desktopLangSwitch = document.getElementById('lang-switch');
 
         if (!mobileMenuToggle || !mobileMenu) return;
 
@@ -117,20 +119,43 @@ class TheArchApp {
             mobileMenu.classList.add('show');
             mobileMenuToggle.setAttribute('aria-expanded', 'true');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Add smooth slide-in animation
+            requestAnimationFrame(() => {
+                mobileMenu.style.transform = 'translateX(0)';
+            });
         });
 
         // Close mobile menu
         const closeMobileMenu = () => {
-            mobileMenu.classList.remove('show');
-            mobileMenuToggle.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
+            mobileMenu.style.transform = 'translateX(-100%)';
+            setTimeout(() => {
+                mobileMenu.classList.remove('show');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }, 300); // Match transition duration
         };
 
         mobileMenuClose.addEventListener('click', closeMobileMenu);
 
         // Close menu when clicking on nav links
         mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                closeMobileMenu();
+                
+                // Smooth scroll to target after menu closes
+                setTimeout(() => {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 350);
+            });
         });
 
         // Close menu when clicking outside
@@ -146,6 +171,54 @@ class TheArchApp {
                 closeMobileMenu();
             }
         });
+
+        // Handle mobile language switch
+        if (mobileLangSwitch) {
+            mobileLangSwitch.addEventListener('click', () => {
+                // Trigger the same language switch as desktop
+                if (desktopLangSwitch) {
+                    desktopLangSwitch.click();
+                }
+                closeMobileMenu();
+            });
+        }
+
+        // Handle swipe gestures for mobile menu
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        mobileMenu.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        }, { passive: true });
+
+        mobileMenu.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            const diffX = startX - currentX;
+            
+            // Only allow swipe to close from the right edge
+            if (diffX > 0) {
+                const translateX = Math.max(-100, -diffX);
+                mobileMenu.style.transform = `translateX(${translateX}%)`;
+            }
+        }, { passive: true });
+
+        mobileMenu.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const diffX = startX - currentX;
+            const threshold = 100; // Minimum swipe distance to close
+            
+            if (diffX > threshold) {
+                closeMobileMenu();
+            } else {
+                // Snap back to open position
+                mobileMenu.style.transform = 'translateX(0)';
+            }
+        }, { passive: true });
     }
 
     setupAccessibility() {

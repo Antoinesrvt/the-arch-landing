@@ -39,21 +39,23 @@ class ThreeSceneManager {
         console.log('WebGL support:', webglSupport);
         
         // Check if device is mobile or has limited capabilities
-        const isMobile = window.innerWidth < 768;
+        const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
         const isOldBrowser = !window.requestAnimationFrame || !window.IntersectionObserver;
         const hasWebGLIssues = !webglSupport.supported || webglSupport.hasIssues;
+        const isSlowConnection = navigator.connection && (navigator.connection.effectiveType === 'slow-2g' || navigator.connection.effectiveType === '2g');
         
         console.log('Device capabilities:', {
             isMobile,
             isLowEndDevice,
             isOldBrowser,
             hasWebGLIssues,
+            isSlowConnection,
             hardwareConcurrency: navigator.hardwareConcurrency,
             userAgent: navigator.userAgent.substring(0, 50)
         });
         
-        if (isMobile || isLowEndDevice || isOldBrowser || hasWebGLIssues) {
+        if (isMobile || isLowEndDevice || isOldBrowser || hasWebGLIssues || isSlowConnection) {
             console.log('Using simplified scene for compatibility');
             this.setupSimplifiedScene();
             return;
@@ -305,7 +307,10 @@ class ThreeSceneManager {
 
     createParticles() {
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
+        
+        // Reduce particle count for mobile devices
+        const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const particlesCount = isMobile ? 2000 : 5000;
         const posArray = new Float32Array(particlesCount * 3);
 
         for (let i = 0; i < particlesCount * 3; i++) {
@@ -317,10 +322,10 @@ class ThreeSceneManager {
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.1,
+            size: isMobile ? 0.2 : 0.1, // Larger particles on mobile for better visibility
             color: 0x8A70D6,
             transparent: true,
-            opacity: 0.5,
+            opacity: isMobile ? 0.3 : 0.5, // Reduced opacity on mobile
             blending: THREE.AdditiveBlending
         });
 
@@ -357,24 +362,33 @@ class ThreeSceneManager {
         
         try {
             const elapsedTime = this.clock.getElapsedTime();
+            const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
             // Multi-axis rotation for the arch group
             if (this.archGroup) {
-                this.archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * 0.2) * 0.25;
-                this.archGroup.rotation.y = elapsedTime * 0.15;
-                this.archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * 0.2) * 0.25;
+                // Slower rotation on mobile for better performance
+                const rotationSpeed = isMobile ? 0.1 : 0.2;
+                const rotationAmplitude = isMobile ? 0.15 : 0.25;
+                
+                this.archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * rotationSpeed) * rotationAmplitude;
+                this.archGroup.rotation.y = elapsedTime * (isMobile ? 0.1 : 0.15);
+                this.archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * rotationSpeed) * rotationAmplitude;
             }
 
-            // Camera parallax effect
+            // Camera parallax effect (reduced on mobile)
             if (this.camera) {
-                this.camera.position.x += (this.mouseX * 5 - this.camera.position.x) * 0.05;
-                this.camera.position.y += (-this.mouseY * 5 - this.camera.position.y) * 0.05;
+                const parallaxStrength = isMobile ? 2 : 5;
+                const parallaxSmoothing = isMobile ? 0.03 : 0.05;
+                
+                this.camera.position.x += (this.mouseX * parallaxStrength - this.camera.position.x) * parallaxSmoothing;
+                this.camera.position.y += (-this.mouseY * parallaxStrength - this.camera.position.y) * parallaxSmoothing;
                 this.camera.lookAt(this.archGroup.position);
             }
 
-            // Particles rotation
+            // Particles rotation (slower on mobile)
             if (this.particlesMesh) {
-                this.particlesMesh.rotation.y = -elapsedTime * 0.03;
+                const particleRotationSpeed = isMobile ? 0.015 : 0.03;
+                this.particlesMesh.rotation.y = -elapsedTime * particleRotationSpeed;
             }
 
             // Render
