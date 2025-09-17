@@ -20,15 +20,43 @@ class AnimationManager {
     }
 
     setupSmoothScrolling() {
-        if (window.Lenis) {
-            this.lenis = new window.Lenis();
-            this.lenis.on('scroll', this.ScrollTrigger.update);
-            this.gsap.ticker.add((time) => {
-                this.lenis.raf(time * 1000);
-            });
-            this.gsap.ticker.lagSmoothing(0);
-            window.lenis = this.lenis;
-        }
+        // Wait for Lenis to be available
+        const initLenis = () => {
+            if (window.Lenis) {
+                try {
+                    this.lenis = new window.Lenis({
+                        duration: 1.2,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                        direction: 'vertical',
+                        gestureDirection: 'vertical',
+                        smooth: true,
+                        mouseMultiplier: 1,
+                        smoothTouch: false,
+                        touchMultiplier: 2,
+                        infinite: false,
+                        normalizeWheel: true,
+                        wheelMultiplier: 1,
+                        lerp: 0.1
+                    });
+                    
+                    this.lenis.on('scroll', this.ScrollTrigger.update);
+                    
+                    this.gsap.ticker.add((time) => {
+                        this.lenis.raf(time * 1000);
+                    });
+                    
+                    this.gsap.ticker.lagSmoothing(0);
+                    window.lenis = this.lenis;
+                } catch (error) {
+                    console.warn('Lenis initialization failed, using native scrolling:', error);
+                }
+            } else {
+                // Retry after a short delay if Lenis isn't loaded yet
+                setTimeout(initLenis, 100);
+            }
+        };
+        
+        initLenis();
     }
 
     setupScrollAnimations() {
@@ -37,11 +65,7 @@ class AnimationManager {
         const heroSubtitle = document.querySelector("#hero-section p");
         const heroButtons = document.querySelector("#hero-section .flex");
         
-        console.log('Hero elements found:', {
-            title: !!heroTitle,
-            subtitle: !!heroSubtitle,
-            buttons: !!heroButtons
-        });
+        // Hero elements found
         
         // Only animate specific hero elements, not all children
         const heroElementsToAnimate = [heroTitle, heroSubtitle, heroButtons].filter(Boolean);
@@ -109,7 +133,7 @@ class AnimationManager {
         // Ensure philosophy section cards are visible
         const philosophyCards = document.querySelectorAll('#philosophie .animate-card');
         if (philosophyCards.length > 0) {
-            console.log('Philosophy cards found:', philosophyCards.length);
+            // Philosophy cards found
             this.gsap.set(philosophyCards, { opacity: 1, y: 0 });
         }
         
@@ -199,7 +223,7 @@ class AnimationManager {
         allTitles.forEach(title => {
             const computedStyle = window.getComputedStyle(title);
             if (computedStyle.opacity === '0' || computedStyle.visibility === 'hidden') {
-                console.log('Making title visible:', title.textContent);
+                // Making title visible
                 this.gsap.set(title, { opacity: 1, visibility: 'visible', y: 0 });
             }
         });
@@ -209,7 +233,7 @@ class AnimationManager {
         allParagraphs.forEach(p => {
             const computedStyle = window.getComputedStyle(p);
             if (computedStyle.opacity === '0' || computedStyle.visibility === 'hidden') {
-                console.log('Making paragraph visible:', p.textContent.substring(0, 50));
+                // Making paragraph visible
                 this.gsap.set(p, { opacity: 1, visibility: 'visible', y: 0 });
             }
         });
@@ -219,7 +243,7 @@ class AnimationManager {
         allCards.forEach(card => {
             const computedStyle = window.getComputedStyle(card);
             if (computedStyle.opacity === '0' || computedStyle.visibility === 'hidden') {
-                console.log('Making card visible');
+                // Making card visible
                 this.gsap.set(card, { opacity: 1, visibility: 'visible', y: 0 });
             }
         });

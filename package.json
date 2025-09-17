@@ -2,9 +2,9 @@
   "name": "the-arch-landing",
   "version": "1.0.0",
   "description": "The Arch Consulting - Modern Web3 Landing Page",
-  "main": "index.html",
+  "main": "public/index.html",
   "scripts": {
-    "dev": "npx serve . -p 3000",
+    "dev": "npx serve public -p 3000",
     "build": "./build.sh"
   },
   "keywords": [

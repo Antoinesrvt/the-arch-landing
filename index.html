@@ -33,15 +33,68 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://unpkg.com">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    
-    <!-- External Libraries -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Performance optimizations -->
+    <!-- Fonts - Preload for performance -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"></noscript>
+    
+    <!-- External Libraries - Load critical CSS first -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Critical CSS inline for above-the-fold content -->
+    <style>
+        /* Critical CSS for hero section */
+        .hero-content { opacity: 0; }
+        .hero-content.loaded { opacity: 1; transition: opacity 0.3s ease; }
+        
+        /* Performance optimizations */
+        .lazy-load { opacity: 0; transform: translateY(20px); }
+        .lazy-load.loaded { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
+    </style>
+    
+    <!-- Performance optimization script -->
+    <script>
+        // Critical performance optimizations
+        (function() {
+            // Add loaded class to hero content when fonts are ready
+            function showHeroContent() {
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.classList.add('loaded');
+                }
+            }
+            
+            // Show content when fonts are loaded or after timeout
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(showHeroContent);
+            } else {
+                setTimeout(showHeroContent, 100);
+            }
+            
+            // Lazy load images
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy-load');
+                                img.classList.add('loaded');
+                                observer.unobserve(img);
+                            }
+                        }
+                    });
+                });
+                
+                // Observe all lazy images
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.querySelectorAll('img[data-src]').forEach(img => {
+                        imageObserver.observe(img);
+                    });
+                });
+            }
+        })();
+    </script>
     
     <!-- Polyfills for older browsers -->
     <script>
@@ -99,20 +152,20 @@
                 const script = document.createElement('script');
                 script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
                 script.onload = () => {
-                    console.log('Three.js loaded from CDN');
+                    // Three.js loaded from CDN
                     resolve(THREE);
                 };
                 script.onerror = () => {
-                    console.warn('Failed to load Three.js from CDN, trying fallback...');
+                    // Failed to load Three.js from CDN, trying fallback...
                     // Try alternative CDN
                     const fallbackScript = document.createElement('script');
                     fallbackScript.src = 'https://unpkg.com/three@0.128.0/build/three.min.js';
                     fallbackScript.onload = () => {
-                        console.log('Three.js loaded from fallback CDN');
+                        // Three.js loaded from fallback CDN
                         resolve(THREE);
                     };
                     fallbackScript.onerror = () => {
-                        console.error('Failed to load Three.js from all CDNs');
+                        // Failed to load Three.js from all CDNs
                         reject(new Error('Three.js failed to load'));
                     };
                     document.head.appendChild(fallbackScript);
@@ -123,7 +176,7 @@
         
         // Load Three.js immediately
         loadThreeJS().catch(error => {
-            console.error('Three.js loading failed:', error);
+            // Three.js loading failed, initializing with simplified scene
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -659,13 +712,13 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="assets/js/data/translations.js"></script>
-    <script src="assets/js/data/case-studies.js"></script>
-    <script src="assets/js/modules/translations.js"></script>
-    <script src="assets/js/modules/animations.js"></script>
-    <script src="assets/js/modules/three-scene.js"></script>
-    <script src="assets/js/modules/modal.js"></script>
-    <script src="assets/js/main.js"></script>
+    <!-- Scripts - Optimized loading -->
+    <script defer src="assets/js/data/translations.js"></script>
+    <script defer src="assets/js/data/case-studies.js"></script>
+    <script defer src="assets/js/modules/translations.js"></script>
+    <script defer src="assets/js/modules/animations.js"></script>
+    <script defer src="assets/js/modules/three-scene.js"></script>
+    <script defer src="assets/js/modules/modal.js"></script>
+    <script type="module" defer src="assets/js/main.js"></script>
 </body>
 </html>

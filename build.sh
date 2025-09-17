@@ -1,19 +1,19 @@
 #!/bin/bash
 
-echo "🚀 Building for Vercel deployment..."
+echo "🚀 Vercel deployment ready!"
 
-# Create public directory
-mkdir -p public
-
-# Copy all necessary files
-cp index.html public/
-cp -r assets public/
-
-# Copy any other static files
-if [ -f "favicon.ico" ]; then
-    cp favicon.ico public/
+# Check if public directory exists
+if [ ! -d "public" ]; then
+    echo "❌ Error: public/ directory not found!"
+    echo "   Make sure you're working in the public/ directory"
+    exit 1
 fi
 
-echo "✅ Build complete! Files copied to public/ directory"
+echo "✅ Public directory found"
 echo "📁 Contents of public/:"
 ls -la public/
+echo ""
+echo "💡 Note: Edit files directly in public/ directory"
+echo "   - index.html: Main HTML file"
+echo "   - assets/: All CSS, JS, and images"
+echo "   - Vercel will serve from public/ automatically"

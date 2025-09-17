@@ -58,7 +58,7 @@ class ModalManager {
         const study = studyData[caseStudyId];
 
         if (!study) {
-            console.error(`Case study ${caseStudyId} not found`);
+            // Case study not found
             return;
         }
 

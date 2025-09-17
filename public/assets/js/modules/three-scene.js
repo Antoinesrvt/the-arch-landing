@@ -19,14 +19,12 @@ class ThreeSceneManager {
     init() {
         // Wait for Three.js to be available
         if (typeof THREE === 'undefined') {
-            console.warn('Three.js not loaded, retrying in 100ms...');
             setTimeout(() => this.init(), 100);
             return;
         }
 
         const heroContainer = document.getElementById('hero-canvas-container');
         if (!heroContainer) {
-            console.warn('Hero container not found, retrying in 100ms...');
             setTimeout(() => this.init(), 100);
             return;
         }
@@ -35,9 +33,6 @@ class ThreeSceneManager {
         const browserInfo = this.detectBrowser();
         const webglSupport = this.checkWebGLSupport();
         
-        console.log('Browser info:', browserInfo);
-        console.log('WebGL support:', webglSupport);
-        
         // Check if device is mobile or has limited capabilities
         const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
@@ -45,18 +40,7 @@ class ThreeSceneManager {
         const hasWebGLIssues = !webglSupport.supported || webglSupport.hasIssues;
         const isSlowConnection = navigator.connection && (navigator.connection.effectiveType === 'slow-2g' || navigator.connection.effectiveType === '2g');
         
-        console.log('Device capabilities:', {
-            isMobile,
-            isLowEndDevice,
-            isOldBrowser,
-            hasWebGLIssues,
-            isSlowConnection,
-            hardwareConcurrency: navigator.hardwareConcurrency,
-            userAgent: navigator.userAgent.substring(0, 50)
-        });
-        
         if (isMobile || isLowEndDevice || isOldBrowser || hasWebGLIssues || isSlowConnection) {
-            console.log('Using simplified scene for compatibility');
             this.setupSimplifiedScene();
             return;
         }
@@ -70,9 +54,8 @@ class ThreeSceneManager {
             this.createParticles();
             this.setupEventListeners();
             this.animate();
-            console.log('3D scene initialized successfully');
         } catch (error) {
-            console.error('Failed to initialize 3D scene:', error);
+            // Fallback to simplified scene on error
             this.setupSimplifiedScene();
         }
     }
@@ -228,17 +211,10 @@ class ThreeSceneManager {
                 this.renderer.shadowMap.enabled = false; // Disable shadows for better performance
             }
             
-            console.log('Renderer setup complete:', {
-                browser: browserInfo.browser,
-                width: container.clientWidth,
-                height: container.clientHeight,
-                pixelRatio: this.renderer.getPixelRatio(),
-                antialias: contextAttributes.antialias,
-                powerPreference: contextAttributes.powerPreference
-            });
+            // Renderer setup complete
             
         } catch (error) {
-            console.error('Failed to create WebGL renderer:', error);
+            // Failed to create WebGL renderer, using fallback
             
             // Fallback to basic renderer
             try {
@@ -251,9 +227,9 @@ class ThreeSceneManager {
                 this.renderer.setSize(container.clientWidth, container.clientHeight);
                 this.renderer.setPixelRatio(1);
                 this.renderer.setClearColor(0x000000, 0);
-                console.log('Fallback renderer created');
+                // Fallback renderer created
             } catch (fallbackError) {
-                console.error('Fallback renderer also failed:', fallbackError);
+                // Fallback renderer also failed
                 throw fallbackError;
             }
         }
@@ -354,7 +330,7 @@ class ThreeSceneManager {
 
     animate() {
         if (!this.renderer || !this.scene || !this.camera) {
-            console.warn('3D scene components not ready, skipping animation');
+            // 3D scene components not ready, skipping animation
             return;
         }
 
@@ -394,7 +370,7 @@ class ThreeSceneManager {
             // Render
             this.renderer.render(this.scene, this.camera);
         } catch (error) {
-            console.error('Animation error:', error);
+            // Animation error, falling back to simplified scene
             this.setupSimplifiedScene();
         }
     }
@@ -430,7 +406,7 @@ class ThreeSceneManager {
         const heroContainer = document.getElementById('hero-canvas-container');
         if (!heroContainer) return;
 
-        console.log('Setting up simplified scene');
+        // Setting up simplified scene
 
         // Create a simple static background instead of 3D scene
         heroContainer.innerHTML = `
@@ -477,13 +453,13 @@ class ThreeSceneManager {
 
 // Initialize Three.js scene when DOM is loaded and Three.js is available
 function initializeThreeScene() {
-    if (typeof THREE === 'undefined') {
-        console.warn('Three.js not available, retrying in 100ms...');
-        setTimeout(initializeThreeScene, 100);
-        return;
-    }
+        if (typeof THREE === 'undefined') {
+            // Three.js not available, retrying in 100ms...
+            setTimeout(initializeThreeScene, 100);
+            return;
+        }
     
-    console.log('Initializing Three.js scene...');
+    // Initializing Three.js scene...
     window.threeSceneManager = new ThreeSceneManager();
 }
 
@@ -505,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             clearInterval(checkThreeJS);
             if (typeof THREE === 'undefined') {
-                console.error('Three.js failed to load after 10 seconds');
+                // Three.js failed to load after 10 seconds
                 // Initialize with simplified scene
                 window.threeSceneManager = new ThreeSceneManager();
             }

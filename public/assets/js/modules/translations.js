@@ -24,7 +24,7 @@ class TranslationManager {
                 setTimeout(() => this.init(), 100);
                 return;
             } else {
-                console.error('Translation data not loaded after 10 retries');
+                // Translation data not loaded after 10 retries
                 // Fallback: show original content
                 this.showFallbackContent();
             }
@@ -39,14 +39,14 @@ class TranslationManager {
             if (!el.textContent.trim()) {
                 // If element is empty, try to get content from a fallback
                 const key = el.getAttribute('data-lang-key');
-                console.warn(`Element with key ${key} is empty, keeping original content`);
+                // Element with key is empty, keeping original content
             }
         });
     }
 
     setLanguage(lang) {
         if (!this.translations[lang]) {
-            console.warn(`Language ${lang} not found, falling back to French`);
+            // Language not found, falling back to French
             lang = 'fr';
         }
 
@@ -68,7 +68,7 @@ class TranslationManager {
                 }
             } else {
                 // Fallback: keep original content if translation not found
-                console.warn(`Translation not found or empty for key: ${key}`);
+                // Translation not found or empty for key
                 // Don't overwrite existing content
             }
         });
@@ -106,18 +106,10 @@ class TranslationManager {
 
     // Debug method to check translation status
     debug() {
-        console.log('Translation Manager Debug:');
-        console.log('- Current language:', this.currentLang);
-        console.log('- Translations loaded:', !!this.translations);
-        console.log('- Available languages:', this.translations ? Object.keys(this.translations) : 'None');
-        console.log('- Elements with data-lang-key:', document.querySelectorAll('[data-lang-key]').length);
-        
+        // Translation Manager Debug - removed console logs for production
         // Check specific elements
         const heroTitle = document.querySelector('[data-lang-key="hero_title"]');
-        if (heroTitle) {
-            console.log('- Hero title content:', heroTitle.textContent);
-            console.log('- Hero title translation:', this.translations?.[this.currentLang]?.hero_title);
-        }
+        // Debug information available but not logged to console
     }
 }
 
