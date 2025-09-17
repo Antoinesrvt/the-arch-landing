@@ -294,6 +294,7 @@
     .modal-content {
         width: 95%;
         padding: 1.5rem;
+        margin: 1rem;
     }
     
     .expertise-tabs {
@@ -304,16 +305,83 @@
     .expertise-tab {
         font-size: 0.875rem;
         padding: 0.5rem 0.75rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Mobile button improvements */
+    .animated-button, .btn-secondary-animated {
+        min-height: 48px;
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    /* Mobile glass card improvements */
+    .glass-card {
+        border-radius: 1rem;
+    }
+    
+    /* Mobile founder card improvements */
+    .founder-card {
+        text-align: center;
+    }
+    
+    .founder-card img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* Mobile case study improvements */
+    .realisation-card {
+        text-align: center;
+    }
+    
+    .realisation-card .flex-wrap {
+        justify-content: center;
+    }
+    
+    /* Mobile expertise content */
+    .expertise-content .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .modal-content {
         padding: 1rem;
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
     }
     
     .linkedin-btn {
         top: 1rem;
         right: 1rem;
+    }
+    
+    /* Extra small screen button improvements */
+    .animated-button, .btn-secondary-animated {
+        min-height: 44px;
+        font-size: 0.9rem;
+        padding: 0.625rem 1.25rem;
+    }
+    
+    /* Extra small screen card improvements */
+    .glass-card {
+        padding: 1rem;
+        border-radius: 0.75rem;
+    }
+    
+    .founder-card img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    /* Extra small screen expertise tabs */
+    .expertise-tab {
+        font-size: 0.8rem;
+        padding: 0.5rem;
     }
 }
