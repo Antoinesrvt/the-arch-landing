@@ -1,0 +1,43 @@
+---
+import I18nLayout from '../../layouts/I18nLayout.astro';
+import Header from '../../components/Header.astro';
+import I18nHero from '../../components/I18nHero.astro';
+import Services from '../../components/Services.astro';
+import Philosophy from '../../components/Philosophy.astro';
+import Founders from '../../components/Founders.astro';
+import MidCTA from '../../components/MidCTA.astro';
+import Expertises from '../../components/Expertises.astro';
+import CaseStudies from '../../components/CaseStudies.astro';
+import Ecosystem from '../../components/Ecosystem.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations, getStaticPaths } from '../../i18n/utils';
+
+export { getStaticPaths };
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
+---
+
+<I18nLayout 
+  lang={lang}
+  title={t('hero.title')}
+  description={t('hero.subtitle')}
+>
+  <Header currentLang={lang} />
+  
+  <!-- Main Content -->
+  <main id="main-content">
+    <I18nHero lang={lang} />
+    <Services lang={lang} />
+    <Philosophy lang={lang} />
+    <Founders lang={lang} />
+    <MidCTA lang={lang} />
+    <Expertises lang={lang} />
+    <CaseStudies lang={lang} />
+    <Ecosystem lang={lang} />
+    <Contact lang={lang} />
+  </main>
+
+  <Footer lang={lang} />
+</I18nLayout>

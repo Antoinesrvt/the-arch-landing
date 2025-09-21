@@ -1,0 +1,21 @@
+---
+import Layout from './Layout.astro';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  lang: string;
+  title: string;
+  description: string;
+}
+
+const { lang, title, description } = Astro.props;
+const t = useTranslations(lang as any);
+---
+
+<Layout 
+  title={title}
+  description={description}
+  lang={lang}
+>
+  <slot />
+</Layout>

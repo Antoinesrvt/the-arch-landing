@@ -64,10 +64,30 @@ const { title, description, lang = "fr" } = Astro.props;
             --accent-indigo: #818CF8;
             --accent-glow: rgba(138, 112, 214, 0.5);
             --twilight-blue: #1E293B;
+            
+            /* Spacing */
+            --container-padding: 1.5rem;
+            --section-padding: 6rem;
+            
+            /* Typography */
+            --font-primary: 'Inter', sans-serif;
+            --font-display: 'Playfair Display', serif;
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease-out;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.4s ease;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 30px var(--accent-glow);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-primary);
             background-color: var(--background-start);
             background-image: 
                 radial-gradient(circle at 15% 20%, rgba(138, 112, 214, 0.1), transparent 40%),
@@ -76,6 +96,9 @@ const { title, description, lang = "fr" } = Astro.props;
             color: var(--primary-text);
             overflow-x: hidden;
             background-attachment: fixed;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         body::before {
@@ -90,7 +113,7 @@ const { title, description, lang = "fr" } = Astro.props;
         }
 
         .font-playfair { 
-            font-family: 'Playfair Display', serif; 
+            font-family: var(--font-display); 
         }
         
         main > section {
@@ -133,7 +156,14 @@ const { title, description, lang = "fr" } = Astro.props;
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
-            transition: transform 0.4s ease, background 0.4s ease;
+            transition: transform var(--transition-slow), background var(--transition-slow);
+        }
+        
+        /* Fallback for browsers that don't support backdrop-filter */
+        @supports not (backdrop-filter: blur(16px)) {
+            .glass-card {
+                background: rgba(30, 41, 59, 0.8);
+            }
         }
         
         .glass-card::after {
@@ -143,10 +173,10 @@ const { title, description, lang = "fr" } = Astro.props;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(138, 112, 214, 0.2), transparent 40%);
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(138, 112, 214, 0.2), transparent 40%);
             border-radius: inherit;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity var(--transition-slow);
             pointer-events: none;
         }
 
@@ -168,7 +198,7 @@ const { title, description, lang = "fr" } = Astro.props;
 
         .animated-button {
             position: relative;
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
             will-change: transform;
             overflow: hidden;
             z-index: 1;
@@ -182,7 +212,7 @@ const { title, description, lang = "fr" } = Astro.props;
             transform: translate(-50%, -50%);
             width: calc(100% + 4px);
             height: calc(100% + 4px);
-            background: conic-gradient(from var(--angle), transparent 0%, var(--accent-purple) 50%, transparent 100%);
+            background: conic-gradient(from var(--angle, 0deg), transparent 0%, var(--accent-purple) 50%, transparent 100%);
             border-radius: inherit;
             z-index: -1;
             animation: spin 4s linear infinite;
@@ -202,7 +232,7 @@ const { title, description, lang = "fr" } = Astro.props;
 
         .animated-button:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 30px var(--accent-glow);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), var(--shadow-glow);
         }
         .animated-button:active {
             transform: translateY(1px) scale(0.98);
@@ -210,7 +240,7 @@ const { title, description, lang = "fr" } = Astro.props;
         }
 
         .btn-secondary-animated {
-            transition: transform 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, color 0.2s ease-out;
+            transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
             will-change: transform;
         }
         .btn-secondary-animated:hover {

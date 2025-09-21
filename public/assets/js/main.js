@@ -3,6 +3,7 @@
    ========================================================================== */
 
 import AppManager from './modules/app-manager.js';
+import './modules/animations.js';
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,5 +1,14 @@
 ---
 // Header component
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  currentLang?: string;
+}
+
+const { currentLang = 'fr' } = Astro.props;
+const t = useTranslations(currentLang as any);
 ---
 
 <!-- Header -->
@@ -24,16 +33,14 @@
                 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center space-x-8" role="navigation" aria-label="Navigation principale">
-                    <a href="#services" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_services">Services</a>
-                    <a href="#philosophie" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_philosophy">Philosophie</a>
-                    <a href="#expertises" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_expertises">Expertises</a>
-                    <a href="#realisations" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_case_studies">Études de Cas</a>
-                    <a href="#ecosysteme" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_ecosystem">Écosystème</a>
+                    <a href="#services" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.services')}</a>
+                    <a href="#philosophie" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.philosophy')}</a>
+                    <a href="#expertises" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.expertises')}</a>
+                    <a href="#realisations" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.case-studies')}</a>
+                    <a href="#ecosysteme" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.ecosystem')}</a>
                 </nav>
                 
-                <button id="lang-switch" class="ml-4 md:ml-8 text-sm font-semibold border border-white/50 rounded-full px-3 py-1 text-secondary-text hover:text-white hover:border-white transition-colors" aria-label="Changer de langue">
-                    EN
-                </button>
+                <LanguageSwitcher currentLang={currentLang} />
             </div>
             
             <!-- Mobile Navigation Menu -->

@@ -1,0 +1,27 @@
+---
+// Composant de traduction pour Astro
+export interface Props {
+  key: string;
+  lang: string;
+  html?: boolean;
+}
+
+const { key, lang, html = false } = Astro.props;
+
+// Import des traductions
+import { ui, defaultLang } from '../i18n/config';
+
+// Fonction pour obtenir la traduction
+function getTranslation(lang: string, key: string): string {
+  const translations = ui[lang as keyof typeof ui] || ui[defaultLang];
+  return translations[key as keyof typeof translations] || key;
+}
+
+const translation = getTranslation(lang, key);
+---
+
+{html ? (
+  <Fragment set:html={translation} />
+) : (
+  translation
+)}

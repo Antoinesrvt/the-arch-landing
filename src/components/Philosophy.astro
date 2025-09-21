@@ -1,0 +1,70 @@
+---
+// Philosophy Section Component
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+---
+
+<!-- Philosophy Section -->
+<section id="philosophie" class="py-24" aria-labelledby="philosophy-title">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-20 animate-title">
+      <h2 id="philosophy-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="philosophy_title">
+        <span class="font-playfair">Notre Philosophie :</span> Du Concept au <i class="font-playfair">Succès Commercial</i>
+      </h2>
+      <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="philosophy_subtitle">
+        Notre mission : transformer la complexité du Web3 en opportunités commerciales. Nous vous donnons les clés pour innover, sécuriser votre projet et assurer sa croissance.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <!-- Benefit 1 -->
+      <article class="animate-card p-6">
+        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-500/10 mb-6 mx-auto border border-green-500/30" aria-hidden="true">
+           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+               <line x1="12" y1="1" x2="12" y2="23"></line>
+               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+           </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2" data-lang-key="benefit1_title">Transformer l'Idée en Projet Rentable</h3>
+        <p class="text-secondary-text" data-lang-key="benefit1_desc">
+          Nous ne construisons pas seulement de la technologie. Nous créons des modèles économiques viables et des stratégies de monétisation qui assurent la pérennité de votre vision.
+        </p>
+      </article>
+      <!-- Benefit 2 -->
+      <article class="animate-card p-6">
+        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-500/10 mb-6 mx-auto border border-indigo-500/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2" data-lang-key="benefit2_title">Sécuriser Vos Actifs Numériques</h3>
+        <p class="text-secondary-text" data-lang-key="benefit2_desc">
+          Dans un monde décentralisé, la confiance est primordiale. Nos audits rigoureux et notre architecture sécurisée protègent votre projet, vos utilisateurs et votre réputation.
+        </p>
+      </article>
+      <!-- Benefit 3 -->
+      <article class="animate-card p-6">
+        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-500/10 mb-6 mx-auto border border-purple-500/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-2" data-lang-key="benefit3_title">Créer une Communauté Engagée et Fidèle</h3>
+        <p class="text-secondary-text" data-lang-key="benefit3_desc">
+          Un projet ne vit que par sa communauté. Nous déployons des stratégies authentiques pour attirer, engager et transformer vos utilisateurs en véritables ambassadeurs.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>

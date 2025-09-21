@@ -1,0 +1,44 @@
+---
+// Ecosystem Section Component
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+---
+
+<!-- Ecosystem Section -->
+<section id="ecosysteme" class="py-24" aria-labelledby="ecosystem-title">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-20 animate-title">
+      <h2 id="ecosystem-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="ecosystem_title">
+        <span class="font-playfair">Un Écosystème</span> d'Experts à votre <i class="font-playfair">service</i>
+      </h2>
+      <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="ecosystem_subtitle">
+        Nous avons pré-sélectionné et intégré un réseau de partenaires de premier plan pour couvrir tous les aspects de votre projet, de l'audit à la conformité.
+      </p>
+    </div>
+    
+    <!-- Mobile View -->
+    <div class="lg:hidden flex flex-wrap justify-center items-center gap-4">
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner1">Fonds d'Investissement</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner2">Experts en Audit de Sécurité</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner3">Cabinets Juridiques</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner4">Protocoles Blockchain & L2s</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner5">Agences de Développement</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner6">Spécialistes UX/UI</div>
+    </div>
+    <!-- Desktop View -->
+    <div id="ecosystem-container" class="hidden lg:block">
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner1">Fonds d'Investissement</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner2">Experts en Audit de Sécurité</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner3">Cabinets Juridiques</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner4">Protocoles Blockchain & L2s</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner5">Agences de Développement</div>
+      <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner6">Spécialistes UX/UI</div>
+    </div>
+  </div>
+</section>

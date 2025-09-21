@@ -1,0 +1,37 @@
+---
+// Contact Section Component
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+---
+
+<!-- Contact Section -->
+<section id="contact" class="py-24" aria-labelledby="contact-title">
+  <div class="container mx-auto px-6">
+    <div class="relative bg-gradient-to-r from-[#1E143E] to-[#142A4A] border border-white/10 rounded-2xl p-8 md:p-16 text-center overflow-hidden animate-fade-in animated-gradient">
+      <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full filter blur-3xl" aria-hidden="true"></div>
+      <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-500/20 rounded-full filter blur-3xl" aria-hidden="true"></div>
+      <div class="relative z-10">
+        <h2 id="contact-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="contact_title">
+          <span class="font-playfair">Prêt à construire</span> l'<i class="font-playfair">avenir</i> ?
+        </h2>
+        <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto" data-lang-key="contact_subtitle">
+          Discutons de votre projet. Planifiez un appel exploratoire gratuit avec nos fondateurs pour voir comment nous pouvons vous aider à atteindre vos objectifs.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg inline-block w-full sm:w-auto animated-button" data-lang-key="contact_cta1">
+            Planifier un appel
+          </a>
+           <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated" data-lang-key="contact_cta2">
+            Nous envoyer un message
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

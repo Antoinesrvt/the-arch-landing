@@ -1,0 +1,69 @@
+---
+// Case Studies Section Component
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+---
+
+<!-- Case Studies Section -->
+<section id="realisations" class="py-24" aria-labelledby="realisations-title">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-20 animate-title">
+      <h2 id="realisations-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="realisations_title">
+        <span class="font-playfair">Nos Études</span> de <i class="font-playfair">Cas</i>
+      </h2>
+      <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="realisations_subtitle">
+        Découvrez comment nous avons transformé les défis de nos clients en succès mesurables.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Case Study 1: The Architech -->
+      <article class="glass-card realisation-card p-8 rounded-2xl flex flex-col animate-card">
+        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="realisation1_title">The Architech</h3>
+        <p class="text-secondary-text flex-grow mb-6" data-lang-key="realisation1_desc">
+          Co-fondation d'une plateforme SaaS pour générer des fondations de projets logiciels de qualité professionnelle en quelques minutes.
+        </p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_saas">SaaS</span>
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_devtool">Outil Développeur</span>
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_startup">Startup</span>
+        </div>
+        <button class="mt-auto self-start border border-white/50 text-white font-semibold py-2 px-6 rounded-lg btn-secondary-animated case-study-btn" data-case-study="architech" data-lang-key="view_case_study_btn">Voir l'étude de cas</button>
+      </article>
+
+      <!-- Case Study 2: Ago DeFi -->
+      <article class="glass-card realisation-card p-8 rounded-2xl flex flex-col animate-card">
+        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="realisation2_title">Ago DeFi</h3>
+        <p class="text-secondary-text flex-grow mb-6" data-lang-key="realisation2_desc">
+          Gestion et animation d'une communauté de +30 000 membres pour une plateforme de finance décentralisée.
+        </p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_defi">DeFi</span>
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_community">Communauté</span>
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_marketing">Marketing</span>
+        </div>
+        <button class="mt-auto self-start border border-white/50 text-white font-semibold py-2 px-6 rounded-lg btn-secondary-animated case-study-btn" data-case-study="agodefi" data-lang-key="view_case_study_btn">Voir l'étude de cas</button>
+      </article>
+
+      <!-- Case Study 3: Hashguard -->
+       <article class="glass-card realisation-card p-8 rounded-2xl flex flex-col animate-card">
+        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="realisation4_title">Hashguard</h3>
+        <p class="text-secondary-text flex-grow mb-6" data-lang-key="realisation4_desc">
+          Direction technique (CTO) et développement d'un POC pour un projet innovant, de la R&D à la mise en production.
+        </p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_cto">CTO as a service</span>
+          <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_poc">POC</span>
+           <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_fullstack">Fullstack</span>
+        </div>
+        <button class="mt-auto self-start border border-white/50 text-white font-semibold py-2 px-6 rounded-lg btn-secondary-animated case-study-btn" data-case-study="hashguard" data-lang-key="view_case_study_btn">Voir l'étude de cas</button>
+      </article>
+    </div>
+  </div>
+</section>

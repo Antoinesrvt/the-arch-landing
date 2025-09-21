@@ -1,0 +1,71 @@
+---
+// Services Section Component
+import { useTranslations } from '../i18n/utils';
+
+export interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang as any);
+---
+
+<!-- Services Section -->
+<section id="services" class="py-24" aria-labelledby="services-title">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-20 animate-title">
+      <h2 id="services-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="services_title">
+        <span class="font-playfair">Une offre</span> de services <i class="font-playfair">360°</i>
+      </h2>
+      <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto" data-lang-key="services_subtitle">
+        Nous couvrons l'ensemble du cycle de vie de votre projet Web3.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Tech Service Card -->
+      <article class="glass-card p-8 rounded-2xl animate-card">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-indigo-500/10 mb-6 border border-indigo-500/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
+            <path d="m18 16 4-4-4-4"/>
+            <path d="m6 8-4 4 4 4"/>
+            <path d="m14.5 4-5 16"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="service1_title">Tech & Sécurité</h3>
+        <p class="text-secondary-text" data-lang-key="service1_desc">
+          Architecture de solutions blockchain, développement et audit de smart contracts, optimisation des performances et des coûts (gas fees).
+        </p>
+      </article>
+
+      <!-- Finance Service Card -->
+      <article class="glass-card p-8 rounded-2xl animate-card">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-green-500/10 mb-6 border border-green-500/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="service2_title">Finance & Tokenomics</h3>
+        <p class="text-secondary-text" data-lang-key="service2_desc">
+          Conception de modèles économiques durables, stratégie de levée de fonds (IDO, private rounds), listing sur exchanges et conformité réglementaire.
+        </p>
+      </article>
+
+      <!-- Reach Service Card -->
+      <article class="glass-card p-8 rounded-2xl animate-card">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-purple-500/10 mb-6 border border-purple-500/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="service3_title">Marketing & Croissance</h3>
+        <p class="text-secondary-text" data-lang-key="service3_desc">
+          Stratégies de croissance et d'engagement, community building, marketing et PR, amplifiés par notre propre plateforme média.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
