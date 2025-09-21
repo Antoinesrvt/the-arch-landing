@@ -1,0 +1,37 @@
+---
+// Hero component
+---
+
+<!-- Hero Section -->
+<section id="hero-section" class="relative min-h-screen flex items-center justify-center overflow-hidden" aria-labelledby="hero-title">
+    <!-- 3D Canvas Container -->
+    <div id="hero-canvas-container" class="absolute inset-0 z-10">
+        <canvas id="hero-canvas" class="w-full h-full"></canvas>
+    </div>
+    
+    <!-- Hero Content -->
+    <div class="hero-content relative z-20 text-center px-4 max-w-6xl mx-auto">
+        <h1 id="hero-title" class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 font-playfair leading-tight" style="text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
+            <span class="block" data-lang-key="hero.title">L'Architecture de Votre</span>
+            <span class="block bg-gradient-to-r from-accent-purple via-accent-indigo to-accent-green bg-clip-text text-transparent" data-lang-key="hero.title_accent">Révolution Digitale</span>
+        </h1>
+        <p class="text-xl md:text-2xl lg:text-3xl text-secondary-text mb-12 max-w-4xl mx-auto leading-relaxed" style="text-shadow: 0 2px 10px rgba(0,0,0,0.7);" data-lang-key="hero.subtitle">
+            Nous transformons les entreprises grâce à l'innovation technologique, la stratégie digitale et l'expertise blockchain. Votre succès est notre architecture.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="animated-button bg-gradient-to-r from-accent-purple to-accent-indigo text-white px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-accent-purple/25" data-lang-key="hero.cta_primary">
+                Découvrir Nos Solutions
+            </a>
+            <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="btn-secondary-animated border-2 border-white/30 text-white px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:border-white/60" data-lang-key="hero.cta_secondary">
+                Nos Études de Cas
+            </a>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse"></div>
+            </div>
+        </div>
+    </div>
+</section>

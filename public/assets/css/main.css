@@ -1,0 +1,659 @@
+/* ==========================================================================
+   The Arch Consulting - Main Styles
+   ========================================================================== */
+
+/* CSS Custom Properties */
+:root {
+    --background-start: #0A0F19;
+    --background-end: #111827;
+    --primary-text: #F0F2F5;
+    --secondary-text: #A8B2C7;
+    --accent-purple: #8A70D6;
+    --accent-purple-deep: #3730a3;
+    --accent-green: #34D399;
+    --accent-indigo: #818CF8;
+    --accent-glow: rgba(138, 112, 214, 0.5);
+    --twilight-blue: #1E293B;
+    
+    /* Spacing */
+    --container-padding: 1.5rem;
+    --section-padding: 6rem;
+    
+    /* Typography */
+    --font-primary: 'Inter', sans-serif;
+    --font-display: 'Playfair Display', serif;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease-out;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.4s ease;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 30px var(--accent-glow);
+}
+
+/* Reset and Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--background-start);
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(138, 112, 214, 0.1), transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(59, 130, 246, 0.1), transparent 40%),
+        linear-gradient(180deg, var(--background-start) 0%, var(--background-end) 100%);
+    color: var(--primary-text);
+    overflow-x: hidden;
+    background-attachment: fixed;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background Pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Typography */
+.font-playfair { 
+    font-family: var(--font-display); 
+}
+
+/* Text color utilities - using higher specificity instead of !important */
+.text-secondary-text {
+    color: var(--secondary-text);
+}
+
+.text-primary-text {
+    color: var(--primary-text);
+}
+
+/* Ensure text colors override other styles with higher specificity */
+body .text-secondary-text {
+    color: var(--secondary-text);
+}
+
+body .text-primary-text {
+    color: var(--primary-text);
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+/* Main Content */
+main > section {
+    position: relative;
+    z-index: 20;
+}
+
+/* Hero Section */
+#hero-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+#hero-canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+#hero-canvas {
+    width: 100%;
+    height: 100%;
+    outline: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 20;
+    /* Debug: Ensure content is visible */
+    min-height: 200px;
+}
+
+/* Hero section text visibility - using higher specificity */
+#hero-section h1,
+#hero-section p {
+    color: var(--primary-text);
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    transform: translateY(0);
+}
+
+#hero-section .hero-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+#hero-section .hero-content > * {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    transform: translateY(0);
+}
+
+#hero-section [data-lang-key] {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    transform: translateY(0);
+}
+
+/* Philosophy section visibility - using higher specificity */
+#philosophie .animate-card {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    transform: translateY(0);
+}
+
+#philosophie h3,
+#philosophie p {
+    color: var(--primary-text);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Grid layout now handled in responsive section */
+
+/* Section Spacing - Now handled in responsive section */
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}
+
+/* Focus Management */
+*:focus {
+    outline: 2px solid var(--accent-purple);
+    outline-offset: 2px;
+}
+
+/* Skip Link */
+a[href="#main-content"]:focus {
+    background-color: var(--accent-purple);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    z-index: 1000;
+}
+
+/* Mobile Navigation Styles */
+#mobile-menu {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Fallback for browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(20px)) {
+    #mobile-menu {
+        background: rgba(0, 0, 0, 0.95);
+    }
+}
+
+.mobile-nav-link {
+    position: relative;
+    padding: 12px 0;
+    display: block;
+}
+
+.mobile-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-purple);
+    transition: width 0.3s ease;
+}
+
+.mobile-nav-link:hover::after {
+    width: 100%;
+}
+
+/* Mobile Menu Animation */
+#mobile-menu.show {
+    transform: translateX(0);
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+    /* Improve mobile menu transitions */
+    #mobile-menu {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Better mobile menu backdrop */
+    #mobile-menu::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    /* Mobile menu content positioning */
+    #mobile-menu > div:first-child,
+    #mobile-menu > div:last-child {
+        position: relative;
+        z-index: 10;
+    }
+    
+    /* Improve mobile touch targets */
+    button, a, [role="button"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Better mobile scrolling */
+    .modal-content {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Improve mobile text selection */
+    ::selection {
+        background: rgba(138, 112, 214, 0.3);
+        color: var(--primary-text);
+    }
+    
+    /* Mobile-specific focus styles */
+    *:focus {
+        outline: 3px solid var(--accent-purple);
+        outline-offset: 2px;
+    }
+    
+    /* Better mobile button states */
+    .animated-button:active,
+    .btn-secondary-animated:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    /* Mobile card hover states */
+    .glass-card:active {
+        transform: scale(0.99);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN - Mobile First Approach
+   ========================================================================== */
+
+/* Base mobile styles (default) */
+    :root {
+        --container-padding: 1rem;
+        --section-padding: 4rem;
+    --mobile-spacing: 1.5rem;
+}
+
+/* Typography - Mobile first */
+html {
+    font-size: 15px;
+}
+
+h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    line-height: 1.2;
+}
+
+h3 {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    line-height: 1.3;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Mobile Layout */
+.container {
+    padding: 0 var(--container-padding);
+}
+
+section {
+    padding: var(--section-padding) 0;
+}
+
+/* Mobile Grid System */
+.grid {
+    gap: var(--mobile-spacing);
+}
+
+.grid.md\\:grid-cols-2,
+.grid.lg\\:grid-cols-3 {
+    grid-template-columns: 1fr;
+}
+
+/* Mobile Hero Section */
+#hero-section {
+    min-height: 100vh;
+    padding: 0;
+}
+
+.hero-content {
+    padding: 2rem 0;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: clamp(2.25rem, 9vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+}
+
+.hero-content p {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    margin: 1.5rem auto 2rem;
+    max-width: 90%;
+}
+
+/* Mobile Buttons */
+.hero-content .flex {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-content .flex a {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mobile Cards */
+.glass-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Mobile Expertise Tabs */
+.expertise-tabs {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+}
+
+.expertise-tab {
+    text-align: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Mobile Modals */
+.modal-content {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+
+/* Mobile Contact */
+#contact .flex {
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#contact .flex a {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    :root {
+        --container-padding: 1.5rem;
+        --section-padding: 6rem;
+    }
+    
+    html {
+        font-size: 16px;
+    }
+    
+    .grid.md\\:grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hero-content {
+        text-align: left;
+    }
+    
+    .hero-content .flex {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    
+    .hero-content .flex a {
+        width: auto;
+        max-width: none;
+    }
+    
+    .expertise-tabs {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .expertise-tab {
+        text-align: left;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 1024px) {
+    .grid.lg\\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .grid.lg\\:grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    :root {
+        --container-padding: 0.75rem;
+        --section-padding: 2.5rem;
+    }
+    
+    html {
+        font-size: 14px;
+    }
+    
+    section {
+        padding: 2rem 0;
+    }
+    
+    .hero-content {
+        padding: 1.5rem 0;
+        min-height: 85vh;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(1.875rem, 10vw, 2.5rem);
+        margin-bottom: 1rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.95rem;
+        margin: 1rem auto 1.5rem;
+    }
+    
+    .glass-card {
+        padding: 1.25rem;
+    }
+    
+    .hero-content .flex a {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+    
+    header .container {
+        padding: 0.75rem 1rem;
+    }
+    
+    #mobile-menu {
+        padding: 1rem;
+    }
+    
+    .mobile-nav-link {
+        font-size: 1.5rem;
+        padding: 1rem 0;
+    }
+    
+    footer .flex {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+    :root {
+        --container-padding: 0.5rem;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(1.5rem, 12vw, 2rem);
+    }
+    
+    .glass-card {
+        padding: 1rem;
+    }
+    
+    .hero-content .flex a {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Landscape Orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+    #hero-section {
+        min-height: 100vh;
+    }
+    
+    .hero-content {
+        min-height: 100vh;
+        padding: 1rem 0;
+    }
+    
+    .hero-content h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 0.9rem;
+        margin: 0.5rem auto 1rem;
+    }
+    
+    .hero-content .flex {
+        flex-direction: row;
+        gap: 0.75rem;
+        justify-content: center;
+    }
+    
+    .hero-content .flex a {
+        width: auto;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .glass-card {
+        background: white;
+        border: 1px solid #ccc;
+    }
+    
+    #hero-canvas-container {
+        display: none;
+    }
+}

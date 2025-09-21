@@ -1,0 +1,397 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+}
+
+const { title, description, lang = "fr" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang} class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <meta name="keywords" content="conseil, transformation digitale, stratégie, tokenomics, blockchain, innovation, finance, entreprise, web3">
+    <meta name="author" content="The Arch Consulting">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#8A70D6">
+    <meta name="msapplication-TileColor" content="#8A70D6">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thearch.consulting/">
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    <meta property="og:image" content="https://thearch.consulting/og-image.jpg">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="The Arch Consulting">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://thearch.consulting/">
+    <meta property="twitter:title" content={title}>
+    <meta property="twitter:description" content={description}>
+    <meta property="twitter:image" content="https://thearch.consulting/twitter-image.jpg">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    
+    <!-- Fonts - Preload for performance -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"></noscript>
+    
+    <!-- External Libraries - Load critical CSS first -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Critical CSS inline for above-the-fold content -->
+    <style>
+        /* CSS Custom Properties */
+        :root {
+            --background-start: #0A0F19;
+            --background-end: #111827;
+            --primary-text: #F0F2F5;
+            --secondary-text: #A8B2C7;
+            --accent-purple: #8A70D6;
+            --accent-purple-deep: #3730a3;
+            --accent-green: #34D399;
+            --accent-indigo: #818CF8;
+            --accent-glow: rgba(138, 112, 214, 0.5);
+            --twilight-blue: #1E293B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-start);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(138, 112, 214, 0.1), transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(59, 130, 246, 0.1), transparent 40%),
+                linear-gradient(180deg, var(--background-start) 0%, var(--background-end) 100%);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        .font-playfair { 
+            font-family: 'Playfair Display', serif; 
+        }
+        
+        main > section {
+            position: relative;
+            z-index: 20;
+        }
+        
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        #hero-canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
+            outline: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, background 0.4s ease;
+        }
+        
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(138, 112, 214, 0.2), transparent 40%);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .glass-card:hover::after {
+            opacity: 1;
+        }
+        
+        .glass-card.founder-card:hover, .glass-card.realisation-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            background: rgba(30, 41, 59, 0.7);
+        }
+        
+        /* Button Animations */
+        @property --angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+
+        .animated-button {
+            position: relative;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+            will-change: transform;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .animated-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            background: conic-gradient(from var(--angle), transparent 0%, var(--accent-purple) 50%, transparent 100%);
+            border-radius: inherit;
+            z-index: -1;
+            animation: spin 4s linear infinite;
+        }
+
+        .animated-button::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            background: #fff;
+            border-radius: 0.375rem;
+            z-index: -1;
+        }
+
+        .animated-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 30px var(--accent-glow);
+        }
+        .animated-button:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary-animated {
+            transition: transform 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, color 0.2s ease-out;
+            will-change: transform;
+        }
+        .btn-secondary-animated:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            color: var(--primary-text);
+        }
+        .btn-secondary-animated:active {
+            transform: translateY(1px);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        @keyframes spin {
+          to {
+            --angle: 360deg;
+          }
+        }
+
+        /* Critical CSS for hero section */
+        .hero-content { opacity: 0; }
+        .hero-content.loaded { opacity: 1; transition: opacity 0.3s ease; }
+        
+        /* Performance optimizations */
+        .lazy-load { opacity: 0; transform: translateY(20px); }
+        .lazy-load.loaded { opacity: 1; transform: translateY(0); transition: all 0.6s ease; }
+    </style>
+    
+    <!-- Performance optimization script -->
+    <script>
+        // Critical performance optimizations
+        (function() {
+            // Add loaded class to hero content when fonts are ready
+            function showHeroContent() {
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.classList.add('loaded');
+                }
+            }
+            
+            // Show content when fonts are loaded or after timeout
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(showHeroContent);
+            } else {
+                setTimeout(showHeroContent, 100);
+            }
+            
+            // Lazy load images
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target as HTMLImageElement;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy-load');
+                                img.classList.add('loaded');
+                                observer.unobserve(img);
+                            }
+                        }
+                    });
+                });
+                
+                // Observe all lazy images
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.querySelectorAll('img[data-src]').forEach((img) => {
+                        imageObserver.observe(img);
+                    });
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Polyfills for older browsers -->
+    <script>
+        // Add polyfills for older browsers
+        (function() {
+            // IntersectionObserver polyfill
+            if (!window.IntersectionObserver) {
+                const script = document.createElement('script');
+                script.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+                script.async = true;
+                document.head.appendChild(script);
+            }
+            
+            // requestAnimationFrame polyfill
+            if (!window.requestAnimationFrame) {
+                window.requestAnimationFrame = function(callback) {
+                    return setTimeout(callback, 1000 / 60);
+                };
+            }
+            
+            // cancelAnimationFrame polyfill
+            if (!window.cancelAnimationFrame) {
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+            }
+            
+            // Hardware concurrency fallback
+            if (!navigator.hardwareConcurrency) {
+                Object.defineProperty(navigator, 'hardwareConcurrency', {
+                    value: 4,
+                    writable: false
+                });
+            }
+            
+            // Touch detection fallback
+            if (!('ontouchstart' in window) && !navigator.maxTouchPoints) {
+                Object.defineProperty(navigator, 'maxTouchPoints', {
+                    value: 0,
+                    writable: false
+                });
+            }
+        })();
+    </script>
+    
+    <script>
+        // Load Three.js with fallback
+        function loadThreeJS() {
+            return new Promise((resolve, reject) => {
+                if (typeof (window as any).THREE !== 'undefined') {
+                    resolve((window as any).THREE);
+                    return;
+                }
+                
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+                script.onload = () => {
+                    // Three.js loaded from CDN
+                    resolve((window as any).THREE);
+                };
+                script.onerror = () => {
+                    // Failed to load Three.js from CDN, trying fallback...
+                    // Try alternative CDN
+                    const fallbackScript = document.createElement('script');
+                    fallbackScript.src = 'https://unpkg.com/three@0.128.0/build/three.min.js';
+                    fallbackScript.onload = () => {
+                        // Three.js loaded from fallback CDN
+                        resolve((window as any).THREE);
+                    };
+                    fallbackScript.onerror = () => {
+                        // Failed to load Three.js from all CDNs
+                        reject(new Error('Three.js failed to load'));
+                    };
+                    document.head.appendChild(fallbackScript);
+                };
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Load Three.js immediately
+        loadThreeJS().catch(error => {
+            // Three.js loading failed, initializing with simplified scene
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/animations.css">
+</head>
+<body class="antialiased">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-purple text-white px-4 py-2 rounded-lg z-50" aria-label="Aller au contenu principal">
+        Aller au contenu principal
+    </a>
+
+    <slot />
+    
+    <!-- Scripts - Optimized loading -->
+    <script defer src="/assets/js/data/translations.js"></script>
+    <script defer src="/assets/js/data/case-studies.js"></script>
+    <script defer src="/assets/js/modules/translations.js"></script>
+    <script defer src="/assets/js/modules/animations.js"></script>
+    <script defer src="/assets/js/modules/three-scene.js"></script>
+    <script defer src="/assets/js/modules/modal.js"></script>
+    <script type="module" defer src="/assets/js/main.js"></script>
+</body>
+</html>
