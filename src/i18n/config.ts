@@ -59,6 +59,10 @@ export const ui = {
     // Expertises
     'expertises.title': '<span class="font-playfair">Nos</span> Expertises <i class="font-playfair">Détaillées</i>',
     'expertises.subtitle': 'Une vision 360° portée par quatre pôles de compétences stratégiques.',
+    'expertises.tab.finance': 'Finance & Tokenomics',
+    'expertises.tab.tech': 'Tech & Développement',
+    'expertises.tab.marketing': 'Marketing & Communauté',
+    'expertises.tab.strategy': 'Stratégie & Opérations',
     
     // Case Studies
     'case-studies.title': '<span class="font-playfair">Nos Études</span> de <i class="font-playfair">Cas</i>',
@@ -142,6 +146,10 @@ export const ui = {
     // Expertises
     'expertises.title': '<span class="font-playfair">Our</span> Detailed <i class="font-playfair">Expertise</i>',
     'expertises.subtitle': 'A 360° vision driven by four strategic areas of expertise.',
+    'expertises.tab.finance': 'Finance & Tokenomics',
+    'expertises.tab.tech': 'Tech & Development',
+    'expertises.tab.marketing': 'Marketing & Community',
+    'expertises.tab.strategy': 'Strategy & Operations',
     
     // Case Studies
     'case-studies.title': '<span class="font-playfair">Our Case</span> <i class="font-playfair">Studies</i>',

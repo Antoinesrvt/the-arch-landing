@@ -212,31 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const expertisesData = {
-        strategy: [
-            { category: 'Stratégie Go-to-Market', skills: ['Définition de la cible et des objectifs', 'Création de la roadmap projet', 'Développement de la vision long-terme', 'Atténuation des challenges & création de synergies'] },
-            { category: 'Documentation Stratégique', skills: ['Revue & création de Pitch Deck', 'Rédaction & revue de Whitepaper', 'Création de Gitbook pour la communauté', 'Préparation de la documentation légale'] },
-            { category: 'Conseil en Gouvernance (DAO)', skills: ['Amélioration de la gouvernance', 'Optimisation de l\'efficacité opérationnelle', 'Mise en place de mécanismes de vote', 'Conseil pour organisations décentralisées'] }
-        ],
-        finance: [
-            { category: 'Conception de Tokenomics', skills: ['Développement de modèles économiques sur-mesure', 'Audit et optimisation de tokenomics existantes', 'Structures d\'émission et de vesting durables', 'Analyse détaillée pour les parties prenantes'] },
-            { category: 'Stratégie Financière', skills: ['Optimisation de la trésorerie crypto (staking, rendements)', 'Stratégies financières long terme', 'Exploitation des données on-chain/off-chain', 'Identification et analyse des risques'] },
-            { category: 'Analyse de Marché', skills: ['Surveillance des tendances crypto/DeFi', 'Analyse comparative de la concurrence', 'Études de marché pour opportunités', 'Veille sur les innovations Web3'] }
-        ],
-        tech: [
-            { category: 'Architecture & Conception', skills: ['Architecture de solutions blockchain (L1, L2)', 'Conception de systèmes décentralisés', 'Modélisation de solutions Web3', 'Audit d\'architecture', 'Optimisation des performances'] },
-            { category: 'Sécurité & Audit', skills: ['Analyse de vulnérabilités smart contracts', 'Revue de code et best practices', 'Recommandations de sécurité infrastructure', 'Évaluation des risques techniques', 'Protection des actifs numériques'] },
-            { category: 'Stack Technique Web3', skills: ['Évaluation et sélection de blockchains', 'Choix d\'infrastructures décentralisées (IPFS, Arweave)', 'Sélection d\'outils de développement', 'Intégration de wallets et standards (ERC20, ERC721)'] },
-            { category: 'Interopérabilité & Intégration', skills: ['Solutions de bridges et cross-chain', 'Intégration avec systèmes traditionnels', 'APIs et oracles (Chainlink)', 'Solutions de scaling (rollups)'] },
-            { category: 'Performance & Optimisation', skills: ['Optimisation des coûts (gas fees)', 'Stratégies de scaling', 'Benchmarking de solutions techniques', 'Analyse de performance des réseaux'] },
-            { category: 'Innovation & R&D', skills: ['Veille sur les technologies émergentes', 'Prototypage de solutions innovantes', 'Convergence IA-blockchain', 'Proof of concepts techniques'] }
-        ],
-        marketing: [
-            { category: 'Stratégie de Croissance', skills: ['Définition de la stratégie Go-to-Market', 'Développement de partenariats stratégiques', 'Création de roadmap de croissance', 'Analyse de performances et optimisation'] },
-            { category: 'Communication & Influence', skills: ['Planification de communication stratégique', 'Introduction aux KOLs (Key Opinion Leaders)', 'Relations avec Market Makers & Launchpads', 'Positionnement en tant que média référent'] },
-            { category: 'Community Building', skills: ['Gestion de communautés à grande échelle (+30k)', 'Animation et modération multicanale', 'Stratégies d\'engagement et de rétention', 'Éducation Web3 et vulgarisation technique'] }
-        ]
-    };
 
     // --- SCRIPT RESTRUCTURED FOR BETTER SCOPE MANAGEMENT ---
     // 1. Get all elements
@@ -259,13 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('language', lang);
         currentLang = lang;
         document.documentElement.lang = lang;
-        const elements = document.querySelectorAll('[data-lang-key]');
-        elements.forEach(el => {
-            const key = el.getAttribute('data-lang-key');
-            if (translations[lang][key]) {
-                el.innerHTML = translations[lang][key];
-            }
-        });
+        // Translation handled by Astro SSR - no client-side translation needed
         if (langSwitchBtn) {
             langSwitchBtn.textContent = lang === 'fr' ? 'EN' : 'FR';
         }
@@ -309,39 +278,32 @@ document.addEventListener('DOMContentLoaded', () => {
         // if (window.lenis) lenis.start();
     }
 
-    function populateExpertises() {
-        const icon = `<svg class="w-4 h-4 text-accent-purple" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>`;
-        for (const tabName in expertisesData) {
-            const container = document.getElementById(`tab-${tabName}`)?.querySelector('.grid');
-            if (!container) continue;
-            container.innerHTML = '';
-            const data = expertisesData[tabName];
-            data.forEach(cat => {
-                const categoryDiv = document.createElement('div');
-                let skillsHtml = cat.skills.map(skill => `<li class="expertise-list-item"><span class="text-accent-purple">${icon}</span><span>${skill}</span></li>`).join('');
-                categoryDiv.innerHTML = `
-                    <h4 class="text-xl font-bold text-white mb-4">${cat.category}</h4>
-                    <ul class="space-y-3 text-secondary-text">${skillsHtml}</ul>
-                `;
-                container.appendChild(categoryDiv);
-            });
-        }
-    }
 
     // 4. Initialization and Event Listeners
     if (window.gsap) {
         gsap.registerPlugin(ScrollTrigger);
     }
     
-    // Lenis smooth scrolling disabled for debugging
-    // if (window.Lenis) {
-    //     window.lenis = new Lenis();
-    //     lenis.on('scroll', ScrollTrigger.update);
-    //     gsap.ticker.add((time) => {
-    //         lenis.raf(time * 1000);
-    //     });
-    //     gsap.ticker.lagSmoothing(0);
-    // }
+    // Initialize Lenis smooth scrolling
+    if (window.Lenis) {
+        window.lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+        
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+    }
 
     // GSAP Animations
     if (window.gsap) {
@@ -404,6 +366,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
+        // Enhanced scroll animations for better UX
+        gsap.utils.toArray('.animate-title').forEach((element) => {
+            gsap.fromTo(element, 
+                { opacity: 0, y: 50 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        gsap.utils.toArray('.animate-card').forEach((element) => {
+            gsap.fromTo(element, 
+                { opacity: 0, y: 30 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.8,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        end: "bottom 15%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Parallax effect for hero section
+        gsap.to("#hero-canvas-container", {
+            yPercent: -50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#hero-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
     }
 
     // Navigation smooth scrolling
@@ -413,11 +424,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
-                // if (window.lenis) {
-                //     lenis.scrollTo(targetSection);
-                // } else {
+                if (window.lenis) {
+                    lenis.scrollTo(targetSection);
+                } else {
                     targetSection.scrollIntoView({ behavior: 'smooth' });
-                // }
+                }
             }
         });
     });
@@ -516,10 +527,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Touch device detection
+    // Device detection and performance optimizations
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     if (isTouchDevice) {
         document.body.classList.add('is-touch-device');
+    }
+    
+    if (isMobile) {
+        document.body.classList.add('is-mobile');
+    }
+    
+    if (prefersReducedMotion) {
+        document.body.classList.add('prefers-reduced-motion');
+        // Disable Lenis on reduced motion preference
+        if (window.lenis) {
+            window.lenis.destroy();
+            window.lenis = null;
+        }
     }
 
     // 3D Hero Animation
@@ -564,7 +591,8 @@ document.addEventListener('DOMContentLoaded', () => {
         archGroup.rotation.z = Math.PI;
 
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
+        // Reduce particle count on mobile for better performance
+        const particlesCount = isMobile ? 2000 : 5000;
         const posArray = new Float32Array(particlesCount * 3);
         for(let i = 0; i < particlesCount * 3; i++) {
             posArray[i * 3 + 0] = (Math.random() - 0.5) * 200;
@@ -574,10 +602,10 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.1,
+            size: isMobile ? 0.2 : 0.1, // Larger particles on mobile for better visibility
             color: 0x8A70D6,
             transparent: true,
-            opacity: 0.5,
+            opacity: isMobile ? 0.3 : 0.5, // Reduced opacity on mobile
             blending: THREE.AdditiveBlending
         });
 
@@ -610,17 +638,26 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
 
-            // Multi-axis rotation for the arch group
-            archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * 0.2) * 0.25;
-            archGroup.rotation.y = elapsedTime * 0.15;
-            archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * 0.2) * 0.25;
+            // Multi-axis rotation for the arch group (slower on mobile)
+            const rotationSpeed = isMobile ? 0.1 : 0.2;
+            const rotationAmplitude = isMobile ? 0.15 : 0.25;
+            
+            archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * rotationSpeed) * rotationAmplitude;
+            archGroup.rotation.y = elapsedTime * (isMobile ? 0.1 : 0.15);
+            archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * rotationSpeed) * rotationAmplitude;
 
-            // Camera parallax effect
-            camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 5 - camera.position.y) * 0.05;
+            // Camera parallax effect (reduced on mobile)
+            if (!isMobile) {
+                const parallaxStrength = 5;
+                const parallaxSmoothing = 0.05;
+                camera.position.x += (mouseX * parallaxStrength - camera.position.x) * parallaxSmoothing;
+                camera.position.y += (-mouseY * parallaxStrength - camera.position.y) * parallaxSmoothing;
+            }
             camera.lookAt(archGroup.position);
 
-            particlesMesh.rotation.y = -elapsedTime * 0.03;
+            // Particles rotation (slower on mobile)
+            const particleRotationSpeed = isMobile ? 0.015 : 0.03;
+            particlesMesh.rotation.y = -elapsedTime * particleRotationSpeed;
             renderer.render(scene, camera);
         };
         animate();
@@ -696,7 +733,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial call
     setLanguage(currentLang);
-    populateExpertises();
     
     // Show hero content immediately
     const heroContent = document.querySelector('.hero-content');

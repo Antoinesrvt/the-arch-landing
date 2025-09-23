@@ -14,11 +14,10 @@ const t = useTranslations(lang as any);
 <section id="founders" class="py-24" aria-labelledby="founders-title">
   <div class="container mx-auto px-6">
     <div class="text-center mb-20 animate-title">
-      <h2 id="founders-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="approach_title">
-        <span class="font-playfair">Dirigé par</span> des Fondateurs <i class="font-playfair">Experts</i>
+      <h2 id="founders-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" set:html={t('founders.title')}>
       </h2>
-      <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="approach_subtitle">
-        Notre force réside dans la synergie. Stratégie technique, modèle financier et plan marketing sont unifiés dès le premier jour pour une cohérence absolue.
+      <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto">
+        {t('founders.subtitle')}
       </p>
     </div>
 
@@ -34,11 +33,11 @@ const t = useTranslations(lang as any);
           <img src="https://media.licdn.com/dms/image/v2/D4E03AQGbMOPlZjlTwQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1695129836511?e=1756944000&v=beta&t=49yf0hPlB221BQuninTKfv-xROUsYoZwUbRB8iOkJyw" alt="Antoine" class="w-20 h-20 rounded-full border-2 border-indigo-400/50 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1E293B/F0F2F5?text=A';">
           <div class="ml-4">
             <h4 class="text-xl font-bold text-white">Antoine</h4>
-            <p class="text-indigo-400 font-semibold" data-lang-key="antoine_role">Tech & Architecture</p>
+            <p class="text-indigo-400 font-semibold">{t('antoine.role')}</p>
           </div>
         </div>
-        <p class="text-secondary-text flex-grow" data-lang-key="antoine_desc">
-          Architecte de solutions blockchain, expert en sécurité des smart contracts et en optimisation des performances. Antoine assure que votre projet est construit sur des bases techniques inébranlables.
+        <p class="text-secondary-text flex-grow">
+          {t('antoine.desc')}
         </p>
       </article>
       <!-- Aaron Card -->
@@ -52,11 +51,11 @@ const t = useTranslations(lang as any);
             </div>
             <div class="ml-4">
               <h4 class="text-xl font-bold text-white">Aaron</h4>
-              <p class="text-green-400 font-semibold" data-lang-key="aaron_role">Finance & Tokenomics</p>
+              <p class="text-green-400 font-semibold">{t('aaron.role')}</p>
             </div>
           </div>
-          <p class="text-secondary-text flex-grow" data-lang-key="aaron_desc">
-            Spécialiste de la finance décentralisée (DeFi), de la modélisation de tokenomics et de la stratégie de levée de fonds. Il conçoit l'épine dorsale économique de votre écosystème.
+          <p class="text-secondary-text flex-grow">
+            {t('aaron.desc')}
           </p>
       </article>
       <!-- Samir Card -->
@@ -70,13 +69,16 @@ const t = useTranslations(lang as any);
           <img src="https://media.licdn.com/dms/image/v2/D4E03AQH9Vx1L0Kq3ag/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1731933057965?e=1756944000&v=beta&t=I3GctbQ-eINCOXtcWZNfWeAWDNGk8tGW4clH0tji_uM" alt="Samir" class="w-20 h-20 rounded-full border-2 border-purple-400/50 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1E293B/F0F2F5?text=S';">
           <div class="ml-4">
             <h4 class="text-xl font-bold text-white">Samir</h4>
-            <p class="text-purple-400 font-semibold" data-lang-key="samir_role">Marketing & Communauté</p>
+            <p class="text-purple-400 font-semibold">{t('samir.role')}</p>
           </div>
         </div>
-        <p class="text-secondary-text flex-grow" data-lang-key="samir_desc">
-          Expert en stratégies de contenu et en gestion de communautés à grande échelle (+30 000 membres). Samir bâtit et engage l'audience qui portera votre projet vers le succès.
+        <p class="text-secondary-text flex-grow">
+          {t('samir.desc')}
         </p>
       </article>
     </div>
   </div>
 </section>
+
+
+

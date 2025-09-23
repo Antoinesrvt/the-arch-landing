@@ -17,21 +17,23 @@ const t = useTranslations(lang as any);
       <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full filter blur-3xl" aria-hidden="true"></div>
       <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-500/20 rounded-full filter blur-3xl" aria-hidden="true"></div>
       <div class="relative z-10">
-        <h2 id="contact-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="contact_title">
-          <span class="font-playfair">Prêt à construire</span> l'<i class="font-playfair">avenir</i> ?
+        <h2 id="contact-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" set:html={t('contact.title')}>
         </h2>
-        <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto" data-lang-key="contact_subtitle">
-          Discutons de votre projet. Planifiez un appel exploratoire gratuit avec nos fondateurs pour voir comment nous pouvons vous aider à atteindre vos objectifs.
+        <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto">
+          {t('contact.subtitle')}
         </p>
         <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg inline-block w-full sm:w-auto animated-button" data-lang-key="contact_cta1">
-            Planifier un appel
+          <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg inline-block w-full sm:w-auto animated-button">
+            {t('contact.cta1')}
           </a>
-           <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated" data-lang-key="contact_cta2">
-            Nous envoyer un message
+           <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated">
+            {t('contact.cta2')}
           </a>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+
+
