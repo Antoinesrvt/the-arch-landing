@@ -1,6 +1,6 @@
-import type { BaseManager } from './types';
+import type { BaseManager, ModalManager } from './types';
 
-export class ModalManagerImpl implements BaseManager {
+export class ModalManagerImpl implements ModalManager {
   private modalOverlay: HTMLElement | null = null;
   private modalContent: HTMLElement | null = null;
   private closeModalBtn: HTMLElement | null = null;
@@ -161,6 +161,31 @@ export class ModalManagerImpl implements BaseManager {
 
   private isOpen(): boolean {
     return this.modalOverlay?.classList.contains('active') || false;
+  }
+
+  public open(modalId: string): void {
+    // Generic modal opening method
+    // For now, this is a placeholder that can be extended
+    console.log(`Opening modal: ${modalId}`);
+  }
+
+  public close(modalId: string): void {
+    // Generic modal closing method
+    // For now, this is a placeholder that can be extended
+    console.log(`Closing modal: ${modalId}`);
+  }
+
+  public closeAll(): void {
+    // Close all open modals
+    if (this.isOpen()) {
+      this.closeModal();
+    }
+  }
+
+  public isModalOpen(modalId: string): boolean {
+    // Check if a specific modal is open
+    // For now, this is a placeholder that can be extended
+    return this.isOpen();
   }
 
   private trapFocus(): void {

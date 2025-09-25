@@ -1,10 +1,10 @@
-import type { LanguageManager, LanguageSwitcherConfig } from './types';
+import type { LanguageManager, LanguageConfig } from './types';
 
 export class LanguageManagerImpl implements LanguageManager {
-  private config: LanguageSwitcherConfig;
+  private config: LanguageConfig;
   private currentLang: 'fr' | 'en';
 
-  constructor(config: LanguageSwitcherConfig) {
+  constructor(config: LanguageConfig) {
     this.config = config;
     this.currentLang = config.currentLang;
   }

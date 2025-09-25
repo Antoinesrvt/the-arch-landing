@@ -1,4 +1,4 @@
-import type { AppConfig, LanguageManager, NavigationManager, AnimationManager, BaseManager } from './types';
+import type { AppConfig, LanguageManager, NavigationManager, AnimationManager, ThreeSceneManager, ModalManager } from '../types';
 import { LanguageManagerImpl } from './language-manager';
 import { NavigationManagerImpl } from './navigation-manager';
 import { AnimationManagerImpl } from './animation-manager';
@@ -9,8 +9,8 @@ export class AppManager {
   public language: LanguageManager;
   public navigation: NavigationManager;
   public animation: AnimationManager;
-  public threeScene: BaseManager;
-  public modal: BaseManager;
+  public threeScene: ThreeSceneManager;
+  public modal: ModalManager;
   
   private config: AppConfig;
 

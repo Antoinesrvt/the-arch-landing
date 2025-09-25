@@ -12,34 +12,36 @@ import Contact from '../../components/Contact.astro';
 import Footer from '../../components/Footer.astro';
 import ClientScripts from '../../components/ClientScripts.astro';
 import { useTranslations, getStaticPaths } from '../../i18n/utils';
+import type { Language, TranslationFunction } from '../../types';
 
 export { getStaticPaths };
 
 const { lang } = Astro.params;
-const t = useTranslations(lang as any);
+const typedLang = lang as Language;
+const t = useTranslations(typedLang) as TranslationFunction;
 ---
 
 <I18nLayout 
-  lang={lang}
+  lang={typedLang}
   title={t('hero.title')}
   description={t('hero.subtitle')}
 >
-  <Header currentLang={lang} />
+  <Header currentLang={typedLang} />
   
   <!-- Main Content -->
   <main id="main-content">
-    <I18nHero lang={lang} />
-    <HybridApproach lang={lang} />
-    <Services lang={lang} />
-    <Founders lang={lang} />
-    <Network lang={lang} />
-    <MediaCommunity lang={lang} />
-    <CaseStudies lang={lang} />
-    <Contact lang={lang} />
+    <I18nHero lang={typedLang} />
+    <HybridApproach lang={typedLang} />
+    <Services lang={typedLang} />
+    <Founders lang={typedLang} />
+    <Network lang={typedLang} />
+    <MediaCommunity lang={typedLang} />
+    <CaseStudies lang={typedLang} />
+    <Contact lang={typedLang} />
   </main>
 
-  <Footer lang={lang} />
+  <Footer lang={typedLang} />
   
   <!-- Client-side scripts using proper Astro + TypeScript approach -->
-  <ClientScripts currentLang={lang as 'fr' | 'en'} />
+  <ClientScripts currentLang={typedLang} />
 </I18nLayout>

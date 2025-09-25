@@ -2,30 +2,31 @@
 // Header component
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { useTranslations } from '../i18n/utils';
+import type { Language, TranslationFunction } from '../types';
 
 export interface Props {
-  currentLang?: string;
+  currentLang?: Language;
 }
 
 const { currentLang = 'fr' } = Astro.props;
-const t = useTranslations(currentLang as any);
+const t = useTranslations(currentLang) as TranslationFunction;
 ---
 
 <!-- Header -->
-<header class="fixed top-0 left-0 right-0 z-50 bg-opacity-50 bg-clip-padding backdrop-filter backdrop-blur-xl border-b border-white/10" role="banner">
-    <div class="container mx-auto px-6 py-4">
+<header class="fixed top-0 left-0 right-0 z-fixed bg-background/50 backdrop-blur-glass border-b border-border" role="banner">
+    <div class="container mx-auto p-container">
         <div class="flex justify-between items-center">
             <a href="#" class="flex items-center space-x-3" aria-label="The Arch Consulting - Accueil">
-                <svg width="32" height="32" viewBox="0 0 2271 2271" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-white" aria-hidden="true">
+                <svg width="32" height="32" viewBox="0 0 2271 2271" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-text-primary" aria-hidden="true">
                     <path d="M1136.85 795.358C873.646 795.358 660.433 1007.61 660.433 1269.23V1562.66H575.861V1269.23C575.861 960.864 827.112 711.039 1136.85 711.039C1446.59 711.039 1697.84 960.864 1697.84 1269.23V1562.66H1613.27V1269.23C1613.27 1007.61 1400.06 795.358 1136.85 795.358Z" fill="currentColor"/>
                     <path d="M1139.67 1132.64C1061.7 1132.64 998.719 1195.42 998.719 1272.61V1562.66H914.147V1272.61C914.147 1148.61 1015.24 1048.32 1139.67 1048.32C1264.1 1048.32 1365.2 1148.61 1365.2 1272.61V1562.66H1280.62V1272.61C1280.62 1195.42 1217.64 1132.64 1139.67 1132.64Z" fill="currentColor"/>
                     <path d="M829.576 1273.45C829.576 1102.51 968.442 963.997 1139.67 963.997C1310.9 963.997 1449.77 1102.51 1449.77 1273.45V1562.66H1534.34V1273.45C1534.34 1056.01 1357.67 879.678 1139.67 879.678C921.671 879.678 745.004 1056.01 745.004 1273.45V1562.66H829.576V1273.45Z" fill="currentColor"/>
                 </svg>
-                <span class="text-2xl font-bold text-white">The Arch</span>
+                <span class="text-2xl font-bold text-text-primary">The Arch</span>
             </a>
             <div class="flex items-center">
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-toggle" class="md:hidden text-white p-2" aria-label="Menu" aria-expanded="false">
+                <button id="mobile-menu-toggle" class="md:hidden text-text-primary p-2 hover:bg-surface transition-colors duration-fast rounded-lg" aria-label="Menu" aria-expanded="false">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -33,45 +34,45 @@ const t = useTranslations(currentLang as any);
                 
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center space-x-6 lg:space-x-8" role="navigation" aria-label="Navigation principale">
-                    <a href="#approach" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.approach')}</a>
-                    <a href="#services" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.services')}</a>
-                    <a href="#founders" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.founders')}</a>
-                    <a href="#network" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.network')}</a>
-                    <a href="#media" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.media')}</a>
-                    <a href="#case-studies" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.case-studies')}</a>
-                    <a href="#contact" class="nav-link text-gray-300 hover:text-white transition-colors">{t('nav.contact')}</a>
+                    <a href="#approach" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.approach')}</a>
+                    <a href="#services" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.services')}</a>
+                    <a href="#founders" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.founders')}</a>
+                    <a href="#network" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.network')}</a>
+                    <a href="#media" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.media')}</a>
+                    <a href="#case-studies" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.case-studies')}</a>
+                    <a href="#contact" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.contact')}</a>
                 </nav>
                 
                 <LanguageSwitcher currentLang={currentLang} />
             </div>
             
             <!-- Mobile Navigation Menu -->
-            <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-black/95 backdrop-blur-xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden" role="navigation" aria-label="Navigation mobile">
-                <div class="flex justify-between items-center p-4 sm:p-6 border-b border-white/10">
+            <nav id="mobile-menu" class="fixed top-0 left-0 w-full h-full bg-background/95 backdrop-blur-glass z-modal transform -translate-x-full transition-transform duration-normal ease-in-out md:hidden" role="navigation" aria-label="Navigation mobile">
+                <div class="flex justify-between items-center p-4 sm:p-6 border-b border-border">
                     <div class="flex items-center space-x-3">
-                        <svg width="24" height="24" viewBox="0 0 2271 2271" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-white" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 2271 2271" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-text-primary" aria-hidden="true">
                             <path d="M1136.85 795.358C873.646 795.358 660.433 1007.61 660.433 1269.23V1562.66H575.861V1269.23C575.861 960.864 827.112 711.039 1136.85 711.039C1446.59 711.039 1697.84 960.864 1697.84 1269.23V1562.66H1613.27V1269.23C1613.27 1007.61 1400.06 795.358 1136.85 795.358Z" fill="currentColor"/>
                             <path d="M1139.67 1132.64C1061.7 1132.64 998.719 1195.42 998.719 1272.61V1562.66H914.147V1272.61C914.147 1148.61 1015.24 1048.32 1139.67 1048.32C1264.1 1048.32 1365.2 1148.61 1365.2 1272.61V1562.66H1280.62V1272.61C1280.62 1195.42 1217.64 1132.64 1139.67 1132.64Z" fill="currentColor"/>
                             <path d="M829.576 1273.45C829.576 1102.51 968.442 963.997 1139.67 963.997C1310.9 963.997 1449.77 1102.51 1449.77 1273.45V1562.66H1534.34V1273.45C1534.34 1056.01 1357.67 879.678 1139.67 879.678C921.671 879.678 745.004 1056.01 745.004 1273.45V1562.66H829.576V1273.45Z" fill="currentColor"/>
                         </svg>
-                        <span class="text-xl font-bold text-white">The Arch</span>
+                        <span class="text-xl font-bold text-text-primary">The Arch</span>
                     </div>
-                    <button id="mobile-menu-close" class="text-white p-2 rounded-lg hover:bg-white/10 transition-colors" aria-label="Fermer le menu">
+                    <button id="mobile-menu-close" class="text-text-primary p-2 rounded-lg hover:bg-surface transition-colors duration-fast" aria-label="Fermer le menu">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
                 <div class="flex flex-col p-4 sm:p-6 space-y-4">
-                    <a href="#approach" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.approach')}</a>
-                    <a href="#services" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.services')}</a>
-                    <a href="#founders" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.founders')}</a>
-                    <a href="#network" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.network')}</a>
-                    <a href="#media" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.media')}</a>
-                    <a href="#case-studies" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.case-studies')}</a>
-                    <a href="#contact" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-white hover:text-accent-purple transition-colors py-3 px-4 rounded-lg hover:bg-white/5">{t('nav.contact')}</a>
-                    <div class="pt-4 border-t border-white/10">
-                        <button id="mobile-lang-switch" class="w-full text-center text-sm font-semibold border border-white/50 rounded-full px-4 py-2 text-secondary-text hover:text-white hover:border-white transition-colors" aria-label="Changer de langue">
+                    <a href="#approach" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.approach')}</a>
+                    <a href="#services" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.services')}</a>
+                    <a href="#founders" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.founders')}</a>
+                    <a href="#network" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.network')}</a>
+                    <a href="#media" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.media')}</a>
+                    <a href="#case-studies" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.case-studies')}</a>
+                    <a href="#contact" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.contact')}</a>
+                    <div class="pt-4 border-t border-border">
+                        <button id="mobile-lang-switch" class="w-full text-center text-sm font-semibold border border-border rounded-full px-4 py-2 text-text-secondary hover:text-text-primary hover:border-primary transition-colors duration-fast" aria-label="Changer de langue">
                             {currentLang === 'fr' ? 'EN' : 'FR'}
                         </button>
                     </div>

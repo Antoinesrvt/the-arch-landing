@@ -1,6 +1,6 @@
-import type { BaseManager } from './types';
+import type { BaseManager, ThreeSceneManager } from './types';
 
-export class ThreeSceneManagerImpl implements BaseManager {
+export class ThreeSceneManagerImpl implements ThreeSceneManager {
   private scene: THREE.Scene | null = null;
   private camera: THREE.PerspectiveCamera | null = null;
   private renderer: THREE.WebGLRenderer | null = null;
@@ -81,6 +81,34 @@ export class ThreeSceneManagerImpl implements BaseManager {
     } else {
       this.animate();
     }
+  }
+
+  public setAutoRotate(enabled: boolean): void {
+    // Auto-rotate functionality can be implemented here
+    // For now, this is a placeholder
+  }
+
+  public setControls(enabled: boolean): void {
+    // Controls functionality can be implemented here
+    // For now, this is a placeholder
+  }
+
+  public resize(): void {
+    if (this.camera && this.renderer) {
+      const container = this.renderer.domElement.parentElement;
+      if (container) {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(width, height);
+      }
+    }
+  }
+
+  public dispose(): void {
+    this.destroy();
   }
 
   private shouldUseSimplifiedScene(): boolean {

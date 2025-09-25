@@ -1,85 +1,57 @@
-// Type definitions for The Arch Consulting client-side scripts
+// Re-export types from main types file
+export type {
+  Language,
+  LanguageConfig,
+  TranslationFunction,
+  TranslationKeys,
+  BaseComponentProps,
+  HeaderProps,
+  ClientScriptsProps,
+  NavigationConfig,
+  AnimationConfig,
+  AppConfig,
+  NavLinkElement,
+  LanguageButtonElement,
+  LanguageChangeEvent,
+  NavigationEvent,
+  BaseManager,
+  LanguageManager,
+  NavigationManager,
+  AnimationManager,
+  CaseStudy,
+  CaseStudyResult,
+  ThreeSceneConfig,
+  ThreeSceneManager,
+  ModalConfig,
+  ModalManager,
+  ComponentState,
+  AnimationState,
+  ApiResponse,
+  ContactFormData,
+  ContactFormResponse,
+  AppError,
+  ValidationError,
+  NetworkError,
+  PerformanceMetrics,
+  PerformanceObserver,
+  AccessibilityConfig,
+  FocusManager,
+  DeepPartial,
+  Optional,
+  RequiredKeys,
+} from '../types';
 
-export interface LanguageSwitcherConfig {
-  currentLang: 'fr' | 'en';
-  availableLanguages: Array<{
-    code: 'fr' | 'en';
-    name: string;
-    flag: string;
-  }>;
-}
-
-export interface NavigationConfig {
-  smoothScroll: boolean;
-  offset: number;
-  duration: number;
-}
-
-export interface AnimationConfig {
-  floatingCards: boolean;
-  scrollAnimations: boolean;
-  reducedMotion: boolean;
-}
-
-export interface AppConfig {
-  language: LanguageSwitcherConfig;
-  navigation: NavigationConfig;
-  animations: AnimationConfig;
-}
-
-// DOM Element types
-export type NavLinkElement = HTMLAnchorElement & {
-  href: string;
-  dataset: {
-    section?: string;
-  };
-};
-
-export type LanguageButtonElement = HTMLButtonElement & {
-  dataset: {
-    lang?: string;
-  };
-};
-
-// Event types
-export interface LanguageChangeEvent extends CustomEvent {
-  detail: {
-    language: 'fr' | 'en';
-    previousLanguage: 'fr' | 'en';
-  };
-}
-
-export interface NavigationEvent extends CustomEvent {
-  detail: {
-    section: string;
-    element: HTMLElement;
-  };
-}
-
-// Manager interfaces
-export interface BaseManager {
-  init(): void;
-  destroy(): void;
-  refresh(): void;
-}
-
-export interface LanguageManager extends BaseManager {
-  getCurrentLanguage(): 'fr' | 'en';
-  switchLanguage(targetLang: 'fr' | 'en'): void;
-  updateUI(): void;
-}
-
-export interface NavigationManager extends BaseManager {
-  scrollToSection(sectionId: string): void;
-  setupSmoothScrolling(): void;
-  handleMobileMenu(): void;
-}
-
-export interface AnimationManager extends BaseManager {
-  setupFloatingAnimations(): void;
-  setupScrollAnimations(): void;
-  respectReducedMotion(): void;
-}
+// Import types for global declarations
+import type { 
+  Language, 
+  TranslationKeys, 
+  LanguageManager, 
+  NavigationManager, 
+  AnimationManager, 
+  ThreeSceneManager, 
+  ModalManager, 
+  CaseStudy 
+} from '../types';
 
 // Global window interface
 declare global {
@@ -88,16 +60,11 @@ declare global {
       language: LanguageManager;
       navigation: NavigationManager;
       animation: AnimationManager;
-      threeScene: BaseManager;
-      modal: BaseManager;
+      threeScene: ThreeSceneManager;
+      modal: ModalManager;
     };
-    threeSceneManager?: {
-      setPaused: (paused: boolean) => void;
-      refresh: () => void;
-    };
-    animationManager?: {
-      refresh: () => void;
-    };
+    threeSceneManager?: ThreeSceneManager;
+    animationManager?: AnimationManager;
     lenis?: {
       scrollTo: (target: Element, options?: {
         offset?: number;
@@ -107,8 +74,8 @@ declare global {
       stop: () => void;
       start: () => void;
     };
-    CaseStudiesData?: any;
-    TranslationsData?: any;
+    CaseStudiesData?: CaseStudy[];
+    TranslationsData?: Record<Language, TranslationKeys>;
   }
 }
 

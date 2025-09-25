@@ -1,54 +1,55 @@
 ---
 // Services Section Component
 import { useTranslations } from '../i18n/utils';
+import type { Language, TranslationFunction } from '../types';
 
 export interface Props {
-  lang: string;
+  lang: Language;
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang as any);
+const t = useTranslations(lang) as TranslationFunction;
 ---
 
 <!-- Services Section -->
-<section id="services" class="py-24" aria-labelledby="services-title">
-  <div class="container mx-auto px-6">
-    <div class="text-center mb-20 animate-title">
-      <h2 id="services-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight" set:html={t('services.title')}></h2>
-      <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto">
+<section id="services" class="p-section" aria-labelledby="services-title">
+  <div class="container mx-auto p-container">
+    <div class="text-center mb-20 animate-fade-in">
+      <h2 id="services-title" class="text-heading font-bold text-text-primary tracking-tight" set:html={t('services.title')}></h2>
+      <p class="mt-4 text-lg text-text-secondary max-w-2xl mx-auto">
         {t('services.subtitle')}
       </p>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
       <!-- Tech Service Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-card group hover:scale-105 transition-transform duration-300">
-        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-indigo-500/10 mb-6 border border-indigo-500/30" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
+      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-fade-in group hover:scale-105 transition-all duration-normal">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-accent-100 mb-6 border border-accent-300" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent">
             <path d="m18 16 4-4-4-4"/>
             <path d="m6 8-4 4 4 4"/>
             <path d="m14.5 4-5 16"/>
           </svg>
         </div>
-        <h3 class="text-2xl font-bold text-white mb-3">{t('service1.title')}</h3>
-        <p class="text-secondary-text mb-4">
+        <h3 class="text-subheading font-bold text-text-primary mb-3">{t('service1.title')}</h3>
+        <p class="text-text-secondary mb-4">
           {t('service1.desc')}
         </p>
         <div class="space-y-2">
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Smart contracts & audits
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Blockchain architecture
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Gas fees optimization
@@ -57,31 +58,31 @@ const t = useTranslations(lang as any);
       </article>
 
       <!-- Finance Service Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-card group hover:scale-105 transition-transform duration-300">
-        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-green-500/10 mb-6 border border-green-500/30" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-fade-in group hover:scale-105 transition-all duration-normal">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-secondary-100 mb-6 border border-secondary-300" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
           </svg>
         </div>
-        <h3 class="text-2xl font-bold text-white mb-3">{t('service2.title')}</h3>
-        <p class="text-secondary-text mb-4">
+        <h3 class="text-subheading font-bold text-text-primary mb-3">{t('service2.title')}</h3>
+        <p class="text-text-secondary mb-4">
           {t('service2.desc')}
         </p>
         <div class="space-y-2">
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Sustainable economic models
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Fundraising strategy
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Regulatory compliance
@@ -90,34 +91,34 @@ const t = useTranslations(lang as any);
       </article>
 
       <!-- Marketing Service Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-card group hover:scale-105 transition-transform duration-300">
-        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-purple-500/10 mb-6 border border-purple-500/30" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400">
+      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-fade-in group hover:scale-105 transition-all duration-normal">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-primary-100 mb-6 border border-primary-300" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
             <circle cx="9" cy="7" r="4"/>
             <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
         </div>
-        <h3 class="text-2xl font-bold text-white mb-3">{t('service3.title')}</h3>
-        <p class="text-secondary-text mb-4">
+        <h3 class="text-subheading font-bold text-text-primary mb-3">{t('service3.title')}</h3>
+        <p class="text-text-secondary mb-4">
           {t('service3.desc')}
         </p>
         <div class="space-y-2">
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Community building
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Growth strategies
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Media amplification
@@ -126,31 +127,31 @@ const t = useTranslations(lang as any);
       </article>
 
       <!-- Strategy Service Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-card group hover:scale-105 transition-transform duration-300">
-        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-orange-500/10 mb-6 border border-orange-500/30" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400">
+      <article class="glass-card p-6 lg:p-8 rounded-2xl animate-fade-in group hover:scale-105 transition-all duration-normal">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-warning/10 mb-6 border border-warning/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-warning">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
           </svg>
         </div>
-        <h3 class="text-2xl font-bold text-white mb-3">{t('service4.title')}</h3>
-        <p class="text-secondary-text mb-4">
+        <h3 class="text-subheading font-bold text-text-primary mb-3">{t('service4.title')}</h3>
+        <p class="text-text-secondary mb-4">
           {t('service4.desc')}
         </p>
         <div class="space-y-2">
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Global strategic vision
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Expert coordination
           </div>
-          <div class="flex items-center text-sm text-secondary-text">
-            <svg class="w-4 h-4 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-sm text-text-secondary">
+            <svg class="w-4 h-4 mr-2 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             Project management
