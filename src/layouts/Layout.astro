@@ -15,11 +15,16 @@ const { title, description, lang = "fr" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>{title}</title>
     <meta name="description" content={description}>
-    <meta name="keywords" content="conseil, transformation digitale, stratégie, tokenomics, blockchain, innovation, finance, entreprise, web3">
+    <meta name="keywords" content="conseil, transformation digitale, stratégie, tokenomics, blockchain, innovation, finance, entreprise, web3, DeFi, smart contracts, audit, développement, marketing, communauté">
     <meta name="author" content="The Arch Consulting">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#8A70D6">
     <meta name="msapplication-TileColor" content="#8A70D6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="The Arch Consulting">
+    <meta name="application-name" content="The Arch Consulting">
+    <meta name="format-detection" content="telephone=no">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -273,6 +278,61 @@ const { title, description, lang = "fr" } = Astro.props;
             will-change: transform, opacity;
         }
 
+        /* GPU acceleration for smooth animations */
+        .glass-card, .animated-button, .btn-secondary-animated {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        /* Optimize scrolling performance */
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+
+        /* Reduce repaints on hover */
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.01) translateZ(0);
+        }
+
+
+        /* Enhanced hover effects */
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(138, 112, 214, 0.1), rgba(52, 211, 153, 0.1));
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* Floating animation for cards */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateZ(0); }
+            50% { transform: translateY(-10px) translateZ(0); }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .float-animation:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .float-animation:nth-child(3) {
+            animation-delay: 4s;
+        }
+
         /* Reduced motion support */
         @media (prefers-reduced-motion: reduce) {
             .animate-title, .animate-card, .animate-fade-in {
@@ -290,6 +350,49 @@ const { title, description, lang = "fr" } = Astro.props;
             .animate-title, .animate-card {
                 transform: none !important;
                 opacity: 1 !important;
+            }
+            
+            /* Improve mobile touch targets */
+            .nav-link, .mobile-nav-link {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            
+            /* Better mobile spacing */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Optimize mobile hero */
+            #hero-section {
+                min-height: 100vh;
+                padding-top: 80px;
+            }
+            
+            /* Improve mobile cards */
+            .glass-card {
+                margin-bottom: 1rem;
+            }
+            
+            /* Better mobile buttons */
+            .animated-button, .btn-secondary-animated {
+                width: 100%;
+                justify-content: center;
+                min-height: 48px;
+            }
+        }
+
+        /* Tablet optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+            
+            .grid {
+                gap: 1.5rem;
             }
         }
     </style>
@@ -422,10 +525,60 @@ const { title, description, lang = "fr" } = Astro.props;
             // Three.js loading failed, initializing with simplified scene
         });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <!-- Load Three.js with async and defer for better performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" async></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" async></script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "The Arch Consulting",
+      "url": "https://thearch.consulting",
+      "logo": "https://thearch.consulting/favicon.svg",
+      "description": "Votre partenaire Web3 complet. 3 experts fondateurs pour la stratégie + un réseau de spécialistes pour l'exécution.",
+      "foundingDate": "2024",
+      "founders": [
+        {
+          "@type": "Person",
+          "name": "Antoine",
+          "jobTitle": "Tech & Architecture",
+          "url": "https://www.linkedin.com/in/antoinesrvt/"
+        },
+        {
+          "@type": "Person", 
+          "name": "Aaron",
+          "jobTitle": "Finance & Tokenomics"
+        },
+        {
+          "@type": "Person",
+          "name": "Samir", 
+          "jobTitle": "Marketing & Communauté",
+          "url": "https://www.linkedin.com/in/tsamir/"
+        }
+      ],
+      "sameAs": [
+        "https://x.com/jointhearch",
+        "https://www.linkedin.com/company/jointhearch/",
+        "https://www.youtube.com/@jointhearch",
+        "https://discord.gg/ftK2fnaHa9"
+      ],
+      "serviceType": "Web3 Consulting",
+      "areaServed": "Worldwide",
+      "knowsAbout": [
+        "Blockchain Technology",
+        "Smart Contracts",
+        "DeFi",
+        "Tokenomics",
+        "Web3 Marketing",
+        "Community Building",
+        "Technical Architecture"
+      ]
+    }
+    </script>
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/assets/css/main.css">
@@ -440,13 +593,52 @@ const { title, description, lang = "fr" } = Astro.props;
 
     <slot />
     
-    <!-- Scripts - Optimized loading -->
-    <script defer src="/assets/js/data/translations.js"></script>
-    <script defer src="/assets/js/data/case-studies.js"></script>
-    <script defer src="/assets/js/modules/translations.js"></script>
-    <script defer src="/assets/js/modules/animations.js"></script>
-    <script defer src="/assets/js/modules/three-scene.js"></script>
-    <script defer src="/assets/js/modules/modal.js"></script>
-    <script type="module" defer src="/assets/js/main.js"></script>
+    <!-- External Libraries - Load with async for better performance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" async></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" async></script>
+    
+    <!-- Data for client-side scripts -->
+    <script>
+      // Make translation data available globally
+      window.TranslationsData = {
+        fr: {
+          // French translations will be injected by Astro
+        },
+        en: {
+          // English translations will be injected by Astro
+        }
+      };
+      
+      // Make case studies data available globally
+      window.CaseStudiesData = {
+        fr: {
+          architech: {
+            title: "Architech - Plateforme SaaS de Gestion de Projets",
+            challenge: "Architech avait besoin d'une solution complète pour gérer leurs projets de développement logiciel avec une équipe distribuée.",
+            solution: "Nous avons développé une plateforme SaaS complète avec gestion des tâches, suivi du temps, collaboration en temps réel et rapports avancés.",
+            results: [
+              { value: "40%", label: "Réduction du temps de gestion" },
+              { value: "85%", label: "Satisfaction client" },
+              { value: "200%", label: "Augmentation de la productivité" }
+            ]
+          }
+        },
+        en: {
+          architech: {
+            title: "Architech - SaaS Project Management Platform",
+            challenge: "Architech needed a comprehensive solution to manage their software development projects with a distributed team.",
+            solution: "We developed a complete SaaS platform with task management, time tracking, real-time collaboration, and advanced reporting.",
+            results: [
+              { value: "40%", label: "Reduction in management time" },
+              { value: "85%", label: "Client satisfaction" },
+              { value: "200%", label: "Productivity increase" }
+            ]
+          }
+        }
+      };
+    </script>
+    
 </body>
 </html>

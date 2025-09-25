@@ -14,10 +14,7 @@ export const ui = {
     "nav.founders": "Fondateurs",
     "nav.network": "Réseau",
     "nav.media": "Média",
-    "nav.philosophy": "Philosophie",
-    "nav.expertises": "Expertises",
     "nav.case-studies": "Études de Cas",
-    "nav.ecosystem": "Écosystème",
     "nav.contact": "Contact",
 
     // Hero Section
@@ -119,6 +116,20 @@ export const ui = {
     "media.twitch": "Twitch Live",
     "media.blog": "Blog & Analyses",
     "media.events": "Événements & Networking",
+    "media.members": "membres",
+    "media.discord.desc": "Communauté active pour échanger, apprendre et réseauter",
+    "media.twitter.desc": "Insights quotidiens sur l'écosystème Web3",
+    "media.youtube.desc": "Tutoriels, analyses et lives éducatifs",
+    "media.twitch.desc": "Lives interactifs et discussions Web3",
+    "media.blog.desc": "Analyses approfondies et guides pratiques",
+    "media.events.desc": "Conférences, meetups et événements communautaires",
+    "media.join": "Rejoindre",
+    "media.follow": "Suivre",
+    "media.watch": "Regarder",
+    "media.read": "Lire",
+    "media.discover": "Découvrir",
+    "media.total.community": "Communauté totale",
+    "media.active.content": "Contenu actif",
 
     // Mid CTA
     "cta.mid.title": "Une question ? Un projet ?",
@@ -186,10 +197,7 @@ export const ui = {
     "nav.founders": "Founders",
     "nav.network": "Network",
     "nav.media": "Media",
-    "nav.philosophy": "Philosophy",
-    "nav.expertises": "Expertise",
     "nav.case-studies": "Case Studies",
-    "nav.ecosystem": "Ecosystem",
     "nav.contact": "Contact",
 
     // Hero Section
@@ -289,6 +297,20 @@ export const ui = {
     "media.twitch": "Twitch Live",
     "media.blog": "Blog & Analysis",
     "media.events": "Events & Networking",
+    "media.members": "members",
+    "media.discord.desc": "Active community to exchange, learn and network",
+    "media.twitter.desc": "Daily insights on the Web3 ecosystem",
+    "media.youtube.desc": "Tutorials, analysis and educational live streams",
+    "media.twitch.desc": "Interactive live streams and Web3 discussions",
+    "media.blog.desc": "In-depth analysis and practical guides",
+    "media.events.desc": "Conferences, meetups and community events",
+    "media.join": "Join",
+    "media.follow": "Follow",
+    "media.watch": "Watch",
+    "media.read": "Read",
+    "media.discover": "Discover",
+    "media.total.community": "Total community",
+    "media.active.content": "Active content",
 
     // Mid CTA
     "cta.mid.title": "A question? A project?",

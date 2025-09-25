@@ -1,0 +1,64 @@
+---
+// Client-side scripts component using Astro's proper approach
+import { AppManager } from '../scripts/app-manager';
+import type { AppConfig } from '../scripts/types';
+
+export interface Props {
+  currentLang: 'fr' | 'en';
+}
+
+const { currentLang } = Astro.props;
+
+// Configuration for the app
+const appConfig: AppConfig = {
+  language: {
+    currentLang,
+    availableLanguages: [
+      { code: 'fr', name: 'Français', flag: '🇫🇷' },
+      { code: 'en', name: 'English', flag: '🇬🇧' }
+    ]
+  },
+  navigation: {
+    smoothScroll: true,
+    offset: -80,
+    duration: 1.2
+  },
+  animations: {
+    floatingCards: true,
+    scrollAnimations: true,
+    reducedMotion: false
+  }
+};
+---
+
+<!-- This component handles all client-side functionality -->
+<script>
+  import { AppManager } from '../scripts/app-manager';
+  
+  // Initialize the app when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentLang = '${currentLang}' as 'fr' | 'en';
+    
+    const app = new AppManager({
+      language: {
+        currentLang,
+        availableLanguages: [
+          { code: 'fr', name: 'Français', flag: '🇫🇷' },
+          { code: 'en', name: 'English', flag: '🇬🇧' }
+        ]
+      },
+      navigation: {
+        smoothScroll: true,
+        offset: -80,
+        duration: 1.2
+      },
+      animations: {
+        floatingCards: true,
+        scrollAnimations: true,
+        reducedMotion: false
+      }
+    });
+    
+    app.init();
+  });
+</script>

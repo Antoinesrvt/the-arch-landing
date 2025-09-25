@@ -7,8 +7,10 @@ import Services from '../../components/Services.astro';
 import Founders from '../../components/Founders.astro';
 import Network from '../../components/Network.astro';
 import MediaCommunity from '../../components/MediaCommunity.astro';
+import CaseStudies from '../../components/CaseStudies.astro';
 import Contact from '../../components/Contact.astro';
 import Footer from '../../components/Footer.astro';
+import ClientScripts from '../../components/ClientScripts.astro';
 import { useTranslations, getStaticPaths } from '../../i18n/utils';
 
 export { getStaticPaths };
@@ -32,8 +34,12 @@ const t = useTranslations(lang as any);
     <Founders lang={lang} />
     <Network lang={lang} />
     <MediaCommunity lang={lang} />
+    <CaseStudies lang={lang} />
     <Contact lang={lang} />
   </main>
 
   <Footer lang={lang} />
+  
+  <!-- Client-side scripts using proper Astro + TypeScript approach -->
+  <ClientScripts currentLang={lang as 'fr' | 'en'} />
 </I18nLayout>
