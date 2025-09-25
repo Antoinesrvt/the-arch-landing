@@ -3,37 +3,71 @@
 ---
 
 <!-- Hero Section -->
-<section id="hero-section" class="relative overflow-hidden min-h-screen" aria-labelledby="hero-title">
-    <!-- Mobile Background 3D Scene -->
-    <div id="hero-canvas-mobile" class="lg:hidden absolute inset-0 w-full h-full" aria-hidden="true">
-        <canvas id="hero-canvas-mobile-canvas" class="w-full h-full"></canvas>
-    </div>
-    
-    <!-- Desktop Layout Container -->
-    <div class="container mx-auto px-6 min-h-screen">
-        <div class="flex flex-col lg:flex-row items-center min-h-screen">
-            <!-- Left Side: Text Content -->
-            <div class="w-full lg:w-1/2 lg:pr-8 hero-content text-center lg:text-left">
-                <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tighter" style="text-shadow: 0 2px 20px rgba(0,0,0,0.8);">
-                  L'architecture de votre succès en Web3
-                </h1>
-                <p class="mt-6 text-lg md:text-xl text-secondary-text" style="text-shadow: 0 1px 10px rgba(0,0,0,0.7);">
-                  Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.
-                </p>
-                <div class="mt-10 flex justify-center lg:justify-start items-center gap-4" style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;">
-                    <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-4 rounded-lg animated-button text-sm" style="white-space: nowrap; flex-shrink: 0; display: inline-block;">
-                        Planifier un appel
-                    </a>
-                    <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-4 rounded-lg btn-secondary-animated text-sm" style="white-space: nowrap; flex-shrink: 0; display: inline-block;">
-                        Nous écrire
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Right Side: 3D Scene -->
-            <div id="hero-canvas-container" class="hidden lg:block w-1/2 h-full lg:pl-8" aria-hidden="true">
-                <canvas id="hero-canvas" class="w-full h-full"></canvas>
-            </div>
+<section
+  id="hero-section"
+  class="relative overflow-hidden min-h-screen"
+  aria-labelledby="hero-title"
+>
+  <!-- Mobile Background 3D Scene -->
+  <div
+    id="hero-canvas-mobile"
+    class="lg:hidden absolute inset-0 w-full h-full"
+    aria-hidden="true"
+  >
+    <canvas id="hero-canvas-mobile-canvas" class="w-full h-full"></canvas>
+  </div>
+
+  <!-- Desktop Layout Container -->
+  <div class="container mx-auto px-6 min-h-screen">
+    <div class="flex flex-col lg:flex-row items-center min-h-screen">
+      <!-- Left Side: Text Content -->
+      <div
+        class="w-full lg:w-1/2 lg:pr-8 hero-content text-center lg:text-left"
+      >
+        <h1
+          id="hero-title"
+          class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tighter"
+          style="text-shadow: 0 2px 20px rgba(0,0,0,0.8);"
+        >
+          Votre Partenaire Web3 Complet
+        </h1>
+        <p
+          class="mt-6 text-lg md:text-xl text-secondary-text"
+          style="text-shadow: 0 1px 10px rgba(0,0,0,0.7);"
+        >
+          3 experts fondateurs pour la stratégie + un réseau de spécialistes pour l'exécution. 
+          De la vision à la réalisation, nous orchestrons votre succès Web3.
+        </p>
+
+        <div
+          class="mt-10 flex justify-center lg:justify-start items-center gap-4"
+          style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;"
+        >
+          <a
+            href="#approach"
+            class="bg-white text-gray-900 font-semibold py-3 px-4 rounded-lg animated-button text-sm"
+            style="white-space: nowrap; flex-shrink: 0; display: inline-block;"
+          >
+            Découvrir notre approche
+          </a>
+          <a
+            href="#media"
+            class="border border-white/50 text-white font-semibold py-3 px-4 rounded-lg btn-secondary-animated text-sm"
+            style="white-space: nowrap; flex-shrink: 0; display: inline-block;"
+          >
+            Voir notre média
+          </a>
         </div>
+      </div>
+
+      <!-- Right Side: 3D Scene -->
+      <div
+        id="hero-canvas-container"
+        class="hidden lg:block w-1/2 h-full lg:pl-8"
+        aria-hidden="true"
+      >
+        <canvas id="hero-canvas" class="w-full h-full"></canvas>
+      </div>
     </div>
+  </div>
 </section>

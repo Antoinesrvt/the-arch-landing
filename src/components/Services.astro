@@ -20,9 +20,9 @@ const t = useTranslations(lang as any);
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       <!-- Tech Service Card -->
-      <article class="glass-card p-8 rounded-2xl animate-card">
+      <article class="glass-card p-8 rounded-2xl animate-card group hover:scale-105 transition-transform">
         <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-indigo-500/10 mb-6 border border-indigo-500/30" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
             <path d="m18 16 4-4-4-4"/>
@@ -31,26 +31,66 @@ const t = useTranslations(lang as any);
           </svg>
         </div>
         <h3 class="text-2xl font-bold text-white mb-3">{t('service1.title')}</h3>
-        <p class="text-secondary-text">
+        <p class="text-secondary-text mb-4">
           {t('service1.desc')}
         </p>
+        <div class="space-y-2">
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Smart contracts & audits
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Blockchain architecture
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Gas fees optimization
+          </div>
+        </div>
       </article>
 
       <!-- Finance Service Card -->
-      <article class="glass-card p-8 rounded-2xl animate-card">
+      <article class="glass-card p-8 rounded-2xl animate-card group hover:scale-105 transition-transform">
         <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-green-500/10 mb-6 border border-green-500/30" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
           </svg>
         </div>
         <h3 class="text-2xl font-bold text-white mb-3">{t('service2.title')}</h3>
-        <p class="text-secondary-text">
+        <p class="text-secondary-text mb-4">
           {t('service2.desc')}
         </p>
+        <div class="space-y-2">
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Sustainable economic models
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Fundraising strategy
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Regulatory compliance
+          </div>
+        </div>
       </article>
 
-      <!-- Reach Service Card -->
-      <article class="glass-card p-8 rounded-2xl animate-card">
+      <!-- Marketing Service Card -->
+      <article class="glass-card p-8 rounded-2xl animate-card group hover:scale-105 transition-transform">
         <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-purple-500/10 mb-6 border border-purple-500/30" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -60,9 +100,62 @@ const t = useTranslations(lang as any);
           </svg>
         </div>
         <h3 class="text-2xl font-bold text-white mb-3">{t('service3.title')}</h3>
-        <p class="text-secondary-text">
+        <p class="text-secondary-text mb-4">
           {t('service3.desc')}
         </p>
+        <div class="space-y-2">
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Community building
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Growth strategies
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Media amplification
+          </div>
+        </div>
+      </article>
+
+      <!-- Strategy Service Card -->
+      <article class="glass-card p-8 rounded-2xl animate-card group hover:scale-105 transition-transform">
+        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-orange-500/10 mb-6 border border-orange-500/30" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3">{t('service4.title')}</h3>
+        <p class="text-secondary-text mb-4">
+          {t('service4.desc')}
+        </p>
+        <div class="space-y-2">
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Global strategic vision
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Expert coordination
+          </div>
+          <div class="flex items-center text-sm text-secondary-text">
+            <svg class="w-4 h-4 mr-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Project management
+          </div>
+        </div>
       </article>
     </div>
   </div>
