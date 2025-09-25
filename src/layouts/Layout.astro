@@ -1,4 +1,8 @@
 ---
+import '../styles/globals.css';
+import '../styles/components.css';
+import '../styles/animations.css';
+
 export interface Props {
   title: string;
   description: string;
@@ -580,10 +584,6 @@ const { title, description, lang = "fr" } = Astro.props;
     }
     </script>
     
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/components.css">
-    <link rel="stylesheet" href="/assets/css/animations.css">
 </head>
 <body class="antialiased">
     <!-- Skip to main content for accessibility -->
