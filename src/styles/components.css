@@ -10,7 +10,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
-  transition: transform var(--transition-slow), background var(--transition-slow);
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 /* Fallback for browsers that don't support backdrop-filter */

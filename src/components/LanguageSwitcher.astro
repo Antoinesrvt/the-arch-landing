@@ -1,0 +1,33 @@
+---
+// Language Switcher Component
+export interface Props {
+  currentLang?: 'fr' | 'en';
+}
+
+const { currentLang = 'fr' } = Astro.props;
+
+// Get current path and construct alternate path
+const currentPath = Astro.url.pathname;
+const alternateLang = currentLang === 'fr' ? 'en' : 'fr';
+
+// Construct the alternate URL
+let alternateUrl: string;
+if (currentPath === '/' || currentPath === '/fr' || currentPath === '/fr/') {
+  alternateUrl = `/${alternateLang}`;
+} else if (currentPath.startsWith(`/${currentLang}/`)) {
+  alternateUrl = currentPath.replace(`/${currentLang}/`, `/${alternateLang}/`);
+} else if (currentPath.startsWith(`/${alternateLang}/`)) {
+  alternateUrl = currentPath;
+} else {
+  alternateUrl = `/${alternateLang}`;
+}
+---
+
+<a 
+  href={alternateUrl}
+  class="inline-flex items-center gap-2 px-2 py-1 text-sm font-semibold border border-white/20 rounded-xl text-white hover:border-purple-500/50 hover:bg-white/5 transition-all duration-300"
+  aria-label={currentLang === 'fr' ? 'Switch to English' : 'Passer en français'}
+>
+  <span class="text-lg">{currentLang === 'fr' ? '🇬🇧' : '🇫🇷'}</span>
+  <span>{currentLang === 'fr' ? 'EN' : 'FR'}</span>
+</a>

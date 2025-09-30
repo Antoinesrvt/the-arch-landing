@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Arch Consulting - Stratégie & Conseil Web3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <style>
+        :root {
+            --background-start: #0A0F19;
+            --background-end: #111827;
+            --primary-text: #F0F2F5;
+            --secondary-text: #A8B2C7;
+            --accent-purple: #8A70D6;
+            --accent-purple-deep: #3730a3; /* Darker purple */
+            --accent-green: #34D399;
+            --accent-indigo: #818CF8;
+            --accent-glow: rgba(138, 112, 214, 0.5);
+            --twilight-blue: #1E293B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-start);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(138, 112, 214, 0.1), transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(59, 130, 246, 0.1), transparent 40%),
+                linear-gradient(180deg, var(--background-start) 0%, var(--background-end) 100%);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        .font-playfair { 
+            font-family: 'Playfair Display', serif; 
+        }
+        
+        main > section {
+            position: relative;
+            z-index: 20;
+        }
+        
+        #hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        #hero-canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
+            outline: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, background 0.4s ease;
+        }
+        
+        .glass-card::after { /* The glow effect */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(138, 112, 214, 0.2), transparent 40%);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .glass-card:hover::after {
+            opacity: 1;
+        }
+        
+        .glass-card.founder-card:hover, .glass-card.realisation-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            background: rgba(30, 41, 59, 0.7);
+        }
+        
+        /* --- Button Animations --- */
+        @property --angle {
+          syntax: '<angle>';
+          initial-value: 0deg;
+          inherits: false;
+        }
+
+        .animated-button {
+            position: relative;
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+            will-change: transform;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .animated-button::before { /* Aurora border */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            background: conic-gradient(from var(--angle), transparent 0%, var(--accent-purple) 50%, transparent 100%);
+            border-radius: inherit;
+            z-index: -1;
+            animation: spin 4s linear infinite;
+        }
+
+        .animated-button::after { /* Inner background */
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            background: #fff; /* Match button background */
+            border-radius: 0.375rem; /* Tailwind's rounded-lg */
+            z-index: -1;
+        }
+
+        .animated-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 30px var(--accent-glow);
+        }
+        .animated-button:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary-animated {
+            transition: transform 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out, color 0.2s ease-out;
+            will-change: transform;
+        }
+        .btn-secondary-animated:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            color: var(--primary-text);
+        }
+        .btn-secondary-animated:active {
+            transform: translateY(1px);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        @keyframes spin {
+          to {
+            --angle: 360deg;
+          }
+        }
+        /* --- End Button Animations --- */
+        
+        #ecosystem-container {
+            position: relative;
+            height: 350px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .partner-tag {
+            background: var(--twilight-blue);
+            border: 1px solid rgba(138, 112, 214, 0.3);
+            color: var(--primary-text);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        
+        .partner-tag:hover {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--accent-glow);
+            z-index: 10;
+        }
+
+        #ecosystem-container .partner-tag {
+            position: absolute;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        #ecosystem-container .partner-tag:hover {
+            animation-play-state: paused;
+        }
+
+        #ecosystem-container .partner-tag:nth-child(1) { top: 5%; left: 40%; animation-delay: 0s; }
+        #ecosystem-container .partner-tag:nth-child(2) { top: 30%; left: 75%; animation-delay: -2s; }
+        #ecosystem-container .partner-tag:nth-child(3) { top: 70%; left: 65%; animation-delay: -4s; }
+        #ecosystem-container .partner-tag:nth-child(4) { top: 80%; left: 25%; animation-delay: -6s; }
+        #ecosystem-container .partner-tag:nth-child(5) { top: 60%; left: 0%; animation-delay: -8s; }
+        #ecosystem-container .partner-tag:nth-child(6) { top: 20%; left: 5%; animation-delay: -10s; }
+        
+        @keyframes float {
+            0% { transform: translate(0px, 0px); }
+            25% { transform: translate(10px, 15px); }
+            50% { transform: translate(-10px, -5px); }
+            75% { transform: translate(5px, -15px); }
+            100% { transform: translate(0px, 0px); }
+        }
+        
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animated-gradient {
+            background-size: 200% 200% !important;
+            animation: gradient-animation 10s ease infinite;
+        }
+
+        /* LinkedIn Button */
+        .linkedin-btn {
+            position: absolute;
+            top: 1.5rem; /* 24px */
+            right: 1.5rem; /* 24px */
+            color: var(--secondary-text);
+            padding: 0.5rem; /* 8px */
+            border-radius: 9999px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            z-index: 30;
+        }
+        .linkedin-btn:hover {
+            color: var(--primary-text);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .realisation-tag {
+            background: rgba(138, 112, 214, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(138, 112, 214, 0.3);
+        }
+        
+        /* Case Study Modal */
+        #case-study-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #case-study-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #case-study-modal {
+            background: var(--background-end);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s ease-in-out;
+        }
+        #case-study-modal-overlay.active #case-study-modal {
+            transform: scale(1) translateY(0);
+        }
+        #close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: var(--secondary-text);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        #close-modal-btn:hover {
+            color: var(--primary-text);
+        }
+
+        /* Expertise Section Tabs */
+        .expertise-tabs {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .expertise-tab {
+            position: relative;
+            color: var(--secondary-text);
+            transition: color 0.3s ease;
+        }
+        .expertise-tab.active {
+            color: var(--primary-text);
+        }
+        .expertise-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--accent-purple);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .expertise-tab.active::after {
+            transform: scaleX(1);
+        }
+        .expertise-content {
+            display: none;
+        }
+        .expertise-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .expertise-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem; /* 12px */
+        }
+        .expertise-list-item svg {
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-opacity-50 bg-clip-padding backdrop-filter backdrop-blur-xl border-b border-white/10">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="flex items-center space-x-3">
+                    <svg width="32" height="32" viewBox="0 0 2271 2271" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-white">
+                        <path d="M1136.85 795.358C873.646 795.358 660.433 1007.61 660.433 1269.23V1562.66H575.861V1269.23C575.861 960.864 827.112 711.039 1136.85 711.039C1446.59 711.039 1697.84 960.864 1697.84 1269.23V1562.66H1613.27V1269.23C1613.27 1007.61 1400.06 795.358 1136.85 795.358Z" fill="currentColor"/>
+                        <path d="M1139.67 1132.64C1061.7 1132.64 998.719 1195.42 998.719 1272.61V1562.66H914.147V1272.61C914.147 1148.61 1015.24 1048.32 1139.67 1048.32C1264.1 1048.32 1365.2 1148.61 1365.2 1272.61V1562.66H1280.62V1272.61C1280.62 1195.42 1217.64 1132.64 1139.67 1132.64Z" fill="currentColor"/>
+                        <path d="M829.576 1273.45C829.576 1102.51 968.442 963.997 1139.67 963.997C1310.9 963.997 1449.77 1102.51 1449.77 1273.45V1562.66H1534.34V1273.45C1534.34 1056.01 1357.67 879.678 1139.67 879.678C921.671 879.678 745.004 1056.01 745.004 1273.45V1562.66H829.576V1273.45Z" fill="currentColor"/>
+                    </svg>
+                    <span class="text-2xl font-bold text-white">The Arch</span>
+                </a>
+                <div class="flex items-center">
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="#services" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_services">Services</a>
+                        <a href="#philosophie" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_philosophy">Philosophie</a>
+                        <a href="#expertises" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_expertises">Expertises</a>
+                        <a href="#realisations" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_case_studies">Études de Cas</a>
+                        <a href="#ecosysteme" class="nav-link text-gray-300 hover:text-white transition-colors" data-lang-key="nav_ecosystem">Écosystème</a>
+                    </nav>
+                    <button id="lang-switch" class="ml-8 text-sm font-semibold border border-white/50 rounded-full px-3 py-1 text-secondary-text hover:text-white hover:border-white transition-colors">EN</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero-section" class="relative overflow-hidden">
+            <div id="hero-canvas-container">
+                <canvas id="hero-canvas"></canvas>
+            </div>
+            <div class="container mx-auto px-6 hero-content flex items-center h-full">
+                <div class="text-center lg:text-left max-w-2xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tighter" style="text-shadow: 0 2px 20px rgba(0,0,0,0.8);" data-lang-key="hero_title">L'architecture de votre succès en Web3</h1>
+                    <p class="mt-6 text-lg md:text-xl text-secondary-text" style="text-shadow: 0 1px 10px rgba(0,0,0,0.7);" data-lang-key="hero_subtitle">Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.</p>
+                    <div class="mt-10 flex justify-center lg:justify-start items-center space-x-4">
+                        <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg animated-button" data-lang-key="hero_cta1">Planifier un appel</a>
+                        <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg btn-secondary-animated" data-lang-key="hero_cta2">Nous écrire</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 animate-title">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="services_title"><span class="font-playfair">Une offre</span> de services <i class="font-playfair">360°</i></h2>
+                    <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto" data-lang-key="services_subtitle">Nous couvrons l'ensemble du cycle de vie de votre projet Web3.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Tech Service Card -->
+                    <div class="glass-card p-8 rounded-2xl animate-card">
+                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-indigo-500/10 mb-6 border border-indigo-500/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="service1_title">Tech & Sécurité</h3>
+                        <p class="text-secondary-text" data-lang-key="service1_desc">Architecture de solutions blockchain, développement et audit de smart contracts, optimisation des performances et des coûts (gas fees).</p>
+                    </div>
+
+                    <!-- Finance Service Card -->
+                    <div class="glass-card p-8 rounded-2xl animate-card">
+                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-green-500/10 mb-6 border border-green-500/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="service2_title">Finance & Tokenomics</h3>
+                        <p class="text-secondary-text" data-lang-key="service2_desc">Conception de modèles économiques durables, stratégie de levée de fonds (IDO, private rounds), listing sur exchanges et conformité réglementaire.</p>
+                    </div>
+
+                    <!-- Reach Service Card -->
+                    <div class="glass-card p-8 rounded-2xl animate-card">
+                        <div class="flex items-center justify-center h-14 w-14 rounded-xl bg-purple-500/10 mb-6 border border-purple-500/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="service3_title">Marketing & Croissance</h3>
+                        <p class="text-secondary-text" data-lang-key="service3_desc">Stratégies de croissance et d'engagement, community building, marketing et PR, amplifiés par notre propre plateforme média.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Philosophy Section -->
+        <section id="philosophie" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 animate-title">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="philosophy_title"><span class="font-playfair">Notre Philosophie :</span> Du Concept au <i class="font-playfair">Succès Commercial</i></h2>
+                    <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="philosophy_subtitle">Notre mission : transformer la complexité du Web3 en opportunités commerciales. Nous vous donnons les clés pour innover, sécuriser votre projet et assurer sa croissance.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <!-- Benefit 1 -->
+                    <div class="animate-card p-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-green-500/10 mb-6 mx-auto border border-green-500/30">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2" data-lang-key="benefit1_title">Transformer l'Idée en Projet Rentable</h3>
+                        <p class="text-secondary-text" data-lang-key="benefit1_desc">Nous ne construisons pas seulement de la technologie. Nous créons des modèles économiques viables et des stratégies de monétisation qui assurent la pérennité de votre vision.</p>
+                    </div>
+                    <!-- Benefit 2 -->
+                    <div class="animate-card p-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-500/10 mb-6 mx-auto border border-indigo-500/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2" data-lang-key="benefit2_title">Sécuriser Vos Actifs Numériques</h3>
+                        <p class="text-secondary-text" data-lang-key="benefit2_desc">Dans un monde décentralisé, la confiance est primordiale. Nos audits rigoureux et notre architecture sécurisée protègent votre projet, vos utilisateurs et votre réputation.</p>
+                    </div>
+                    <!-- Benefit 3 -->
+                    <div class="animate-card p-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-500/10 mb-6 mx-auto border border-purple-500/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2" data-lang-key="benefit3_title">Créer une Communauté Engagée et Fidèle</h3>
+                        <p class="text-secondary-text" data-lang-key="benefit3_desc">Un projet ne vit que par sa communauté. Nous déployons des stratégies authentiques pour attirer, engager et transformer vos utilisateurs en véritables ambassadeurs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Founders Section -->
+        <section id="founders" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 animate-title">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="approach_title"><span class="font-playfair">Dirigé par</span> des Fondateurs <i class="font-playfair">Experts</i></h2>
+                    <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="approach_subtitle">Notre force réside dans la synergie. Stratégie technique, modèle financier et plan marketing sont unifiés dès le premier jour pour une cohérence absolue.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Antoine Card -->
+                    <div class="glass-card founder-card p-8 rounded-2xl flex flex-col animate-card">
+                        <a href="https://www.linkedin.com/in/antoinesrvt/" target="_blank" rel="noopener noreferrer" class="linkedin-btn" aria-label="Profil LinkedIn d'Antoine">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <div class="flex items-center mb-4">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQGbMOPlZjlTwQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1695129836511?e=1756944000&v=beta&t=49yf0hPlB221BQuninTKfv-xROUsYoZwUbRB8iOkJyw" alt="Antoine" class="w-20 h-20 rounded-full border-2 border-indigo-400/50 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1E293B/F0F2F5?text=A';">
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-white">Antoine</h4>
+                                <p class="text-indigo-400 font-semibold" data-lang-key="antoine_role">Tech & Architecture</p>
+                            </div>
+                        </div>
+                        <p class="text-secondary-text flex-grow" data-lang-key="antoine_desc">Architecte de solutions blockchain, expert en sécurité des smart contracts et en optimisation des performances. Antoine assure que votre projet est construit sur des bases techniques inébranlables.</p>
+                    </div>
+                    <!-- Random Card -->
+                    <div class="glass-card founder-card p-8 rounded-2xl flex flex-col animate-card">
+                         <div class="flex items-center mb-4">
+                            <div class="w-20 h-20 rounded-full border-2 border-green-400/50 bg-slate-800 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-white">Random</h4>
+                                <p class="text-green-400 font-semibold" data-lang-key="aaron_role">Finance & Tokenomics</p>
+                            </div>
+                        </div>
+                        <p class="text-secondary-text flex-grow" data-lang-key="aaron_desc">Spécialiste de la finance décentralisée (DeFi), de la modélisation de tokenomics et de la stratégie de levée de fonds. Il conçoit l'épine dorsale économique de votre écosystème.</p>
+                    </div>
+                    <!-- Samir Card -->
+                    <div class="glass-card founder-card p-8 rounded-2xl flex flex-col animate-card">
+                        <a href="https://www.linkedin.com/in/tsamir/" target="_blank" rel="noopener noreferrer" class="linkedin-btn" aria-label="Profil LinkedIn de Samir">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                         <div class="flex items-center mb-4">
+                            <img src="https://media.licdn.com/dms/image/v2/D4E03AQH9Vx1L0Kq3ag/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1731933057965?e=1756944000&v=beta&t=I3GctbQ-eINCOXtcWZNfWeAWDNGk8tGW4clH0tji_uM" alt="Samir" class="w-20 h-20 rounded-full border-2 border-purple-400/50 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/80x80/1E293B/F0F2F5?text=S';">
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold text-white">Samir</h4>
+                                <p class="text-purple-400 font-semibold" data-lang-key="samir_role">Marketing & Communauté</p>
+                            </div>
+                        </div>
+                        <p class="text-secondary-text flex-grow" data-lang-key="samir_desc">Expert en stratégies de contenu et en gestion de communautés à grande échelle (+30 000 membres). Samir bâtit et engage l'audience qui portera votre projet vers le succès.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mid CTA Section -->
+        <section class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="glass-card rounded-2xl p-10 animate-fade-in">
+                     <h2 class="text-3xl font-bold text-white mb-4" data-lang-key="cta_mid_title">Une question ? Un projet ?</h2>
+                     <p class="text-secondary-text max-w-2xl mx-auto mb-8" data-lang-key="cta_mid_subtitle">Notre équipe est prête à échanger avec vous. Contactez-nous pour concrétiser votre vision.</p>
+                     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg inline-block w-full sm:w-auto animated-button" data-lang-key="contact_cta1">
+                            Planifier un appel
+                        </a>
+                         <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated" data-lang-key="contact_cta2">
+                            Nous envoyer un message
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Expertises Section -->
+        <section id="expertises" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 animate-title">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="expertises_title"><span class="font-playfair">Nos</span> Expertises <i class="font-playfair">Détaillées</i></h2>
+                    <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="expertises_subtitle">Une vision 360° portée par quatre pôles de compétences stratégiques.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-2 md:p-4 animate-fade-in">
+                    <!-- Tabs -->
+                    <div class="expertise-tabs flex flex-wrap justify-center md:justify-start space-x-2 md:space-x-8 mb-8 px-4">
+                        <button class="expertise-tab active font-semibold py-3 px-2 md:px-4 text-base md:text-lg" data-tab="strategy">Stratégie & Conseil</button>
+                        <button class="expertise-tab font-semibold py-3 px-2 md:px-4 text-base md:text-lg" data-tab="finance">Finance & Tokenomics</button>
+                        <button class="expertise-tab font-semibold py-3 px-2 md:px-4 text-base md:text-lg" data-tab="tech">Tech & Sécurité</button>
+                        <button class="expertise-tab font-semibold py-3 px-2 md:px-4 text-base md:text-lg" data-tab="marketing">Marketing & Croissance</button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="p-4 md:p-8">
+                        <!-- Strategy Content -->
+                        <div id="tab-strategy" class="expertise-content active">
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                        <!-- Finance Content -->
+                        <div id="tab-finance" class="expertise-content">
+                             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                        <!-- Tech Content -->
+                        <div id="tab-tech" class="expertise-content">
+                            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                        <!-- Marketing Content -->
+                        <div id="tab-marketing" class="expertise-content">
+                             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                                <!-- Will be populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies Section -->
+        <section id="realisations" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 animate-title">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="realisations_title"><span class="font-playfair">Nos Études</span> de <i class="font-playfair">Cas</i></h2>
+                    <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="realisations_subtitle">Découvrez comment nous avons transformé les défis de nos clients en succès mesurables.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Case Study 1: The Architech -->
+                    <div class="glass-card realisation-card p-8 rounded-2xl flex flex-col animate-card">
+                        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="realisation1_title">The Architech</h3>
+                        <p class="text-secondary-text flex-grow mb-6" data-lang-key="realisation1_desc">Co-fondation d'une plateforme SaaS pour générer des fondations de projets logiciels de qualité professionnelle en quelques minutes.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_saas">SaaS</span>
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_devtool">Outil Développeur</span>
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_startup">Startup</span>
+                        </div>
+                        <button class="mt-auto self-start border border-white/50 text-white font-semibold py-2 px-6 rounded-lg btn-secondary-animated case-study-btn" data-case-study="architech" data-lang-key="view_case_study_btn">Voir l'étude de cas</button>
+                    </div>
+
+                    <!-- Case Study 2: Ago DeFi -->
+                    <div class="glass-card realisation-card p-8 rounded-2xl flex flex-col animate-card">
+                        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="realisation2_title">Ago DeFi</h3>
+                        <p class="text-secondary-text flex-grow mb-6" data-lang-key="realisation2_desc">Gestion et animation d'une communauté de +30 000 membres pour une plateforme de finance décentralisée.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_defi">DeFi</span>
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_community">Communauté</span>
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_marketing">Marketing</span>
+                        </div>
+                        <button class="mt-auto self-start border border-white/50 text-white font-semibold py-2 px-6 rounded-lg btn-secondary-animated case-study-btn" data-case-study="agodefi" data-lang-key="view_case_study_btn">Voir l'étude de cas</button>
+                    </div>
+
+                    <!-- Case Study 4: Hashguard -->
+                     <div class="glass-card realisation-card p-8 rounded-2xl flex flex-col animate-card">
+                        <h3 class="text-2xl font-bold text-white mb-3" data-lang-key="realisation4_title">Hashguard</h3>
+                        <p class="text-secondary-text flex-grow mb-6" data-lang-key="realisation4_desc">Direction technique (CTO) et développement d'un POC pour un projet innovant, de la R&D à la mise en production.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_cto">CTO as a service</span>
+                            <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_poc">POC</span>
+                             <span class="realisation-tag text-xs font-semibold py-1 px-3 rounded-full" data-lang-key="tag_fullstack">Fullstack</span>
+                        </div>
+                        <button class="mt-auto self-start border border-white/50 text-white font-semibold py-2 px-6 rounded-lg btn-secondary-animated case-study-btn" data-case-study="hashguard" data-lang-key="view_case_study_btn">Voir l'étude de cas</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ecosystem Section -->
+        <section id="ecosysteme" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 animate-title">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="ecosystem_title"><span class="font-playfair">Un Écosystème</span> d'Experts à votre <i class="font-playfair">service</i></h2>
+                    <p class="mt-4 text-lg text-secondary-text max-w-3xl mx-auto" data-lang-key="ecosystem_subtitle">Nous avons pré-sélectionné et intégré un réseau de partenaires de premier plan pour couvrir tous les aspects de votre projet, de l'audit à la conformité.</p>
+                </div>
+                
+                <!-- Mobile View -->
+                <div class="lg:hidden flex flex-wrap justify-center items-center gap-4">
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner1">Fonds d'Investissement</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner2">Experts en Audit de Sécurité</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner3">Cabinets Juridiques</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner4">Protocoles Blockchain & L2s</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner5">Agences de Développement</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner6">Spécialistes UX/UI</div>
+                </div>
+                <!-- Desktop View -->
+                <div id="ecosystem-container" class="hidden lg:block">
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner1">Fonds d'Investissement</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner2">Experts en Audit de Sécurité</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner3">Cabinets Juridiques</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner4">Protocoles Blockchain & L2s</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner5">Agences de Développement</div>
+                    <div class="partner-tag font-medium py-2 px-5 rounded-full" data-lang-key="partner6">Spécialistes UX/UI</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="relative bg-gradient-to-r from-[#1E143E] to-[#142A4A] border border-white/10 rounded-2xl p-8 md:p-16 text-center overflow-hidden animate-fade-in animated-gradient">
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/20 rounded-full filter blur-3xl"></div>
+                    <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-500/20 rounded-full filter blur-3xl"></div>
+                    <div class="relative z-10">
+                        <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight" data-lang-key="contact_title"><span class="font-playfair">Prêt à construire</span> l'<i class="font-playfair">avenir</i> ?</h2>
+                        <p class="mt-4 text-lg text-secondary-text max-w-2xl mx-auto" data-lang-key="contact_subtitle">Discutons de votre projet. Planifiez un appel exploratoire gratuit avec nos fondateurs pour voir comment nous pouvons vous aider à atteindre vos objectifs.</p>
+                        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg inline-block w-full sm:w-auto animated-button" data-lang-key="contact_cta1">
+                                Planifier un appel
+                            </a>
+                             <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated" data-lang-key="contact_cta2">
+                                Nous envoyer un message
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://x.com/jointhearch" target="_blank" rel="noopener noreferrer" class="text-secondary-text hover:text-white transition-colors" aria-label="Profil X/Twitter de The Arch">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/company/jointhearch/" target="_blank" rel="noopener noreferrer" class="text-secondary-text hover:text-white transition-colors" aria-label="Page LinkedIn de The Arch">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="https://www.youtube.com/@jointhearch" target="_blank" rel="noopener noreferrer" class="text-secondary-text hover:text-white transition-colors" aria-label="Chaîne YouTube de The Arch">
+                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                </a>
+                <a href="https://discord.gg/ftK2fnaHa9" target="_blank" rel="noopener noreferrer" class="text-secondary-text hover:text-white transition-colors" aria-label="Serveur Discord de The Arch">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3847-.3973-.8742-.6083-1.2495a.0741.0741 0 0 0-.0785-.0371 19.7363 19.7363 0 0 0-4.8851 1.5152.0699.0699 0 0 0-.0337.0185c-3.5214 4.3187-4.4222 9.2312-2.5644 13.9219a.0699.0699 0 0 0 .0177.0337c.0148.0107.0316.0185.0465.0252a19.8619 19.8619 0 0 0 5.7682 1.5945.0741.0741 0 0 0 .0864-.0204c.314-.2323.5997-.4914.8254-.771.2256-.2797.4187-.5844.5704-.9095a.0741.0741 0 0 0-.0296-.0864 12.9386 12.9386 0 0 1-2.2482-.9504.0699.0699 0 0 1-.0216-.0444 13.6769 13.6769 0 0 1-.0337-.1666.0699.0699 0 0 1 .0406-.0785c.1732-.0864.3483-.1815.5215-.2819a.0741.0741 0 0 1 .0883-.0074c3.4763 1.5596 7.248 1.5596 10.6868 0a.0741.0741 0 0 1 .0883.0074c.1732.1004.3483.1955.5215.2819a.0699.0699 0 0 1 .0406.0785c-.002.0537-.0109.1074-.0337.1666a.0699.0699 0 0 1-.0216.0444 12.9386 12.9386 0 0 1-2.2482.9504.0741.0741 0 0 0-.0296.0864c.1517.3251.3448.6298.5704.9095.2256.2797.5114.5391.8254.771a.0741.0741 0 0 0 .0864.0204 19.8619 19.8619 0 0 0 5.7682-1.5945.0699.0699 0 0 0 .0465-.0252c.0148-.0087.0316-.0166.0177-.0337 1.8578-4.6907.957-9.6032-2.5644-13.9219a.0699.0699 0 0 0-.0337-.0185zM8.02 15.3312c-.7824 0-1.418-1.094-1.418-2.4431s.6356-2.4431 1.418-2.4431c.7824 0 1.418 1.094 1.418 2.4431.002.002-.002.002-.002.002s-1.418 2.4411-1.416 2.4411zm7.9748 0c-.7824 0-1.418-1.094-1.418-2.4431s.6356-2.4431 1.418-2.4431c.7824 0 1.418 1.094 1.418 2.4431s-.6356 2.4431-1.418 2.4431z"/></svg>
+                </a>
+            </div>
+            <p data-lang-key="footer_rights">&copy; 2025 The Arch Consulting. Tous droits réservés.</p>
+        </div>
+    </footer>
+    
+    <!-- Case Study Modal -->
+    <div id="case-study-modal-overlay">
+        <div id="case-study-modal">
+            <button id="close-modal-btn" aria-label="Fermer la modale">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div id="modal-content" class="space-y-6">
+                <!-- Content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // TRANSLATION OBJECT
+        const translations = {
+            fr: {
+                nav_services: "Services",
+                nav_philosophy: "Philosophie",
+                nav_expertises: "Expertises",
+                nav_case_studies: "Études de Cas",
+                nav_ecosystem: "Écosystème",
+                hero_title: "L'architecture de votre succès en Web3",
+                hero_subtitle: "Nous fusionnons les expertises Tech, Finance et Communautaire pour bâtir des écosystèmes Web3 robustes et pérennes.",
+                hero_cta1: "Planifier un appel",
+                hero_cta2: "Nous écrire",
+                services_title: `<span class="font-playfair">Une offre</span> de services <i class="font-playfair">360°</i>`,
+                services_subtitle: "Nous couvrons l'ensemble du cycle de vie de votre projet Web3.",
+                service1_title: "Tech & Sécurité",
+                service1_desc: "Architecture de solutions blockchain, développement et audit de smart contracts, optimisation des performances et des coûts (gas fees).",
+                service2_title: "Finance & Tokenomics",
+                service2_desc: "Conception de modèles économiques durables, stratégie de levée de fonds (IDO, private rounds), listing sur exchanges et conformité réglementaire.",
+                service3_title: "Marketing & Croissance",
+                service3_desc: "Stratégies de croissance et d'engagement, community building, marketing et PR, amplifiés par notre propre plateforme média.",
+                philosophy_title: `<span class="font-playfair">Notre Philosophie :</span> Du Concept au <i class="font-playfair">Succès Commercial</i>`,
+                philosophy_subtitle: "Notre mission : transformer la complexité du Web3 en opportunités commerciales. Nous vous donnons les clés pour innover, sécuriser votre projet et assurer sa croissance.",
+                benefit1_title: "Transformer l'Idée en Projet Rentable",
+                benefit1_desc: "Nous ne construisons pas seulement de la technologie. Nous créons des modèles économiques viables et des stratégies de monétisation qui assurent la pérennité de votre vision.",
+                benefit2_title: "Sécuriser Vos Actifs Numériques",
+                benefit2_desc: "Dans un monde décentralisé, la confiance est primordiale. Nos audits rigoureux et notre architecture sécurisée protègent votre projet, vos utilisateurs et votre réputation.",
+                benefit3_title: "Créer une Communauté Engagée et Fidèle",
+                benefit3_desc: "Un projet ne vit que par sa communauté. Nous déployons des stratégies authentiques pour attirer, engager et transformer vos utilisateurs en véritables ambassadeurs.",
+                approach_title: `<span class="font-playfair">Dirigé par</span> des Fondateurs <i class="font-playfair">Experts</i>`,
+                approach_subtitle: "Notre force réside dans la synergie. Stratégie technique, modèle financier et plan marketing sont unifiés dès le premier jour pour une cohérence absolue.",
+                antoine_role: "Tech & Architecture",
+                antoine_desc: "Architecte de solutions blockchain, expert en sécurité des smart contracts et en optimisation des performances. Antoine assure que votre projet est construit sur des bases techniques inébranlables.",
+                aaron_role: "Finance & Tokenomics",
+                aaron_desc: "Spécialiste de la finance décentralisée (DeFi), de la modélisation de tokenomics et de la stratégie de levée de fonds. Il conçoit l'épine dorsale économique de votre écosystème.",
+                samir_role: "Marketing & Communauté",
+                samir_desc: "Expert en stratégies de contenu et en gestion de communautés à grande échelle (+30 000 membres). Samir bâtit et engage l'audience qui portera votre projet vers le succès.",
+                cta_mid_title: "Une question ? Un projet ?",
+                cta_mid_subtitle: "Notre équipe est prête à échanger avec vous. Contactez-nous pour concrétiser votre vision.",
+                expertises_title: `<span class="font-playfair">Nos</span> Expertises <i class="font-playfair">Détaillées</i>`,
+                expertises_subtitle: "Une vision 360° portée par quatre pôles de compétences stratégiques.",
+                realisations_title: `<span class="font-playfair">Nos Études</span> de <i class="font-playfair">Cas</i>`,
+                realisations_subtitle: "Découvrez comment nous avons transformé les défis de nos clients en succès mesurables.",
+                view_case_study_btn: "Voir l'étude de cas",
+                realisation1_title: "The Architech",
+                realisation1_desc: "Co-fondation d'une plateforme SaaS pour générer des fondations de projets logiciels de qualité professionnelle en quelques minutes.",
+                realisation2_title: "Ago DeFi",
+                realisation2_desc: "Gestion et animation d'une communauté de +30 000 membres pour une plateforme de finance décentralisée.",
+                realisation4_title: "Hashguard",
+                realisation4_desc: "Direction technique (CTO) et développement d'un POC pour un projet innovant, de la R&D à la mise en production.",
+                tag_saas: "SaaS",
+                tag_devtool: "Outil Développeur",
+                tag_startup: "Startup",
+                tag_defi: "DeFi",
+                tag_community: "Communauté",
+                tag_marketing: "Marketing",
+                tag_cto: "CTO as a service",
+                tag_poc: "POC",
+                tag_fullstack: "Fullstack",
+                ecosystem_title: `<span class="font-playfair">Un Écosystème</span> d'Experts à votre <i class="font-playfair">service</i>`,
+                ecosystem_subtitle: "Nous avons pré-sélectionné et intégré un réseau de partenaires de premier plan pour couvrir tous les aspects de votre projet, de l'audit à la conformité.",
+                partner1: "Fonds d'Investissement",
+                partner2: "Experts en Audit de Sécurité",
+                partner3: "Cabinets Juridiques",
+                partner4: "Protocoles Blockchain & L2s",
+                partner5: "Agences de Développement",
+                partner6: "Spécialistes UX/UI",
+                contact_title: `<span class="font-playfair">Prêt à construire</span> l'<i class="font-playfair">avenir</i> ?`,
+                contact_subtitle: "Discutons de votre projet. Planifiez un appel exploratoire gratuit avec nos fondateurs pour voir comment nous pouvons vous aider à atteindre vos objectifs.",
+                contact_cta1: "Planifier un appel",
+                contact_cta2: "Nous envoyer un message",
+                footer_rights: "© 2025 The Arch Consulting. Tous droits réservés.",
+            },
+            en: {
+                nav_services: "Services",
+                nav_philosophy: "Philosophy",
+                nav_expertises: "Expertise",
+                nav_case_studies: "Case Studies",
+                nav_ecosystem: "Ecosystem",
+                hero_title: "Architecting your success in Web3",
+                hero_subtitle: "We merge Tech, Finance, and Community expertise to build robust and sustainable Web3 ecosystems.",
+                hero_cta1: "Schedule a Call",
+                hero_cta2: "Write to Us",
+                services_title: `<span class="font-playfair">A 360°</span> Service <i class="font-playfair">Offering</i>`,
+                services_subtitle: "We cover the entire lifecycle of your Web3 project.",
+                service1_title: "Tech & Security",
+                service1_desc: "Blockchain solution architecture, smart contract development and auditing, performance and cost optimization (gas fees).",
+                service2_title: "Finance & Tokenomics",
+                service2_desc: "Design of sustainable economic models, fundraising strategy (IDO, private rounds), exchange listings, and regulatory compliance.",
+                service3_title: "Marketing & Growth",
+                service3_desc: "Growth and engagement strategies, community building, marketing, and PR, amplified by our own media platform.",
+                philosophy_title: `<span class="font-playfair">Our Philosophy:</span> From Concept to <i class="font-playfair">Commercial Success</i>`,
+                philosophy_subtitle: "Our mission: to transform the complexity of Web3 into business opportunities. We give you the keys to innovate, secure your project, and ensure its growth.",
+                benefit1_title: "Turn Ideas into Profitable Projects",
+                benefit1_desc: "We don't just build technology. We create viable business models and monetization strategies that ensure the longevity of your vision.",
+                benefit2_title: "Secure Your Digital Assets",
+                benefit2_desc: "In a decentralized world, trust is paramount. Our rigorous audits and secure architecture protect your project, your users, and your reputation.",
+                benefit3_title: "Create an Engaged and Loyal Community",
+                benefit3_desc: "A project is only as strong as its community. We deploy authentic strategies to attract, engage, and turn your users into true ambassadors.",
+                approach_title: `<span class="font-playfair">Led by</span> Expert <i class="font-playfair">Founders</i>`,
+                approach_subtitle: "Our strength lies in synergy. Technical strategy, financial modeling, and marketing plans are unified from day one for absolute coherence.",
+                antoine_role: "Tech & Architecture",
+                antoine_desc: "Blockchain solutions architect, expert in smart contract security and performance optimization. Antoine ensures your project is built on an unshakeable technical foundation.",
+                aaron_role: "Finance & Tokenomics",
+                aaron_desc: "Specialist in decentralized finance (DeFi), tokenomics modeling, and fundraising strategy. He designs the economic backbone of your ecosystem.",
+                samir_role: "Marketing & Community",
+                samir_desc: "Expert in content strategies and large-scale community management (+30,000 members). Samir builds and engages the audience that will carry your project to success.",
+                cta_mid_title: "A question? A project?",
+                cta_mid_subtitle: "Our team is ready to talk with you. Contact us to bring your vision to life.",
+                expertises_title: `<span class="font-playfair">Our</span> Detailed <i class="font-playfair">Expertise</i>`,
+                expertises_subtitle: "A 360° vision supported by four strategic skill poles.",
+                realisations_title: `<span class="font-playfair">Our Case</span> <i class="font-playfair">Studies</i>`,
+                realisations_subtitle: "Discover how we have turned our clients' challenges into measurable successes.",
+                view_case_study_btn: "View Case Study",
+                realisation1_title: "The Architech",
+                realisation1_desc: "Co-founding a SaaS platform to generate professional-quality software project foundations in minutes.",
+                realisation2_title: "Ago DeFi",
+                realisation2_desc: "Management and animation of a +30,000 member community for a decentralized finance platform.",
+                realisation4_title: "Hashguard",
+                realisation4_desc: "Technical direction (CTO) and development of a POC for an innovative project, from R&D to production.",
+                tag_saas: "SaaS",
+                tag_devtool: "Dev Tool",
+                tag_startup: "Startup",
+                tag_defi: "DeFi",
+                tag_community: "Community",
+                tag_marketing: "Marketing",
+                tag_cto: "CTO as a service",
+                tag_poc: "POC",
+                tag_fullstack: "Fullstack",
+                ecosystem_title: `<span class="font-playfair">An Ecosystem</span> of Experts at Your <i class="font-playfair">Service</i>`,
+                ecosystem_subtitle: "We have pre-selected and integrated a network of leading partners to cover all aspects of your project, from audit to compliance.",
+                partner1: "Investment Funds",
+                partner2: "Security Audit Experts",
+                partner3: "Law Firms",
+                partner4: "Blockchain Protocols & L2s",
+                partner5: "Development Agencies",
+                partner6: "UX/UI Specialists",
+                contact_title: `<span class="font-playfair">Ready to build</span> the <i class="font-playfair">future</i>?`,
+                contact_subtitle: "Let's discuss your project. Schedule a free exploratory call with our founders to see how we can help you achieve your goals.",
+                contact_cta1: "Schedule a Call",
+                contact_cta2: "Send Us a Message",
+                footer_rights: "© 2025 The Arch Consulting. All rights reserved.",
+            }
+        };
+
+        const caseStudiesData = {
+            fr: {
+                architech: {
+                    title: "The Architech",
+                    challenge: "Les développeurs perdaient un temps précieux à configurer des fondations de projet répétitives, retardant l'innovation et augmentant les coûts. Il manquait un outil pour standardiser et accélérer ce processus crucial.",
+                    solution: "Nous avons co-fondé The Architech, une plateforme SaaS qui génère des bases de code complètes et professionnelles (backend, frontend, CI/CD) en quelques clics. En utilisant une architecture modulaire et des technologies de pointe, nous avons automatisé l'ensemble du processus de setup.",
+                    results: [
+                        { value: "-95%", label: "Temps de développement initial" },
+                        { value: "100%", label: "Standardisation des bonnes pratiques" },
+                        { value: "+50%", label: "Productivité des développeurs" }
+                    ]
+                },
+                agodefi: {
+                    title: "Ago DeFi",
+                    challenge: "Une plateforme DeFi innovante avait du mal à construire et à engager une communauté solide, un élément essentiel pour la confiance et l'adoption dans l'écosystème décentralisé.",
+                    solution: "Nous avons pris en charge la stratégie de community management de A à Z. En créant du contenu éducatif, en organisant des événements interactifs (AMAs, concours) et en établissant un système de support réactif, nous avons transformé leur Discord et Twitter en hubs d'activité.",
+                    results: [
+                        { value: "+30,000", label: "Membres de la communauté" },
+                        { value: "x3", label: "Taux d'engagement sur les réseaux" },
+                        { value: "-70%", label: "Temps de réponse du support" }
+                    ]
+                },
+                hashguard: {
+                    title: "Hashguard",
+                    challenge: "Un projet naissant avait besoin d'une direction technique forte pour passer de l'idée à un Proof-of-Concept (POC) fonctionnel, en validant la faisabilité technique et en définissant la roadmap de développement.",
+                    solution: "En tant que CTO, nous avons mené la veille technologique, défini l'architecture, et développé le POC. Cela a inclus la mise en place de l'environnement de développement, le codage des fonctionnalités clés et la planification des prochaines étapes du projet.",
+                    results: [
+                        { value: "3 mois", label: "De l'idée au POC" },
+                        { value: "1", label: "Roadmap technique claire définie" },
+                        { value: "100%", label: "Validation de la faisabilité" }
+                    ]
+                }
+            },
+            en: {
+                 architech: {
+                    title: "The Architech",
+                    challenge: "Developers were wasting valuable time setting up repetitive project foundations, delaying innovation and increasing costs. A tool to standardize and accelerate this crucial process was missing.",
+                    solution: "We co-founded The Architech, a SaaS platform that generates complete and professional codebases (backend, frontend, CI/CD) in just a few clicks. Using a modular architecture and cutting-edge technologies, we automated the entire setup process.",
+                    results: [
+                        { value: "-95%", label: "Initial development time" },
+                        { value: "100%", label: "Standardization of best practices" },
+                        { value: "+50%", label: "Developer productivity" }
+                    ]
+                },
+                agodefi: {
+                    title: "Ago DeFi",
+                    challenge: "An innovative DeFi platform struggled to build and engage a strong community, a critical element for trust and adoption in the decentralized ecosystem.",
+                    solution: "We took charge of the community management strategy from A to Z. By creating educational content, organizing interactive events (AMAs, contests), and establishing a responsive support system, we turned their Discord and Twitter into hubs of activity.",
+                    results: [
+                        { value: "+30,000", label: "Community members" },
+                        { value: "x3", label: "Engagement rate on social media" },
+                        { value: "-70%", label: "Support response time" }
+                    ]
+                },
+                hashguard: {
+                    title: "Hashguard",
+                    challenge: "A nascent project needed strong technical leadership to move from an idea to a functional Proof-of-Concept (POC), validating technical feasibility and defining the development roadmap.",
+                    solution: "As CTO, we led the technology watch, defined the architecture, and developed the POC. This included setting up the development environment, coding key features, and planning the project's next steps.",
+                    results: [
+                        { value: "3 months", label: "From idea to POC" },
+                        { value: "1", label: "Clear technical roadmap defined" },
+                        { value: "100%", label: "Feasibility validation" }
+                    ]
+                }
+            }
+        };
+
+        const expertisesData = {
+            strategy: [
+                { category: 'Stratégie Go-to-Market', skills: ['Définition de la cible et des objectifs', 'Création de la roadmap projet', 'Développement de la vision long-terme', 'Atténuation des challenges & création de synergies'] },
+                { category: 'Documentation Stratégique', skills: ['Revue & création de Pitch Deck', 'Rédaction & revue de Whitepaper', 'Création de Gitbook pour la communauté', 'Préparation de la documentation légale'] },
+                { category: 'Conseil en Gouvernance (DAO)', skills: ['Amélioration de la gouvernance', 'Optimisation de l\'efficacité opérationnelle', 'Mise en place de mécanismes de vote', 'Conseil pour organisations décentralisées'] }
+            ],
+            finance: [
+                { category: 'Conception de Tokenomics', skills: ['Développement de modèles économiques sur-mesure', 'Audit et optimisation de tokenomics existantes', 'Structures d’émission et de vesting durables', 'Analyse détaillée pour les parties prenantes'] },
+                { category: 'Stratégie Financière', skills: ['Optimisation de la trésorerie crypto (staking, rendements)', 'Stratégies financières long terme', 'Exploitation des données on-chain/off-chain', 'Identification et analyse des risques'] },
+                { category: 'Analyse de Marché', skills: ['Surveillance des tendances crypto/DeFi', 'Analyse comparative de la concurrence', 'Études de marché pour opportunités', 'Veille sur les innovations Web3'] }
+            ],
+            tech: [
+                { category: 'Architecture & Conception', skills: ['Architecture de solutions blockchain (L1, L2)', 'Conception de systèmes décentralisés', 'Modélisation de solutions Web3', 'Audit d\'architecture', 'Optimisation des performances'] },
+                { category: 'Sécurité & Audit', skills: ['Analyse de vulnérabilités smart contracts', 'Revue de code et best practices', 'Recommandations de sécurité infrastructure', 'Évaluation des risques techniques', 'Protection des actifs numériques'] },
+                { category: 'Stack Technique Web3', skills: ['Évaluation et sélection de blockchains', 'Choix d\'infrastructures décentralisées (IPFS, Arweave)', 'Sélection d\'outils de développement', 'Intégration de wallets et standards (ERC20, ERC721)'] },
+                { category: 'Interopérabilité & Intégration', skills: ['Solutions de bridges et cross-chain', 'Intégration avec systèmes traditionnels', 'APIs et oracles (Chainlink)', 'Solutions de scaling (rollups)'] },
+                { category: 'Performance & Optimisation', skills: ['Optimisation des coûts (gas fees)', 'Stratégies de scaling', 'Benchmarking de solutions techniques', 'Analyse de performance des réseaux'] },
+                { category: 'Innovation & R&D', skills: ['Veille sur les technologies émergentes', 'Prototypage de solutions innovantes', 'Convergence IA-blockchain', 'Proof of concepts techniques'] }
+            ],
+            marketing: [
+                { category: 'Stratégie de Croissance', skills: ['Définition de la stratégie Go-to-Market', 'Développement de partenariats stratégiques', 'Création de roadmap de croissance', 'Analyse de performances et optimisation'] },
+                { category: 'Communication & Influence', skills: ['Planification de communication stratégique', 'Introduction aux KOLs (Key Opinion Leaders)', 'Relations avec Market Makers & Launchpads', 'Positionnement en tant que média référent'] },
+                { category: 'Community Building', skills: ['Gestion de communautés à grande échelle (+30k)', 'Animation et modération multicanale', 'Stratégies d\'engagement et de rétention', 'Éducation Web3 et vulgarisation technique'] }
+            ]
+        };
+        
+        // --- SCRIPT RESTRUCTURED FOR BETTER SCOPE MANAGEMENT ---
+
+        // 1. Get all elements
+        const langSwitchBtn = document.getElementById('lang-switch');
+        const modalOverlay = document.getElementById('case-study-modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const expertiseTabsContainer = document.querySelector('.expertise-tabs');
+        
+        // 2. State variables
+        let currentLang = localStorage.getItem('language') || 'fr';
+        
+        // 3. Define all functions in a shared scope
+        
+        function setLanguage(lang) {
+            if (!translations[lang]) return;
+            localStorage.setItem('language', lang);
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            const elements = document.querySelectorAll('[data-lang-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            langSwitchBtn.textContent = lang === 'fr' ? 'EN' : 'FR';
+        }
+        
+        function openCaseStudyModal(caseStudyId) {
+            const studyData = caseStudiesData[currentLang] || caseStudiesData.fr;
+            const study = studyData[caseStudyId];
+            if (!study) return;
+
+            const challengeTitle = currentLang === 'fr' ? 'Le Défi' : 'The Challenge';
+            const solutionTitle = currentLang === 'fr' ? 'La Solution The Arch' : 'The Arch Solution';
+            const resultsTitle = currentLang === 'fr' ? 'Les Résultats' : 'The Results';
+
+            modalContent.innerHTML = `
+                <h2 class="text-3xl font-bold text-white font-playfair">${study.title}</h2>
+                <div>
+                    <h3 class="text-xl font-bold text-accent-purple mb-2">${challengeTitle}</h3>
+                    <p class="text-secondary-text">${study.challenge}</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-accent-purple mb-2">${solutionTitle}</h3>
+                    <p class="text-secondary-text">${study.solution}</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-accent-purple mb-4">${resultsTitle}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                        ${study.results.map(result => `
+                            <div class="glass-card p-4 rounded-lg">
+                                <p class="text-3xl font-bold text-white">${result.value}</p>
+                                <p class="text-secondary-text text-sm">${result.label}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            modalOverlay.classList.add('active');
+            lenis.stop();
+        }
+
+        function closeCaseStudyModal() {
+            modalOverlay.classList.remove('active');
+            lenis.start();
+        }
+
+        function populateExpertises() {
+            const icon = `<svg class="w-4 h-4 text-accent-purple" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>`;
+            
+            for (const tabName in expertisesData) {
+                const container = document.getElementById(`tab-${tabName}`).querySelector('.grid');
+                container.innerHTML = '';
+                const data = expertisesData[tabName];
+                data.forEach(cat => {
+                    const categoryDiv = document.createElement('div');
+                    let skillsHtml = cat.skills.map(skill => `<li class="expertise-list-item"><span class="text-accent-purple">${icon}</span><span>${skill}</span></li>`).join('');
+                    categoryDiv.innerHTML = `
+                        <h4 class="text-xl font-bold text-white mb-4">${cat.category}</h4>
+                        <ul class="space-y-3 text-secondary-text">${skillsHtml}</ul>
+                    `;
+                    container.appendChild(categoryDiv);
+                });
+            }
+        }
+
+        // 4. Initialization and Event Listeners
+        
+        gsap.registerPlugin(ScrollTrigger);
+
+        const lenis = new Lenis();
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{
+          lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+        
+        gsap.from("#hero-section .hero-content > *", {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 0.5
+        });
+
+        document.querySelectorAll('.animate-title').forEach(title => {
+            gsap.from(title.children, {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        function animateSectionCards(selector, trigger) {
+             const cards = document.querySelectorAll(selector);
+             if (cards.length > 0) {
+                gsap.from(cards, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: "power3.out",
+                    stagger: 0.2,
+                    scrollTrigger: {
+                        trigger: trigger,
+                        start: "top 80%",
+                        toggleActions: "play none none none",
+                    }
+                });
+            }
+        }
+
+        animateSectionCards('#services .animate-card', '#services .grid');
+        animateSectionCards('#philosophie .animate-card', '#philosophie .grid');
+        animateSectionCards('#founders .animate-card', '#founders .grid');
+        animateSectionCards('#realisations .animate-card', '#realisations .grid');
+
+        document.querySelectorAll('.animate-fade-in').forEach(el => {
+            gsap.from(el, {
+                opacity: 0,
+                duration: 1,
+                ease: 'power1.inOut',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+        
+        document.querySelectorAll('header nav a, .nav-link-cta').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    lenis.scrollTo(targetSection);
+                }
+            });
+        });
+
+        langSwitchBtn.addEventListener('click', () => {
+            const newLang = currentLang === 'fr' ? 'en' : 'fr';
+            setLanguage(newLang);
+        });
+
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+        
+        document.querySelectorAll('.case-study-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const caseStudyId = button.dataset.caseStudy;
+                openCaseStudyModal(caseStudyId);
+            });
+        });
+
+        closeModalBtn.addEventListener('click', closeCaseStudyModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeCaseStudyModal();
+            }
+        });
+        
+        expertiseTabsContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.expertise-tab')) {
+                const tabId = e.target.dataset.tab;
+                
+                expertiseTabsContainer.querySelectorAll('.expertise-tab').forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                document.querySelectorAll('.expertise-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+            }
+        });
+
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isTouchDevice) {
+            document.body.classList.add('is-touch-device');
+        }
+
+        // --- 3D Hero Animation ---
+        const heroContainer = document.getElementById('hero-canvas-container');
+        if (heroContainer) {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, heroContainer.clientWidth / heroContainer.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            
+            renderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const archGroup = new THREE.Group();
+            scene.add(archGroup);
+
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0x4c1d95, // Dark Purple
+                metalness: 0.3,
+                roughness: 0.4,
+                transmission: 0,
+                ior: 1.5,
+                emissive: 0x1e0a30,
+                emissiveIntensity: 0.5,
+            });
+            
+            // Create and position arches based on logo
+            const archParams = [
+                { radius: 30, tube: 1.5, z: 0 },
+                { radius: 24, tube: 1.5, z: 4 },
+                { radius: 18, tube: 1.5, z: 8 },
+            ];
+            
+            archParams.forEach(params => {
+                const geometry = new THREE.TorusGeometry(params.radius, params.tube, 32, 100, Math.PI);
+                const arch = new THREE.Mesh(geometry, material);
+                arch.position.z = params.z;
+                archGroup.add(arch);
+            });
+            
+            archGroup.position.set(30, 0, -20);
+            archGroup.rotation.x = -Math.PI / 2;
+            archGroup.rotation.z = Math.PI;
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 5000;
+            const posArray = new Float32Array(particlesCount * 3);
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i * 3 + 0] = (Math.random() - 0.5) * 200;
+                posArray[i * 3 + 1] = (Math.random() - 0.5) * 200;
+                posArray[i * 3 + 2] = (Math.random() - 0.5) * 200;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({ size: 0.1, color: 0x8A70D6, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 80;
+            camera.position.y = 10;
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0x8A70D6, 1.5);
+            directionalLight.position.set(-10, 20, 30);
+            scene.add(directionalLight);
+            
+            const pointLight2 = new THREE.PointLight(0x34D399, 2.0, 200);
+            pointLight2.position.set(50, -10, 0);
+            scene.add(pointLight2);
+
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            const clock = new THREE.Clock();
+            const animate = function () {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                
+                // Multi-axis rotation for the arch group
+                archGroup.rotation.x = -Math.PI / 2 + Math.sin(elapsedTime * 0.2) * 0.25;
+                archGroup.rotation.y = elapsedTime * 0.15;
+                archGroup.rotation.z = Math.PI + Math.cos(elapsedTime * 0.2) * 0.25;
+
+                // Camera parallax effect
+                camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY * 5 - camera.position.y) * 0.05;
+                camera.lookAt(archGroup.position);
+                
+                particlesMesh.rotation.y = -elapsedTime * 0.03;
+                
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = heroContainer.clientWidth / heroContainer.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(heroContainer.clientWidth, heroContainer.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            });
+        }
+        
+        // Initial call
+        setLanguage(currentLang);
+        populateExpertises();
+
+    });
+
+</script>
+
+</body>
+</html>

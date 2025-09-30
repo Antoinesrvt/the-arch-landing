@@ -1,12 +1,15 @@
 import type { BaseManager, ThreeSceneManager } from './types';
 
+// Declare THREE as any to avoid TypeScript errors
+declare const THREE: any;
+
 export class ThreeSceneManagerImpl implements ThreeSceneManager {
-  private scene: THREE.Scene | null = null;
-  private camera: THREE.PerspectiveCamera | null = null;
-  private renderer: THREE.WebGLRenderer | null = null;
-  private archGroup: THREE.Group | null = null;
-  private particlesMesh: THREE.Points | null = null;
-  private clock = new THREE.Clock();
+  private scene: any = null;
+  private camera: any = null;
+  private renderer: any = null;
+  private archGroup: any = null;
+  private particlesMesh: any = null;
+  private clock: any = null;
   private mouseX = 0;
   private mouseY = 0;
   private animationId: number | null = null;
@@ -17,6 +20,9 @@ export class ThreeSceneManagerImpl implements ThreeSceneManager {
       setTimeout(() => this.init(), 100);
       return;
     }
+
+    // Initialize clock now that THREE is available
+    this.clock = new THREE.Clock();
 
     // Check for desktop or mobile canvas container
     const isMobile = window.innerWidth < 1024; // lg breakpoint
@@ -117,8 +123,8 @@ export class ThreeSceneManagerImpl implements ThreeSceneManager {
     const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
     const isOldBrowser = !window.requestAnimationFrame || !window.IntersectionObserver;
     const hasWebGLIssues = !this.checkWebGLSupport().supported;
-    const isSlowConnection = navigator.connection && 
-      (navigator.connection.effectiveType === 'slow-2g' || navigator.connection.effectiveType === '2g');
+    const isSlowConnection = (navigator as any).connection && 
+      ((navigator as any).connection.effectiveType === 'slow-2g' || (navigator as any).connection.effectiveType === '2g');
     
     return isMobileDevice || isLowEndDevice || isOldBrowser || hasWebGLIssues || isSlowConnection;
   }
@@ -308,7 +314,7 @@ export class ThreeSceneManagerImpl implements ThreeSceneManager {
     this.animationId = requestAnimationFrame(() => this.animate());
     
     try {
-      const elapsedTime = this.clock.getElapsedTime();
+      const elapsedTime = this.clock?.getElapsedTime() || 0;
       const isMobile = window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
       // Multi-axis rotation for the arch group

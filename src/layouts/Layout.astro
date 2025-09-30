@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/enhanced-design.css';
 
 export interface Props {
   title: string;
@@ -55,7 +56,7 @@ const { title, description, lang = "fr" } = Astro.props;
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"></noscript>
     
     <!-- External Libraries - Load critical CSS first -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS is loaded locally via our configuration -->
     
     <!-- Critical CSS inline for above-the-fold content -->
     <style>
@@ -267,9 +268,24 @@ const { title, description, lang = "fr" } = Astro.props;
           }
         }
 
-        /* Critical CSS for hero section */
-        .hero-content { opacity: 0; }
-        .hero-content.loaded { opacity: 1; transition: opacity 0.3s ease; }
+        /* Critical CSS for hero section - Let GSAP handle the animations */
+        .hero-content { 
+            opacity: 1; 
+        }
+        
+        /* Fallback animations for when JS fails */
+        .hero-content > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Ensure all animated elements are visible by default */
+        .animate-title,
+        .animate-card,
+        .animate-fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
         
         /* Performance optimizations */
         .lazy-load { opacity: 0; transform: translateY(20px); }
@@ -403,20 +419,164 @@ const { title, description, lang = "fr" } = Astro.props;
     <script>
         // Critical performance optimizations
         (function() {
-            // Add loaded class to hero content when fonts are ready
-            function showHeroContent() {
-                const heroContent = document.querySelector('.hero-content');
-                if (heroContent) {
-                    heroContent.classList.add('loaded');
-                }
-            }
-            
-            // Show content when fonts are loaded or after timeout
-            if (document.fonts && document.fonts.ready) {
-                document.fonts.ready.then(showHeroContent);
-            } else {
-                setTimeout(showHeroContent, 100);
-            }
+            // Simple fallback animations
+            document.addEventListener('DOMContentLoaded', () => {
+                // Wait for libraries to load
+                setTimeout(() => {
+                    if (typeof (window as any).gsap !== 'undefined' && typeof (window as any).ScrollTrigger !== 'undefined') {
+                        console.log('🎬 Setting up GSAP animations...');
+                        
+                        // Register ScrollTrigger
+                        (window as any).gsap.registerPlugin((window as any).ScrollTrigger);
+                        
+                        // Global GSAP configuration for better performance
+                        (window as any).gsap.config({
+                            nullTargetWarn: false,
+                            trialWarn: false
+                        });
+                        
+                        // Set default ease for better consistency
+                        (window as any).gsap.defaults({
+                            ease: "power2.out"
+                        });
+                        
+                        // Initialize Lenis with better configuration
+                        if (typeof (window as any).lenis !== 'undefined') {
+                            const lenis = new (window as any).lenis({
+                                duration: 1.2,
+                                easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                                direction: 'vertical',
+                                gestureDirection: 'vertical',
+                                smooth: true,
+                                mouseMultiplier: 1,
+                                smoothTouch: false,
+                                touchMultiplier: 2,
+                                infinite: false,
+                            });
+                            
+                            lenis.on('scroll', (window as any).ScrollTrigger.update);
+                            (window as any).gsap.ticker.add((time: number) => {
+                                lenis.raf(time * 1000);
+                            });
+                            (window as any).gsap.ticker.lagSmoothing(0);
+                            console.log('✅ Lenis smooth scroll initialized');
+                        }
+                        
+                        // Hero animations - more specific targeting
+                        const heroElements = document.querySelectorAll("#hero-section .hero-content > *");
+                        console.log(`🎯 Found ${heroElements.length} hero elements to animate`);
+                        if (heroElements.length > 0) {
+                            // Set initial state
+                            (window as any).gsap.set(heroElements, { opacity: 0, y: 30 });
+                            
+                            // Animate in with better timing
+                            (window as any).gsap.to(heroElements, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.8,
+                                ease: 'power2.out',
+                                stagger: 0.15,
+                                delay: 0.3
+                            });
+                            console.log('✅ Hero elements animated');
+                        } else {
+                            console.warn('⚠️ No hero elements found for animation');
+                        }
+                        
+                        // Section titles - animate the titles themselves
+                        const titleElements = document.querySelectorAll('.animate-title');
+                        console.log(`🎯 Found ${titleElements.length} title elements to animate`);
+                        titleElements.forEach((title, index) => {
+                            console.log(`🎬 Animating title ${index + 1}:`, title);
+                            // Set initial state
+                            (window as any).gsap.set(title, { opacity: 0, y: 30 });
+                            
+                            // Animate in with ScrollTrigger
+                            (window as any).gsap.to(title, {
+                                opacity: 1,
+                                y: 0,
+                                duration: 0.8,
+                                ease: 'power2.out',
+                                scrollTrigger: {
+                                    trigger: title,
+                                    start: 'top 85%',
+                                    toggleActions: 'play none none reverse'
+                                }
+                            });
+                        });
+                        
+                        // Cards animations
+                        function animateCards(selector: string, trigger: string) {
+                            const cards = document.querySelectorAll(selector);
+                            const triggerElement = document.querySelector(trigger);
+                            console.log(`🎯 Animating cards: ${selector} (${cards.length} found) with trigger: ${trigger}`);
+                            
+                            if (cards.length > 0 && triggerElement) {
+                                // Set initial state
+                                (window as any).gsap.set(cards, { opacity: 0, y: 30 });
+                                
+                                // Animate in with ScrollTrigger
+                                (window as any).gsap.to(cards, {
+                                    opacity: 1,
+                                    y: 0,
+                                    duration: 0.6,
+                                    ease: 'power2.out',
+                                    stagger: 0.08,
+                                    scrollTrigger: {
+                                        trigger: triggerElement,
+                                        start: 'top 85%',
+                                        toggleActions: 'play none none reverse'
+                                    }
+                                });
+                                console.log(`✅ Successfully animated ${cards.length} cards for ${selector}`);
+                            } else {
+                                console.warn(`⚠️ No cards found for ${selector} or trigger ${trigger} not found`);
+                            }
+                        }
+                        
+                        // Animate cards in all sections
+                        animateCards('#services .animate-card', '#services');
+                        animateCards('#approach .animate-card', '#approach');
+                        animateCards('#founders .animate-card', '#founders');
+                        animateCards('#network .animate-card', '#network');
+                        animateCards('#guests .animate-card', '#guests');
+                        animateCards('#media .animate-card', '#media');
+                        animateCards('#case-studies .animate-card', '#case-studies');
+                        
+                        // Also animate any other cards that might be missing
+                        animateCards('.glass-card.animate-card', 'main');
+                        
+                        // Refresh ScrollTrigger to ensure everything is properly calculated
+                        (window as any).ScrollTrigger.refresh();
+                        
+                        // Add class to enable hover transitions after animations complete
+                        setTimeout(() => {
+                            document.body.classList.add('gsap-complete');
+                        }, 2000);
+                        
+                        console.log('✅ GSAP animations initialized');
+                        console.log('🎯 Total ScrollTriggers created:', (window as any).ScrollTrigger.getAll().length);
+                    } else {
+                        console.warn('⚠️ GSAP not available, using CSS animations');
+                        // Add no-gsap class to enable CSS animations
+                        document.body.classList.add('no-gsap');
+                        // Fallback: ensure all content is visible
+                        document.querySelectorAll('.animate-title, .animate-card, .animate-fade-in').forEach(el => {
+                            (el as HTMLElement).style.opacity = '1';
+                            (el as HTMLElement).style.transform = 'translateY(0)';
+                        });
+                    }
+                }, 1000);
+                
+                // Emergency fallback after 3 seconds
+                setTimeout(() => {
+                    document.querySelectorAll('.animate-title, .animate-card, .animate-fade-in').forEach(el => {
+                        (el as HTMLElement).style.opacity = '1';
+                        (el as HTMLElement).style.transform = 'translateY(0)';
+                    });
+                    console.log('🚨 Emergency fallback applied - all content made visible');
+                }, 3000);
+            });
             
             // Lazy load images
             if ('IntersectionObserver' in window) {
@@ -584,6 +744,9 @@ const { title, description, lang = "fr" } = Astro.props;
     
 </head>
 <body class="antialiased">
+    <!-- Scroll Progress Indicator -->
+    <div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+    
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-accent-purple text-white px-4 py-2 rounded-lg z-50" aria-label="Aller au contenu principal">
         Aller au contenu principal
@@ -591,26 +754,22 @@ const { title, description, lang = "fr" } = Astro.props;
 
     <slot />
     
-    <!-- External Libraries - Load with async for better performance -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" async></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" async></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" async></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js" async></script>
+    <!-- External Libraries - Load synchronously for proper initialization order -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     
     <!-- Data for client-side scripts -->
     <script>
       // Make translation data available globally
-      window.TranslationsData = {
-        fr: {
-          // French translations will be injected by Astro
-        },
-        en: {
-          // English translations will be injected by Astro
-        }
+      (window as any).TranslationsData = {
+        fr: {} as any,
+        en: {} as any
       };
       
       // Make case studies data available globally
-      window.CaseStudiesData = {
+      (window as any).CaseStudiesData = {
         fr: {
           architech: {
             title: "Architech - Plateforme SaaS de Gestion de Projets",

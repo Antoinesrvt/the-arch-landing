@@ -277,6 +277,24 @@
   letter-spacing: var(--tracking-tighter);
 }
 
+.font-playfair { 
+  font-family: var(--font-display); 
+}
+
+/* Section Title Styling */
+.section-title {
+  font-size: var(--text-heading-mobile);
+  font-weight: var(--font-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: var(--text-heading-desktop);
+  }
+}
+
 .text-heading { 
   font-size: var(--text-heading-mobile);
   font-weight: var(--font-bold);
@@ -446,4 +464,68 @@
     background: rgba(0, 0, 0, 0.8);
     border: 2px solid var(--color-text-primary);
   }
+}
+
+/* Enhanced Glass Card Effects - Replicated from old HTML */
+.glass-card {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, background 0.4s ease;
+  will-change: transform, box-shadow;
+}
+
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(138, 112, 214, 0.2), transparent 40%);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.glass-card:hover::after {
+  opacity: 1;
+}
+
+.glass-card.founder-card:hover, 
+.glass-card.realisation-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  background: rgba(30, 41, 59, 0.7);
+}
+
+/* Button animations are defined in components.css to avoid duplication */
+
+/* Smooth Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Performance Optimizations */
+.glass-card,
+.btn-primary,
+.btn-secondary {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Scroll Progress Indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  z-index: 9999;
+  transition: width 0.1s ease;
 }

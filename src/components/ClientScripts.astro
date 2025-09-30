@@ -34,31 +34,74 @@ const appConfig: AppConfig = {
 <!-- This component handles all client-side functionality -->
 <script>
   import { AppManager } from '../scripts/app-manager';
+  import { CardEffectsManager } from '../scripts/card-effects';
   
   // Initialize the app when DOM is loaded
   document.addEventListener('DOMContentLoaded', () => {
     const currentLang = '${currentLang}' as 'fr' | 'en';
     
-    const app = new AppManager({
-      language: {
-        currentLang,
-        availableLanguages: [
-          { code: 'fr', name: 'Français', flag: '🇫🇷' },
-          { code: 'en', name: 'English', flag: '🇬🇧' }
-        ]
-      },
-      navigation: {
-        smoothScroll: true,
-        offset: -80,
-        duration: 1.2
-      },
-      animations: {
-        floatingCards: true,
-        scrollAnimations: true,
-        reducedMotion: false
+    // Wait a bit for libraries to load
+    setTimeout(() => {
+      const app = new AppManager({
+        language: {
+          currentLang,
+          availableLanguages: [
+            { code: 'fr', name: 'Français', flag: '🇫🇷' },
+            { code: 'en', name: 'English', flag: '🇬🇧' }
+          ]
+        },
+        navigation: {
+          smoothScroll: true,
+          offset: -80,
+          duration: 1.2
+        },
+        animations: {
+          floatingCards: true,
+          scrollAnimations: true,
+          reducedMotion: false
+        }
+      });
+      
+      app.init();
+      
+      // Initialize card effects
+      const cardEffects = new CardEffectsManager();
+      cardEffects.init();
+      
+      // Setup scroll progress indicator
+      setupScrollProgress();
+    }, 1000);
+  });
+  
+  function setupScrollProgress() {
+    const progressBar = document.getElementById('scroll-progress');
+    if (!progressBar) return;
+    
+    function updateProgress() {
+      if (!progressBar) return;
+      
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercent = (scrollTop / scrollHeight) * 100;
+      
+      progressBar.style.width = `${scrollPercent}%`;
+    }
+    
+    // Throttle scroll events for better performance
+    let ticking = false;
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateProgress);
+        ticking = true;
       }
+    }
+    
+    window.addEventListener('scroll', () => {
+      ticking = false;
+      requestTick();
     });
     
-    app.init();
-  });
+    // Initial update
+    updateProgress();
+  }
 </script>

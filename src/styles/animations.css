@@ -107,7 +107,19 @@
 
 /* Animation Classes */
 .animate-title {
-  animation: slideInUp 0.8s ease-out;
+  /* Initial state for GSAP animations - only set if GSAP is not available */
+  will-change: opacity, transform;
+  /* Disable CSS transitions when GSAP is handling animations */
+  transition: none;
+}
+
+/* Only set initial hidden state when GSAP is not available */
+.no-gsap .animate-title {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideInUp 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .animated-gradient {
@@ -128,9 +140,19 @@
 }
 
 .animate-card {
-  /* Removed animation to prevent layout shifts */
-  opacity: 1;
-  transform: translateY(0);
+  /* Initial state for GSAP animations - only set if GSAP is not available */
+  will-change: opacity, transform;
+  /* Disable CSS transitions when GSAP is handling animations */
+  transition: none;
+}
+
+/* Only set initial hidden state when GSAP is not available */
+.no-gsap .animate-card {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideInUp 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .animate-fade-in {
@@ -165,9 +187,9 @@
 .animate-stagger-5 { animation-delay: 0.5s; }
 .animate-stagger-6 { animation-delay: 0.6s; }
 
-/* Hover Animations */
+/* Hover Animations - Optimized for performance */
 .hover-lift {
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .hover-lift:hover {
@@ -176,7 +198,7 @@
 }
 
 .hover-scale {
-  transition: transform var(--transition-fast);
+  transition: transform 0.2s ease;
 }
 
 .hover-scale:hover {
@@ -184,11 +206,21 @@
 }
 
 .hover-glow {
-  transition: box-shadow var(--transition-normal);
+  transition: box-shadow 0.3s ease;
 }
 
 .hover-glow:hover {
   box-shadow: var(--shadow-glow);
+}
+
+/* Disable hover animations on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .hover-lift:hover,
+  .hover-scale:hover,
+  .hover-glow:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 /* Loading States */
@@ -218,6 +250,15 @@
 .animate-title,
 .animate-fade-in {
   will-change: transform, opacity;
+}
+
+/* Re-enable hover transitions after GSAP animations complete */
+.gsap-complete .animate-card {
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.gsap-complete .animate-title {
+  transition: none; /* Titles don't need hover transitions */
 }
 
 /* Touch Device Optimizations */

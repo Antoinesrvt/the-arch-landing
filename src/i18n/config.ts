@@ -13,6 +13,7 @@ export const ui = {
     "nav.services": "Services",
     "nav.founders": "Fondateurs",
     "nav.network": "Réseau",
+    "nav.guests": "Invités",
     "nav.media": "Média",
     "nav.case-studies": "Études de Cas",
     "nav.contact": "Contact",
@@ -189,6 +190,25 @@ export const ui = {
 
     // Footer
     "footer.rights": "© 2025 The Arch Consulting. Tous droits réservés.",
+
+    // Guests Section
+    "guests.title": '<span class="font-playfair">Ils sont passés</span> <i class="font-playfair">chez nous</i>',
+    "guests.subtitle": "Découvrez les experts Web3 qui ont partagé leur vision et leur expertise dans nos émissions live.",
+    "guests.experts": "Experts",
+    "guests.episodes": "Épisodes",
+    "guests.views": "Vues",
+    "guests.french": "Français",
+    "guests.seeAll": "Voir tous les épisodes",
+
+    // Live Page
+    "live.title": "Nos Émissions Live",
+    "live.description": "Découvrez nos conversations avec les leaders du Web3 français. Insights, analyses et retours d'expérience exclusifs.",
+    "live.heroTitle": "Conversations avec les Leaders du Web3",
+    "live.heroSubtitle": "Plongez dans l'univers du Web3 français à travers nos émissions exclusives avec les acteurs clés de l'écosystème.",
+    "live.ctaTitle": "Prêt à découvrir l'écosystème Web3 ?",
+    "live.ctaSubtitle": "Rejoignez notre communauté et accédez à du contenu exclusif avec les experts du secteur.",
+    "live.cta1": "Réserver un appel",
+    "live.cta2": "S'abonner à YouTube",
   },
   en: {
     // Navigation
@@ -196,6 +216,7 @@ export const ui = {
     "nav.services": "Services",
     "nav.founders": "Founders",
     "nav.network": "Network",
+    "nav.guests": "Guests",
     "nav.media": "Media",
     "nav.case-studies": "Case Studies",
     "nav.contact": "Contact",
@@ -370,6 +391,25 @@ export const ui = {
 
     // Footer
     "footer.rights": "© 2025 The Arch Consulting. All rights reserved.",
+
+    // Guests Section
+    "guests.title": '<span class="font-playfair">They\'ve been</span> <i class="font-playfair">on our show</i>',
+    "guests.subtitle": "Discover the Web3 experts who have shared their vision and expertise in our live shows.",
+    "guests.experts": "Experts",
+    "guests.episodes": "Episodes",
+    "guests.views": "Views",
+    "guests.french": "French",
+    "guests.seeAll": "See all episodes",
+
+    // Live Page
+    "live.title": "Our Live Shows",
+    "live.description": "Discover our conversations with French Web3 leaders. Exclusive insights, analyses and feedback.",
+    "live.heroTitle": "Conversations with Web3 Leaders",
+    "live.heroSubtitle": "Dive into the French Web3 universe through our exclusive shows with key ecosystem players.",
+    "live.ctaTitle": "Ready to discover the Web3 ecosystem?",
+    "live.ctaSubtitle": "Join our community and access exclusive content with industry experts.",
+    "live.cta1": "Schedule a call",
+    "live.cta2": "Subscribe to YouTube",
   },
 } as const;
 

@@ -75,6 +75,7 @@ export default {
         primary: 'var(--font-primary)',
         display: 'var(--font-display)',
         mono: 'var(--font-mono)',
+        playfair: 'var(--font-display)',
       },
       
       fontSize: {
