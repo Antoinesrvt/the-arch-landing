@@ -239,7 +239,7 @@ const pageDescription = lang === 'fr'
                 <span class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-lg text-xs font-semibold">
                   {episode.data.category}
                       </span>
-                </div>
+                    </div>
 
               <!-- Title -->
               <h3 class="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors">
@@ -257,10 +257,10 @@ const pageDescription = lang === 'fr'
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-semibold text-white truncate">{episode.data.guest.name}</p>
                   <p class="text-xs text-gray-400 truncate">{episode.data.guest.company}</p>
-                </div>
+                  </div>
                 </div>
 
-              <!-- Summary -->
+                <!-- Summary -->
               <p class="text-sm text-gray-400 mb-4 line-clamp-3">
                 {episode.data.summary}
               </p>
@@ -279,7 +279,7 @@ const pageDescription = lang === 'fr'
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
                     {lang === 'fr' ? 'Publié' : 'Published'}
-                  </span>
+                    </span>
                 ) : (
                   <span class="flex items-center gap-1 text-yellow-400">
                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
@@ -337,15 +337,8 @@ const pageDescription = lang === 'fr'
     });
   }, observerOptions);
 
-  // Observe all episode cards
+  // Parallax effect on scroll (keep only this)
   document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.episode-card');
-    cards.forEach((card) => {
-      card.classList.add('opacity-0');
-      observer.observe(card);
-    });
-
-    // Parallax effect on scroll
     const heroBg = document.getElementById('hero-bg');
     if (heroBg) {
       window.addEventListener('scroll', () => {
@@ -466,20 +459,13 @@ const pageDescription = lang === 'fr'
       }
     }
 
-    /* Scroll-triggered fade-in animation */
-    .animate-fade-in {
-      animation: fadeInScale 0.6s ease-out forwards;
+    /* Smooth card hover effects */
+    .episode-card {
+      transition: all 0.3s ease;
     }
-
-    @keyframes fadeInScale {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    
+    .episode-card:hover {
+      transform: translateY(-4px);
     }
 
     /* Parallax effect for hero background */

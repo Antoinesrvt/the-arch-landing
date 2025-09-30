@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { b as createAstro, c as createComponent, m as maybeRenderHead, a as renderTemplate, u as unescapeHTML, d as addAttribute, e as renderScript, r as renderComponent } from '../chunks/astro/server_DcA3QZaD.mjs';
 import 'kleur/colors';
-import { $ as $$I18NLayout } from '../chunks/I18nLayout_5wvGtHvt.mjs';
+import { $ as $$I18NLayout } from '../chunks/I18nLayout_KfKweJ1v.mjs';
 import { $ as $$Header, a as $$Footer } from '../chunks/Footer_C6Nc-upp.mjs';
 import 'clsx';
 import { u as useTranslations, g as getStaticPaths } from '../chunks/utils_BXjdZIuG.mjs';

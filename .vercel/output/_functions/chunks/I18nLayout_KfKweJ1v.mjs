@@ -1,6 +1,6 @@
 import { b as createAstro, c as createComponent, e as renderScript, r as renderComponent, F as Fragment, a as renderTemplate, i as defineScriptVars, d as addAttribute, m as maybeRenderHead, j as renderSlot } from './astro/server_DcA3QZaD.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from './Layout_CpGKXbGN.mjs';
+import { $ as $$Layout } from './Layout_BeaI5RKq.mjs';
 import 'clsx';
 
 var __freeze = Object.freeze;
