@@ -32,8 +32,8 @@ export const server = {
           from: 'The Arch <onboarding@resend.dev>', // Change to your verified domain
           to: [email],
           subject: language === 'fr' 
-            ? '🎁 Votre Guide Web3 - The Arch Consulting'
-            : '🎁 Your Web3 Guide - The Arch Consulting',
+            ? '📧 Bienvenue dans notre Newsletter Web3 - The Arch Consulting'
+            : '📧 Welcome to our Web3 Newsletter - The Arch Consulting',
           html: language === 'fr' ? `
             <!DOCTYPE html>
             <html>
@@ -51,39 +51,34 @@ export const server = {
               <body>
                 <div class="container">
                   <div class="header">
-                    <h1 style="margin: 0; font-size: 28px;">🚀 Bienvenue chez The Arch!</h1>
+                    <h1 style="margin: 0; font-size: 28px;">📧 Bienvenue dans notre Newsletter !</h1>
                   </div>
                   
                   <div class="content">
                     <p style="font-size: 16px;">Bonjour${name ? ` ${name}` : ''},</p>
                     
-                    <p>Merci de votre intérêt pour The Arch Consulting ! Nous sommes ravis de vous accompagner dans votre aventure Web3.</p>
+                    <p>Merci de vous être inscrit à notre newsletter ! Nous sommes ravis de partager avec vous nos insights Web3 et de vous tenir informé des dernières tendances du marché.</p>
                     
-                    <p><strong>Voici votre guide complet pour lancer votre projet Web3 :</strong></p>
+                    <p><strong>Ce que vous allez recevoir chaque semaine :</strong></p>
                     
-                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">📋 Les 10 Étapes Essentielles</h2>
+                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">📊 Nos Analyses Exclusives</h2>
                     
-                    <ol style="padding-left: 20px;">
-                      <li><strong>Définir votre Vision</strong> - Clarifiez votre proposition de valeur unique</li>
-                      <li><strong>Architecture Technique</strong> - Choisissez la blockchain adaptée (Ethereum, Polygon, etc.)</li>
-                      <li><strong>Tokenomics</strong> - Créez un modèle économique durable</li>
-                      <li><strong>Smart Contracts</strong> - Développez et auditez vos contrats</li>
-                      <li><strong>Sécurité</strong> - Audit de sécurité complet (obligatoire!)</li>
-                      <li><strong>Interface Utilisateur</strong> - Design UX/UI Web3-native</li>
-                      <li><strong>Communauté</strong> - Construisez avant de lancer</li>
-                      <li><strong>Marketing</strong> - Stratégie de lancement 360°</li>
-                      <li><strong>Fundraising</strong> - Levée de fonds ou bootstrap</li>
-                      <li><strong>Lancement</strong> - Go-to-market et croissance</li>
-                    </ol>
+                    <ul style="padding-left: 20px;">
+                      <li><strong>Insights Web3</strong> - Analyses approfondies des tendances blockchain</li>
+                      <li><strong>Marché & Tokenomics</strong> - Évolutions des modèles économiques</li>
+                      <li><strong>Technologies émergentes</strong> - DeFi, NFT, DAO, et plus encore</li>
+                      <li><strong>Opportunités d'investissement</strong> - Projets prometteurs à suivre</li>
+                      <li><strong>Réglementation</strong> - Mise à jour sur l'évolution légale</li>
+                    </ul>
                     
-                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">💡 Notre Approche Unique</h2>
+                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">🎯 Contenu Personnalisé</h2>
                     
-                    <p>Contrairement aux agences traditionnelles :</p>
+                    <p>Notre équipe d'experts vous propose :</p>
                     <ul>
-                      <li>✅ <strong>3 fondateurs experts</strong> coordonnent votre stratégie</li>
-                      <li>✅ <strong>Réseau de spécialistes</strong> pour l'exécution</li>
-                      <li>✅ <strong>Plateforme média</strong> pour amplifier votre projet</li>
-                      <li>✅ <strong>Suivi transparent</strong> à chaque étape</li>
+                      <li>✅ <strong>Analyses de marché</strong> hebdomadaires</li>
+                      <li>✅ <strong>Interviews exclusives</strong> avec des leaders Web3</li>
+                      <li>✅ <strong>Cas d'étude</strong> de projets réussis</li>
+                      <li>✅ <strong>Accès prioritaire</strong> à nos événements</li>
                     </ul>
                     
                     <div style="text-align: center; margin: 40px 0;">
@@ -93,10 +88,10 @@ export const server = {
                     </div>
                     
                     <p style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 30px 0;">
-                      <strong>🎁 Bonus :</strong> Les 30 premiers inscrits bénéficient d'un audit gratuit de leur tokenomics (valeur: 1500€)
+                      <strong>🎁 Bonus :</strong> Accès exclusif à notre communauté Discord et aux événements privés
                     </p>
                     
-                    <p>Questions ? Répondez simplement à cet email, nous sommes là pour vous aider !</p>
+                    <p>Des questions ? Répondez simplement à cet email, nous sommes là pour vous aider !</p>
                     
                     <p style="margin-top: 40px;">
                       À très bientôt,<br>
@@ -136,39 +131,34 @@ export const server = {
               <body>
                 <div class="container">
                   <div class="header">
-                    <h1 style="margin: 0; font-size: 28px;">🚀 Welcome to The Arch!</h1>
+                    <h1 style="margin: 0; font-size: 28px;">📧 Welcome to our Newsletter!</h1>
                   </div>
                   
                   <div class="content">
                     <p style="font-size: 16px;">Hello${name ? ` ${name}` : ''},</p>
                     
-                    <p>Thank you for your interest in The Arch Consulting! We're excited to support you on your Web3 journey.</p>
+                    <p>Thank you for subscribing to our newsletter! We're excited to share our Web3 insights with you and keep you informed about the latest market trends.</p>
                     
-                    <p><strong>Here's your complete guide to launching your Web3 project:</strong></p>
+                    <p><strong>What you'll receive every week:</strong></p>
                     
-                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">📋 10 Essential Steps</h2>
+                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">📊 Our Exclusive Analysis</h2>
                     
-                    <ol style="padding-left: 20px;">
-                      <li><strong>Define Your Vision</strong> - Clarify your unique value proposition</li>
-                      <li><strong>Technical Architecture</strong> - Choose the right blockchain (Ethereum, Polygon, etc.)</li>
-                      <li><strong>Tokenomics</strong> - Create a sustainable economic model</li>
-                      <li><strong>Smart Contracts</strong> - Develop and audit your contracts</li>
-                      <li><strong>Security</strong> - Comprehensive security audit (mandatory!)</li>
-                      <li><strong>User Interface</strong> - Web3-native UX/UI design</li>
-                      <li><strong>Community</strong> - Build before you launch</li>
-                      <li><strong>Marketing</strong> - 360° launch strategy</li>
-                      <li><strong>Fundraising</strong> - Raise funds or bootstrap</li>
-                      <li><strong>Launch</strong> - Go-to-market and growth</li>
-                    </ol>
+                    <ul style="padding-left: 20px;">
+                      <li><strong>Web3 Insights</strong> - In-depth analysis of blockchain trends</li>
+                      <li><strong>Market & Tokenomics</strong> - Evolution of economic models</li>
+                      <li><strong>Emerging Technologies</strong> - DeFi, NFT, DAO, and more</li>
+                      <li><strong>Investment Opportunities</strong> - Promising projects to watch</li>
+                      <li><strong>Regulation</strong> - Updates on legal developments</li>
+                    </ul>
                     
-                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">💡 Our Unique Approach</h2>
+                    <h2 style="color: #8B5CF6; font-size: 20px; margin-top: 30px;">🎯 Personalized Content</h2>
                     
-                    <p>Unlike traditional agencies:</p>
+                    <p>Our expert team provides:</p>
                     <ul>
-                      <li>✅ <strong>3 expert founders</strong> coordinate your strategy</li>
-                      <li>✅ <strong>Specialist network</strong> for execution</li>
-                      <li>✅ <strong>Media platform</strong> to amplify your project</li>
-                      <li>✅ <strong>Transparent tracking</strong> at every step</li>
+                      <li>✅ <strong>Weekly market analysis</strong></li>
+                      <li>✅ <strong>Exclusive interviews</strong> with Web3 leaders</li>
+                      <li>✅ <strong>Case studies</strong> of successful projects</li>
+                      <li>✅ <strong>Priority access</strong> to our events</li>
                     </ul>
                     
                     <div style="text-align: center; margin: 40px 0;">
@@ -178,7 +168,7 @@ export const server = {
                     </div>
                     
                     <p style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 30px 0;">
-                      <strong>🎁 Bonus:</strong> First 30 signups get a free tokenomics audit (value: €1500)
+                      <strong>🎁 Bonus:</strong> Exclusive access to our Discord community and private events
                     </p>
                     
                     <p>Questions? Just reply to this email, we're here to help!</p>

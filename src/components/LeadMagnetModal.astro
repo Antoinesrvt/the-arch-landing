@@ -32,14 +32,14 @@ const { lang } = Astro.props;
 
     <!-- Header with Gradient -->
     <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-8 text-center">
-      <div class="text-5xl mb-4">🎁</div>
+      <div class="text-5xl mb-4">📧</div>
       <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-white mb-2">
-        {lang === 'fr' ? 'Téléchargez Votre Guide Gratuit' : 'Download Your Free Guide'}
+        {lang === 'fr' ? 'Restez Informé des Dernières Nouvelles' : 'Stay Updated with Latest News'}
       </h2>
       <p class="text-purple-100">
         {lang === 'fr' 
-          ? 'Les 10 étapes essentielles pour lancer votre projet Web3'
-          : '10 essential steps to launch your Web3 project'
+          ? 'Recevez nos insights Web3, analyses de marché et opportunités exclusives'
+          : 'Get our Web3 insights, market analysis and exclusive opportunities'
         }
       </p>
     </div>
@@ -133,8 +133,8 @@ const { lang } = Astro.props;
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               {lang === 'fr' 
-                ? 'Guide PDF complet (10 étapes détaillées)' 
-                : 'Complete PDF guide (10 detailed steps)'
+                ? 'Newsletter hebdomadaire avec insights Web3' 
+                : 'Weekly newsletter with Web3 insights'
               }
             </li>
             <li class="flex items-start gap-2">
@@ -142,8 +142,8 @@ const { lang } = Astro.props;
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               {lang === 'fr' 
-                ? 'Checklist de lancement projet Web3' 
-                : 'Web3 project launch checklist'
+                ? 'Analyses de marché et tendances exclusives' 
+                : 'Market analysis and exclusive trends'
               }
             </li>
             <li class="flex items-start gap-2">
@@ -151,8 +151,8 @@ const { lang } = Astro.props;
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
               {lang === 'fr' 
-                ? 'Bonus: Audit tokenomics offert (1500€)' 
-                : 'Bonus: Free tokenomics audit (€1500)'
+                ? 'Accès prioritaire à nos événements et opportunités' 
+                : 'Priority access to our events and opportunities'
               }
             </li>
           </ul>
@@ -165,7 +165,7 @@ const { lang } = Astro.props;
           class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/30 flex items-center justify-center gap-2"
         >
           <span id="button-text">
-            {lang === 'fr' ? '📥 Télécharger le Guide Gratuit' : '📥 Download Free Guide'}
+            {lang === 'fr' ? '📧 S\'inscrire à la Newsletter' : '📧 Subscribe to Newsletter'}
           </span>
           <svg id="button-spinner" class="hidden w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

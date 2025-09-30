@@ -26,6 +26,14 @@ const t = useTranslations(lang as any);
           <a href="https://cal.com/thearch/meet-the-arch" target="_blank" rel="noopener noreferrer" class="bg-white text-gray-900 font-semibold py-3 px-8 rounded-lg inline-block w-full sm:w-auto animated-button">
             {t('contact.cta1')}
           </a>
+          
+          <button 
+            data-open-lead-magnet
+            class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated hover:border-purple-400/50 hover:bg-white/5 transition-all duration-300"
+          >
+            {lang === 'fr' ? '📧 Newsletter Web3' : '📧 Web3 Newsletter'}
+          </button>
+          
            <a href="https://tally.so/r/3q1rOg" target="_blank" rel="noopener noreferrer" class="border border-white/50 text-white font-semibold py-3 px-8 rounded-lg w-full sm:w-auto btn-secondary-animated">
             {t('contact.cta2')}
           </a>
