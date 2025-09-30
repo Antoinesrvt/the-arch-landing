@@ -87,8 +87,10 @@ const { lang } = Astro.props;
       </div>
 
       <!-- Form -->
-      <form id="lead-magnet-form" method="POST">
+      <form id="lead-magnet-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
         <input type="hidden" name="language" value={lang} />
+        <input type="hidden" name="_subject" value={lang === 'fr' ? 'Nouvelle inscription newsletter - The Arch' : 'New newsletter subscription - The Arch'} />
+        <input type="hidden" name="_replyto" value="" />
         
         <!-- Name Field (Optional) -->
         <div class="mb-4">
@@ -245,7 +247,8 @@ const { lang } = Astro.props;
 
   // Form submission
   form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    // Let Formspree handle the submission
+    // Just show loading state and success message
     
     // Hide messages
     successMessage?.classList.add('hidden');
@@ -256,34 +259,27 @@ const { lang } = Astro.props;
     buttonText.classList.add('hidden');
     buttonSpinner?.classList.remove('hidden');
     
-    try {
-      const formData = new FormData(form);
-      
-      // Call Astro action via POST
-      const response = await fetch('/_actions/captureEmail', {
-        method: 'POST',
-        body: formData,
+    // Set reply-to field
+    const emailInput = document.getElementById('lead-email') as HTMLInputElement;
+    const replyToField = document.querySelector('input[name="_replyto"]') as HTMLInputElement;
+    if (emailInput && replyToField) {
+      replyToField.value = emailInput.value;
+    }
+    
+    // Track conversion attempt
+    if (typeof (window as any).trackEvent === 'function') {
+      (window as any).trackEvent('newsletter_signup_attempt', {
+        email: emailInput?.value,
+        name: (document.getElementById('lead-name') as HTMLInputElement)?.value,
+        language: (document.querySelector('input[name="language"]') as HTMLInputElement)?.value,
+        timestamp: new Date().toISOString()
       });
-      
-      const result = await response.json();
-      
-      if (!response.ok || result.error) {
-        throw new Error(result.error?.message || 'Failed to send email');
-      }
-      
-      // Success!
+    }
+    
+    // Show success message after a short delay (Formspree will redirect)
+    setTimeout(() => {
       successMessage?.classList.remove('hidden');
       form.reset();
-      
-      // Track conversion
-      if (typeof (window as any).trackEvent === 'function') {
-        (window as any).trackEvent('newsletter_signup', {
-          email: formData.get('email'),
-          name: formData.get('name'),
-          language: formData.get('language'),
-          timestamp: new Date().toISOString()
-        });
-      }
       
       // Close modal after 3 seconds
       setTimeout(() => {
@@ -291,27 +287,11 @@ const { lang } = Astro.props;
         successMessage?.classList.add('hidden');
       }, 3000);
       
-    } catch (error) {
-      // Error handling
-      errorMessage?.classList.remove('hidden');
-      const errorText = document.getElementById('error-text');
-      if (errorText && error instanceof Error) {
-        errorText.textContent = error.message;
-      }
-      
-      // Track error
-      if (typeof (window as any).trackEvent === 'function') {
-        (window as any).trackEvent('newsletter_error', {
-          error: error instanceof Error ? error.message : 'Unknown error',
-          timestamp: new Date().toISOString()
-        });
-      }
-    } finally {
       // Reset button state
       submitButton.disabled = false;
       buttonText.classList.remove('hidden');
       buttonSpinner?.classList.add('hidden');
-    }
+    }, 1000);
   });
 
   // Make openModal available globally

@@ -1,7 +1,0 @@
-{
-  "functions": {
-    ".vercel/output/functions/_render.func/index.mjs": {
-      "runtime": "edge"
-    }
-  }
-}
