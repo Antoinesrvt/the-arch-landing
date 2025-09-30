@@ -277,7 +277,7 @@ const { lang } = Astro.props;
       
       // Track conversion
       if (typeof (window as any).trackEvent === 'function') {
-        (window as any).trackEvent('lead_magnet_downloaded', {
+        (window as any).trackEvent('newsletter_signup', {
           email: formData.get('email'),
           name: formData.get('name'),
           language: formData.get('language'),
@@ -301,7 +301,7 @@ const { lang } = Astro.props;
       
       // Track error
       if (typeof (window as any).trackEvent === 'function') {
-        (window as any).trackEvent('lead_magnet_error', {
+        (window as any).trackEvent('newsletter_error', {
           error: error instanceof Error ? error.message : 'Unknown error',
           timestamp: new Date().toISOString()
         });
