@@ -1,7 +1,7 @@
-import { b as createAstro, c as createComponent, m as maybeRenderHead, d as addAttribute, a as renderTemplate, r as renderComponent } from './astro/server_DcA3QZaD.mjs';
+import { b as createAstro, c as createComponent, m as maybeRenderHead, d as addAttribute, a as renderTemplate, r as renderComponent } from './astro/server_DItPYgB8.mjs';
 import 'kleur/colors';
 import 'clsx';
-import { u as useTranslations } from './utils_BXjdZIuG.mjs';
+import { u as useTranslations } from './utils_CBZl_wIo.mjs';
 
 const $$Astro$2 = createAstro("https://thearch.fr");
 const $$LanguageSwitcher = createComponent(($$result, $$props, $$slots) => {

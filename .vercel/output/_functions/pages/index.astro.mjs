@@ -1,8 +1,8 @@
 /* empty css                                 */
-import { b as createAstro, c as createComponent } from '../chunks/astro/server_DcA3QZaD.mjs';
+import { b as createAstro, c as createComponent } from '../chunks/astro/server_DItPYgB8.mjs';
 import 'kleur/colors';
 import 'clsx';
-import { d as defaultLang } from '../chunks/config_DLYnUZ7q.mjs';
+import { d as defaultLang } from '../chunks/config_8lXGn2fN.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro("https://thearch.fr");

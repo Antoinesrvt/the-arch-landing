@@ -43,19 +43,19 @@ const t = useTranslations(lang as any);
                 
                 <!-- CTA Buttons with proper z-index -->
                 <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4 relative z-30">
-                    <button 
-                        data-open-lead-magnet
-                        class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-900 bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50 w-full sm:w-auto cursor-pointer"
+                    <a 
+                        href={lang === 'fr' ? '/live' : '/en/live'}
+                        class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-900 bg-white rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50 w-full sm:w-auto"
                     >
                         <span class="relative z-10 flex items-center gap-2">
-                            {t('hero.cta1')}
+                            {lang === 'fr' ? 'Voir nos Lives' : 'Watch Our Episodes'}
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                             </svg>
                         </span>
                         <!-- Animated gradient border -->
                         <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity blur-xl" aria-hidden="true"></div>
-                    </button>
+                    </a>
                     
                     <a 
                         href="https://cal.com/thearch/meet-the-arch" 

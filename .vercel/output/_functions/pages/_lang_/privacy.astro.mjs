@@ -1,9 +1,9 @@
 /* empty css                                    */
-import { b as createAstro, c as createComponent, r as renderComponent, e as renderScript, a as renderTemplate, m as maybeRenderHead, F as Fragment } from '../../chunks/astro/server_DcA3QZaD.mjs';
+import { b as createAstro, c as createComponent, r as renderComponent, e as renderScript, a as renderTemplate, m as maybeRenderHead, F as Fragment } from '../../chunks/astro/server_DItPYgB8.mjs';
 import 'kleur/colors';
-import { $ as $$I18NLayout } from '../../chunks/I18nLayout_KfKweJ1v.mjs';
-import { $ as $$Header, a as $$Footer } from '../../chunks/Footer_C6Nc-upp.mjs';
-import { g as getStaticPaths } from '../../chunks/utils_BXjdZIuG.mjs';
+import { $ as $$I18NLayout } from '../../chunks/I18nLayout_B8emGxbS.mjs';
+import { $ as $$Header, a as $$Footer } from '../../chunks/Footer_CWIfj4fC.mjs';
+import { g as getStaticPaths } from '../../chunks/utils_CBZl_wIo.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro("https://thearch.fr");

@@ -24,7 +24,7 @@ export const ui = {
     "hero.title": "Votre Partenaire Web3 Complet",
     "hero.subtitle":
       "3 experts fondateurs pour la stratégie + un réseau de spécialistes pour l'exécution. De la vision à la réalisation, nous orchestrons votre succès Web3.",
-    "hero.cta1": "Télécharger le Guide Gratuit",
+    "hero.cta1": "Voir nos Lives",
     "hero.cta2": "Réserver un appel",
 
     // Hybrid Approach
@@ -229,7 +229,7 @@ export const ui = {
     "hero.title": "Your Complete Web3 Partner",
     "hero.subtitle":
       "3 founding experts for strategy + a network of specialists for execution. From vision to realization, we orchestrate your Web3 success.",
-    "hero.cta1": "Download Free Guide",
+    "hero.cta1": "Watch Our Episodes",
     "hero.cta2": "Schedule a call",
 
     // Hybrid Approach

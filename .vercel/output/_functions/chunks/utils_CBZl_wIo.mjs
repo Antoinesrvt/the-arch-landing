@@ -1,4 +1,4 @@
-import { u as ui, d as defaultLang } from './config_DLYnUZ7q.mjs';
+import { u as ui, d as defaultLang } from './config_8lXGn2fN.mjs';
 
 function useTranslations(lang) {
   return function t(key) {
