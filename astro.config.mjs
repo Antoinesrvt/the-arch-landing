@@ -8,7 +8,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://thearch.fr', // Update with your actual domain
   output: 'server', // Enable SSR for Vercel deployment with actions
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: { enabled: true },
+    speedInsights: { enabled: true }
+  }),
   integrations: [
     tailwind(),
     sitemap({
@@ -30,6 +33,6 @@ export default defineConfig({
     }
   },
   build: {
-    format: 'file'
+    format: 'directory'
   }
 });
