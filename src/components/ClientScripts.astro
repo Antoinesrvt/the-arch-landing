@@ -70,6 +70,9 @@ const appConfig: AppConfig = {
       
       // Setup scroll progress indicator
       setupScrollProgress();
+      
+      // Initialize analytics tracking
+      setupAnalytics();
     }, 1000);
   });
   
@@ -103,5 +106,76 @@ const appConfig: AppConfig = {
     
     // Initial update
     updateProgress();
+  }
+  
+  // Simple analytics tracking system
+  function setupAnalytics() {
+    // Create global trackEvent function
+    (window as any).trackEvent = function(category: string, action: string, label?: string, value?: number) {
+      // Log to console in development
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('📊 Analytics Event:', { category, action, label, value });
+      }
+      
+      // TODO: Replace with your actual analytics service (Google Analytics, Plausible, etc.)
+      // Example for Google Analytics:
+      // if (typeof gtag !== 'undefined') {
+      //   gtag('event', action, {
+      //     event_category: category,
+      //     event_label: label,
+      //     value: value
+      //   });
+      // }
+      
+      // Example for Plausible:
+      // if (typeof plausible !== 'undefined') {
+      //   plausible(action, { props: { category, label, value } });
+      // }
+    };
+    
+    // Track page view
+    (window as any).trackEvent('page', 'view', window.location.pathname);
+    
+    // Track CTA clicks
+    const ctaButtons = document.querySelectorAll('a[href*="cal.com"], a[href*="tally.so"]');
+    ctaButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const href = (e.currentTarget as HTMLAnchorElement).href;
+        const text = (e.currentTarget as HTMLElement).textContent?.trim();
+        (window as any).trackEvent('cta', 'click', text || href);
+      });
+    });
+    
+    // Track external links
+    const externalLinks = document.querySelectorAll('a[target="_blank"]');
+    externalLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = (e.currentTarget as HTMLAnchorElement).href;
+        (window as any).trackEvent('external_link', 'click', href);
+      });
+    });
+    
+    // Track scroll depth
+    const scrollDepths = [25, 50, 75, 100];
+    const trackedDepths = new Set();
+    
+    window.addEventListener('scroll', () => {
+      const scrollPercent = ((window.pageYOffset || document.documentElement.scrollTop) / 
+        (document.documentElement.scrollHeight - document.documentElement.clientHeight)) * 100;
+      
+      scrollDepths.forEach(depth => {
+        if (scrollPercent >= depth && !trackedDepths.has(depth)) {
+          trackedDepths.add(depth);
+          (window as any).trackEvent('scroll', 'depth', `${depth}%`, depth);
+        }
+      });
+    });
+    
+    // Track time on page
+    const startTime = Date.now();
+    window.addEventListener('beforeunload', () => {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      (window as any).trackEvent('engagement', 'time_on_page', '', timeSpent);
+    });
   }
 </script>

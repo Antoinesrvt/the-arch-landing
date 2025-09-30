@@ -1,6 +1,6 @@
 /**
  * Card Effects Manager
- * Handles cursor tracking, magnetic effects, and advanced card interactions
+ * Handles cursor tracking and advanced card interactions
  */
 
 export class CardEffectsManager {
@@ -18,7 +18,7 @@ export class CardEffectsManager {
     }
 
     this.setupCursorTracking();
-    this.setupMagneticButtons();
+    // Magnetic buttons removed - they were annoying!
     this.isInitialized = true;
     
     console.log(`✨ Card effects initialized for ${this.cards.length} cards`);
@@ -55,34 +55,7 @@ export class CardEffectsManager {
     });
   }
 
-  /**
-   * Magnetic effect for buttons
-   * Buttons follow cursor slightly when hovered
-   */
-  private setupMagneticButtons(): void {
-    const buttons = document.querySelectorAll('.magnetic-button');
-    
-    buttons.forEach((button) => {
-      const btn = button as HTMLElement;
-      
-      btn.addEventListener('mousemove', (e: Event) => {
-        const event = e as MouseEvent;
-        const rect = btn.getBoundingClientRect();
-        const x = event.clientX - rect.left - rect.width / 2;
-        const y = event.clientY - rect.top - rect.height / 2;
-        
-        // Apply subtle magnetic pull (max 10px in any direction)
-        const pullX = x * 0.15;
-        const pullY = y * 0.15;
-        
-        btn.style.transform = `translate(${pullX}px, ${pullY}px) translateY(-2px)`;
-      });
-
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
-      });
-    });
-  }
+  // Magnetic button effect removed - it was annoying and confusing for users
 
   /**
    * Refresh effect (useful after dynamic content load)

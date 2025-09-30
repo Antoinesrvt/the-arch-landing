@@ -94,17 +94,6 @@
   animation: gradient-shift 15s ease infinite;
 }
 
-/* ===== MAGNETIC BUTTON EFFECT ===== */
-.magnetic-button {
-  position: relative;
-  transition: transform var(--transition-fast);
-  will-change: transform;
-}
-
-.magnetic-button:hover {
-  transform: translateY(-2px);
-}
-
 /* ===== FLOATING ANIMATION ===== */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
