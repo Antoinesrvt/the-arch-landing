@@ -1,0 +1,365 @@
+---
+// Services Section Component - OPTION B: HEXAGONAL HONEYCOMB
+import { useTranslations } from '../i18n/utils';
+import type { Language, TranslationFunction } from '../types';
+
+export interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang) as TranslationFunction;
+---
+
+<section id="services-option-b" class="py-24 relative overflow-hidden bg-gradient-to-b from-slate-900 to-indigo-950" aria-labelledby="services-title-b">
+  <!-- Hexagonal pattern background -->
+  <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http&quot://www.w3.org/2000/svg&quot;%3E%3Cpath d=&quot;M30 0l25.98 15v30L30 60 4.02 45V15z&quot; fill=&quot;none&quot; stroke=&quot;%238B5CF6&quot; stroke-width=&quot;1&quot;/%3E%3C/svg%3E');"></div>
+  
+  <div class="container mx-auto px-6 relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-20">
+      <div class="inline-block mb-4 px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-300 text-sm font-semibold">
+        Option B: Hexagonal Honeycomb
+      </div>
+      <h2 id="services-title-b" class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4" set:html={t('services.title')}></h2>
+      <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+        {t('services.subtitle')}
+      </p>
+    </div>
+
+    <!-- HEXAGONAL LAYOUT - Desktop -->
+    <div class="hidden lg:block max-w-6xl mx-auto mb-20">
+      <div class="relative">
+        
+        <!-- Center: 360° Hub (Hexagon) -->
+        <div class="flex justify-center mb-12">
+          <div class="hexagon-container group cursor-pointer">
+            <div class="hexagon hexagon-center">
+              <div class="hexagon-inner bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 border-2 border-white/30 group-hover:scale-110 transition-all duration-500 shadow-2xl shadow-purple-500/50">
+                <div class="hexagon-content text-center">
+                  <div class="text-5xl font-bold bg-gradient-to-r from-white via-purple-100 to-white bg-clip-text text-transparent mb-2 animate-pulse-subtle">360°</div>
+                  <div class="text-sm text-white/90 font-bold uppercase tracking-widest">
+                    {lang === 'fr' ? 'Couverture' : 'Coverage'}
+                  </div>
+                  <div class="mt-2 text-xs text-purple-200 font-medium">
+                    {lang === 'fr' ? 'Complète' : 'Complete'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hexagonal Grid -->
+        <div class="grid grid-cols-2 gap-8 max-w-5xl mx-auto">
+          
+          <!-- TOP LEFT: TECH -->
+          <div class="hexagon-service-card group">
+            <div class="relative p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-indigo-500/20 hover:border-indigo-500/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 backdrop-blur-sm">
+              <!-- Hexagon corner accent -->
+              <div class="absolute -top-3 -left-3 w-12 h-12">
+                <svg viewBox="0 0 60 60" class="w-full h-full text-indigo-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <path d="M30 0l25.98 15v30L30 60 4.02 45V15z" fill="currentColor"/>
+                </svg>
+              </div>
+              
+              <div class="flex items-start gap-5 mb-6">
+                <div class="w-16 h-16 hexagon-icon bg-gradient-to-br from-indigo-500/20 to-indigo-600/30 border-2 border-indigo-500/40 flex items-center justify-center shrink-0 group-hover:rotate-180 transition-all duration-700 shadow-lg shadow-indigo-500/30">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-300">
+                    <path d="m18 16 4-4-4-4"/>
+                    <path d="m6 8-4 4 4 4"/>
+                    <path d="m14.5 4-5 16"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors">
+                    {t('service1.title')}
+                  </h3>
+                  <p class="text-gray-300 leading-relaxed">
+                    {t('service1.desc')}
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="px-3 py-2 text-xs font-bold bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 rounded-lg hover:bg-indigo-500/20 transition-colors hexagon-tag">Smart Contracts</span>
+                <span class="px-3 py-2 text-xs font-bold bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 rounded-lg hover:bg-indigo-500/20 transition-colors hexagon-tag">Audits</span>
+                <span class="px-3 py-2 text-xs font-bold bg-indigo-500/10 border border-indigo-500/30 text-indigo-200 rounded-lg hover:bg-indigo-500/20 transition-colors hexagon-tag">Optimization</span>
+              </div>
+
+              <!-- Connection line to center -->
+              <div class="absolute top-full left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-indigo-500/50 to-transparent opacity-30 group-hover:opacity-70 transition-opacity"></div>
+            </div>
+          </div>
+
+          <!-- TOP RIGHT: FINANCE -->
+          <div class="hexagon-service-card group">
+            <div class="relative p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-emerald-500/20 hover:border-emerald-500/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 backdrop-blur-sm">
+              <!-- Hexagon corner accent -->
+              <div class="absolute -top-3 -right-3 w-12 h-12">
+                <svg viewBox="0 0 60 60" class="w-full h-full text-emerald-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <path d="M30 0l25.98 15v30L30 60 4.02 45V15z" fill="currentColor"/>
+                </svg>
+              </div>
+              
+              <div class="flex items-start gap-5 mb-6">
+                <div class="w-16 h-16 hexagon-icon bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-2 border-emerald-500/40 flex items-center justify-center shrink-0 group-hover:rotate-180 transition-all duration-700 shadow-lg shadow-emerald-500/30">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-emerald-300">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors">
+                    {t('service2.title')}
+                  </h3>
+                  <p class="text-gray-300 leading-relaxed">
+                    {t('service2.desc')}
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="px-3 py-2 text-xs font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 rounded-lg hover:bg-emerald-500/20 transition-colors hexagon-tag">Tokenomics</span>
+                <span class="px-3 py-2 text-xs font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 rounded-lg hover:bg-emerald-500/20 transition-colors hexagon-tag">Fundraising</span>
+                <span class="px-3 py-2 text-xs font-bold bg-emerald-500/10 border border-emerald-500/30 text-emerald-200 rounded-lg hover:bg-emerald-500/20 transition-colors hexagon-tag">Compliance</span>
+              </div>
+
+              <!-- Connection line to center -->
+              <div class="absolute top-full right-1/2 translate-x-1/2 w-0.5 h-8 bg-gradient-to-b from-emerald-500/50 to-transparent opacity-30 group-hover:opacity-70 transition-opacity"></div>
+            </div>
+          </div>
+
+          <!-- BOTTOM LEFT: MARKETING -->
+          <div class="hexagon-service-card group">
+            <div class="relative p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-pink-500/20 hover:border-pink-500/50 transition-all duration-500 hover:scale-105 hover:translate-y-2 backdrop-blur-sm">
+              <!-- Hexagon corner accent -->
+              <div class="absolute -bottom-3 -left-3 w-12 h-12">
+                <svg viewBox="0 0 60 60" class="w-full h-full text-pink-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <path d="M30 0l25.98 15v30L30 60 4.02 45V15z" fill="currentColor"/>
+                </svg>
+              </div>
+              
+              <div class="flex items-start gap-5 mb-6">
+                <div class="w-16 h-16 hexagon-icon bg-gradient-to-br from-pink-500/20 to-pink-600/30 border-2 border-pink-500/40 flex items-center justify-center shrink-0 group-hover:rotate-180 transition-all duration-700 shadow-lg shadow-pink-500/30">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-pink-300">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-pink-300 transition-colors">
+                    {t('service3.title')}
+                  </h3>
+                  <p class="text-gray-300 leading-relaxed">
+                    {t('service3.desc')}
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="px-3 py-2 text-xs font-bold bg-pink-500/10 border border-pink-500/30 text-pink-200 rounded-lg hover:bg-pink-500/20 transition-colors hexagon-tag">Community</span>
+                <span class="px-3 py-2 text-xs font-bold bg-pink-500/10 border border-pink-500/30 text-pink-200 rounded-lg hover:bg-pink-500/20 transition-colors hexagon-tag">Content</span>
+                <span class="px-3 py-2 text-xs font-bold bg-pink-500/10 border border-pink-500/30 text-pink-200 rounded-lg hover:bg-pink-500/20 transition-colors hexagon-tag">Media</span>
+              </div>
+
+              <!-- Connection line to center -->
+              <div class="absolute bottom-full left-1/2 -translate-x-1/2 w-0.5 h-8 bg-gradient-to-t from-pink-500/50 to-transparent opacity-30 group-hover:opacity-70 transition-opacity"></div>
+            </div>
+          </div>
+
+          <!-- BOTTOM RIGHT: STRATEGY -->
+          <div class="hexagon-service-card group">
+            <div class="relative p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-amber-500/20 hover:border-amber-500/50 transition-all duration-500 hover:scale-105 hover:translate-y-2 backdrop-blur-sm">
+              <!-- Hexagon corner accent -->
+              <div class="absolute -bottom-3 -right-3 w-12 h-12">
+                <svg viewBox="0 0 60 60" class="w-full h-full text-amber-500 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <path d="M30 0l25.98 15v30L30 60 4.02 45V15z" fill="currentColor"/>
+                </svg>
+              </div>
+              
+              <div class="flex items-start gap-5 mb-6">
+                <div class="w-16 h-16 hexagon-icon bg-gradient-to-br from-amber-500/20 to-amber-600/30 border-2 border-amber-500/40 flex items-center justify-center shrink-0 group-hover:rotate-180 transition-all duration-700 shadow-lg shadow-amber-500/30">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-300">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">
+                    {t('service4.title')}
+                  </h3>
+                  <p class="text-gray-300 leading-relaxed">
+                    {t('service4.desc')}
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span class="px-3 py-2 text-xs font-bold bg-amber-500/10 border border-amber-500/30 text-amber-200 rounded-lg hover:bg-amber-500/20 transition-colors hexagon-tag">Vision</span>
+                <span class="px-3 py-2 text-xs font-bold bg-amber-500/10 border border-amber-500/30 text-amber-200 rounded-lg hover:bg-amber-500/20 transition-colors hexagon-tag">Coordination</span>
+                <span class="px-3 py-2 text-xs font-bold bg-amber-500/10 border border-amber-500/30 text-amber-200 rounded-lg hover:bg-amber-500/20 transition-colors hexagon-tag">Management</span>
+              </div>
+
+              <!-- Connection line to center -->
+              <div class="absolute bottom-full right-1/2 translate-x-1/2 w-0.5 h-8 bg-gradient-to-t from-amber-500/50 to-transparent opacity-30 group-hover:opacity-70 transition-opacity"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Version -->
+    <div class="lg:hidden space-y-8 max-w-xl mx-auto">
+      
+      <!-- 360° Hexagon for Mobile -->
+      <div class="flex justify-center mb-8">
+        <div class="hexagon-container">
+          <div class="hexagon hexagon-center-mobile">
+            <div class="hexagon-inner bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 border-2 border-white/30 shadow-2xl shadow-purple-500/50">
+              <div class="hexagon-content text-center">
+                <div class="text-4xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">360°</div>
+                <div class="text-xs text-white/90 font-bold uppercase tracking-widest mt-1">Services</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile cards (same as Option A for consistency) -->
+      <article class="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-indigo-500/30 backdrop-blur-sm">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-14 h-14 hexagon-icon bg-gradient-to-br from-indigo-500/20 to-indigo-600/30 border-2 border-indigo-500/40 flex items-center justify-center shrink-0 shadow-lg shadow-indigo-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-300">
+              <path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service1.title')}</h3>
+            <p class="text-sm text-gray-300 leading-relaxed">{t('service1.desc')}</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-emerald-500/30 backdrop-blur-sm">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-14 h-14 hexagon-icon bg-gradient-to-br from-emerald-500/20 to-emerald-600/30 border-2 border-emerald-500/40 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-emerald-300">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service2.title')}</h3>
+            <p class="text-sm text-gray-300 leading-relaxed">{t('service2.desc')}</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-pink-500/30 backdrop-blur-sm">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-14 h-14 hexagon-icon bg-gradient-to-br from-pink-500/20 to-pink-600/30 border-2 border-pink-500/40 flex items-center justify-center shrink-0 shadow-lg shadow-pink-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-pink-300">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service3.title')}</h3>
+            <p class="text-sm text-gray-300 leading-relaxed">{t('service3.desc')}</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-amber-500/30 backdrop-blur-sm">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-14 h-14 hexagon-icon bg-gradient-to-br from-amber-500/20 to-amber-600/30 border-2 border-amber-500/40 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/30">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-300">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service4.title')}</h3>
+            <p class="text-sm text-gray-300 leading-relaxed">{t('service4.desc')}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hexagon Shapes */
+  .hexagon-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .hexagon {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .hexagon-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: all 0.5s ease;
+  }
+
+  .hexagon-content {
+    padding: 2rem;
+  }
+
+  .hexagon-center-mobile {
+    width: 140px;
+    height: 140px;
+  }
+
+  .hexagon-icon {
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 3s ease-in-out infinite;
+  }
+
+  .hexagon-service-card {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .hexagon-service-card:nth-child(1) { animation-delay: 0.1s; }
+  .hexagon-service-card:nth-child(2) { animation-delay: 0.2s; }
+  .hexagon-service-card:nth-child(3) { animation-delay: 0.3s; }
+  .hexagon-service-card:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hexagon-tag {
+    transition: all 0.3s ease;
+  }
+
+  .hexagon-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  }
+</style>
