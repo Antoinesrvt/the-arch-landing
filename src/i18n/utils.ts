@@ -1,6 +1,8 @@
 // Utilitaires i18n pour Astro
 import { ui, defaultLang, type Lang } from './config';
 
+export type { Lang };
+
 export function getLangFromUrl(url: URL): Lang {
   const [, lang] = url.pathname.split('/');
   if (lang in ui) return lang as Lang;

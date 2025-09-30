@@ -1,0 +1,98 @@
+---
+// Cookie Consent Component - GDPR Compliant
+import { useTranslations } from '../i18n/utils';
+import type { Language } from '../types';
+
+export interface Props {
+  lang: Language;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div id="cookie-consent" class="fixed bottom-0 left-0 right-0 z-[9999] bg-slate-900/95 backdrop-blur-lg border-t border-white/10 p-4 md:p-6 transform translate-y-full transition-transform duration-300" data-consent-shown="false">
+  <div class="container mx-auto max-w-6xl">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex-1">
+        <p class="text-sm text-gray-300">
+          {lang === 'fr' 
+            ? "Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre utilisation des cookies."
+            : "We use cookies to enhance your experience. By continuing, you accept our use of cookies."
+          }
+          <a href={lang === 'fr' ? '/fr/privacy' : '/en/privacy'} class="underline text-purple-400 hover:text-purple-300 ml-1 transition-colors">
+            {lang === 'fr' ? "En savoir plus" : "Learn more"}
+          </a>
+        </p>
+      </div>
+      <div class="flex gap-3 shrink-0">
+        <button id="cookie-reject" class="px-4 py-2 text-sm border border-white/20 rounded-lg hover:bg-white/5 transition-colors text-white">
+          {lang === 'fr' ? "Refuser" : "Reject"}
+        </button>
+        <button id="cookie-accept" class="px-4 py-2 text-sm bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors text-white font-semibold">
+          {lang === 'fr' ? "Accepter" : "Accept"}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Cookie consent logic
+  const consentBanner = document.getElementById('cookie-consent');
+  const acceptBtn = document.getElementById('cookie-accept');
+  const rejectBtn = document.getElementById('cookie-reject');
+  
+  // Check if consent already given
+  const consent = localStorage.getItem('cookie-consent');
+  
+  if (!consent) {
+    // Show banner after 1 second
+    setTimeout(() => {
+      consentBanner?.classList.remove('translate-y-full');
+      consentBanner?.setAttribute('data-consent-shown', 'true');
+    }, 1000);
+  }
+  
+  acceptBtn?.addEventListener('click', () => {
+    localStorage.setItem('cookie-consent', 'accepted');
+    consentBanner?.classList.add('translate-y-full');
+    
+    // Initialize analytics here
+    const win = window as any;
+    if (typeof win.gtag !== 'undefined') {
+      win.gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+      });
+    }
+    
+    // Track consent acceptance
+    if (typeof (window as any).trackEvent === 'function') {
+      (window as any).trackEvent('cookie_consent', {
+        action: 'accepted',
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+  
+  rejectBtn?.addEventListener('click', () => {
+    localStorage.setItem('cookie-consent', 'rejected');
+    consentBanner?.classList.add('translate-y-full');
+    
+    // Disable analytics
+    const win = window as any;
+    if (typeof win.gtag !== 'undefined') {
+      win.gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
+    }
+    
+    // Track consent rejection
+    if (typeof (window as any).trackEvent === 'function') {
+      (window as any).trackEvent('cookie_consent', {
+        action: 'rejected',
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+</script>

@@ -1,5 +1,8 @@
 ---
 import Layout from './Layout.astro';
+import Analytics from '../components/Analytics.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import LeadMagnetModal from '../components/LeadMagnetModal.astro';
 import { useTranslations } from '../i18n/utils';
 import type { Language, TranslationFunction } from '../types';
 
@@ -19,4 +22,13 @@ const t = useTranslations(lang) as TranslationFunction;
   lang={lang}
 >
   <slot />
+  
+  <!-- Analytics tracking -->
+  <Analytics />
+  
+  <!-- Cookie consent banner -->
+  <CookieConsent lang={lang} />
+  
+  <!-- Lead magnet modal -->
+  <LeadMagnetModal lang={lang} />
 </Layout>

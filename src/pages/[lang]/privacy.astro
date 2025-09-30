@@ -1,0 +1,386 @@
+---
+import I18nLayout from '../../layouts/I18nLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations, getStaticPaths } from '../../i18n/utils';
+import type { Language, TranslationFunction } from '../../types';
+
+export { getStaticPaths };
+
+const { lang } = Astro.params;
+const typedLang = lang as Language;
+const t = useTranslations(typedLang) as TranslationFunction;
+
+const title = typedLang === 'fr' ? 'Politique de Confidentialité & Cookies' : 'Privacy & Cookie Policy';
+const description = typedLang === 'fr' 
+  ? 'Politique de confidentialité et utilisation des cookies de The Arch Consulting'
+  : 'Privacy policy and cookie usage of The Arch Consulting';
+---
+
+<I18nLayout 
+  lang={typedLang}
+  title={title}
+  description={description}
+>
+  <Header currentLang={typedLang} />
+  
+  <main id="main-content" class="py-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+      
+      {typedLang === 'fr' ? (
+        <>
+          <!-- French Version -->
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-8">Politique de Confidentialité & Cookies</h1>
+          
+          <div class="prose prose-invert prose-purple max-w-none">
+            <p class="text-gray-400 text-lg mb-8">Dernière mise à jour: {new Date().toLocaleDateString('fr-FR')}</p>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">1. Introduction</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                The Arch Consulting ("nous", "notre", "nos") s'engage à protéger votre vie privée. 
+                Cette politique explique comment nous collectons, utilisons et protégeons vos données personnelles.
+              </p>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">2. Données Collectées</h2>
+              
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">2.1 Données d'Analyse</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Nous utilisons des services d'analyse pour améliorer notre site web:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Vercel Analytics:</strong> Collecte anonyme de données de navigation (pas de cookies, RGPD compliant)</li>
+                <li><strong>Google Analytics (optionnel):</strong> Données d'utilisation anonymisées</li>
+                <li><strong>Plausible (optionnel):</strong> Analyse respectueuse de la vie privée</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">2.2 Données que Vous Fournissez</h3>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li>Adresse email (si vous vous inscrivez à notre newsletter)</li>
+                <li>Nom et coordonnées (si vous réservez une consultation)</li>
+                <li>Informations de projet (si vous nous contactez)</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">2.3 Données Techniques</h3>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li>Adresse IP (anonymisée)</li>
+                <li>Type de navigateur et système d'exploitation</li>
+                <li>Pages visitées et temps passé</li>
+                <li>Source de référence</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">3. Utilisation des Cookies</h2>
+              
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">3.1 Cookies Essentiels</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Ces cookies sont nécessaires au fonctionnement du site:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><code class="text-purple-400">cookie-consent</code>: Stocke votre choix de consentement</li>
+                <li><code class="text-purple-400">lang-preference</code>: Sauvegarde votre préférence de langue</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">3.2 Cookies Analytiques (avec consentement)</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Ces cookies nous aident à comprendre comment vous utilisez notre site:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><code class="text-purple-400">_ga</code>: Google Analytics (si activé)</li>
+                <li><code class="text-purple-400">_gid</code>: Google Analytics (si activé)</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">3.3 Gestion des Cookies</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Vous pouvez gérer vos préférences de cookies à tout moment:
+              </p>
+              <button 
+                id="reset-cookie-consent" 
+                class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold"
+              >
+                Modifier mes Préférences de Cookies
+              </button>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">4. Vos Droits (RGPD)</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Conformément au RGPD, vous avez le droit de:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Accès:</strong> Demander une copie de vos données personnelles</li>
+                <li><strong>Rectification:</strong> Corriger vos données inexactes</li>
+                <li><strong>Suppression:</strong> Demander la suppression de vos données</li>
+                <li><strong>Portabilité:</strong> Recevoir vos données dans un format structuré</li>
+                <li><strong>Opposition:</strong> Vous opposer au traitement de vos données</li>
+                <li><strong>Limitation:</strong> Limiter le traitement de vos données</li>
+              </ul>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Pour exercer ces droits, contactez-nous à: <a href="mailto:privacy@thearch.consulting" class="text-purple-400 hover:text-purple-300 underline">privacy@thearch.consulting</a>
+              </p>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">5. Sécurité des Données</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos données:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li>Chiffrement SSL/TLS pour toutes les communications</li>
+                <li>Accès restreint aux données personnelles</li>
+                <li>Serveurs sécurisés (Vercel, infrastructure certifiée)</li>
+                <li>Audits de sécurité réguliers</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">6. Partage de Données</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Nous ne vendons jamais vos données. Nous les partageons uniquement avec:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Prestataires de services:</strong> Vercel (hébergement), Resend (emails), Cal.com (rendez-vous)</li>
+                <li><strong>Obligations légales:</strong> Si requis par la loi</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">7. Durée de Conservation</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Nous conservons vos données:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Données analytiques:</strong> 26 mois maximum</li>
+                <li><strong>Emails newsletter:</strong> Jusqu'à désinscription</li>
+                <li><strong>Données de contact:</strong> 3 ans après dernier contact</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">8. Services Tiers</h2>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6 mb-4">
+                <h4 class="text-white font-semibold mb-2">Vercel Analytics</h4>
+                <p class="text-gray-300 text-sm">Pas de cookies, conforme RGPD par défaut</p>
+                <a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" class="text-purple-400 text-sm hover:underline">Politique de confidentialité →</a>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6 mb-4">
+                <h4 class="text-white font-semibold mb-2">Resend (Email)</h4>
+                <p class="text-gray-300 text-sm">Service d'envoi d'emails transactionnels</p>
+                <a href="https://resend.com/legal/privacy-policy" target="_blank" class="text-purple-400 text-sm hover:underline">Politique de confidentialité →</a>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6">
+                <h4 class="text-white font-semibold mb-2">Cal.com (Rendez-vous)</h4>
+                <p class="text-gray-300 text-sm">Planification de consultations</p>
+                <a href="https://cal.com/privacy" target="_blank" class="text-purple-400 text-sm hover:underline">Politique de confidentialité →</a>
+              </div>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">9. Contact</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Pour toute question concernant cette politique:
+              </p>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6">
+                <p class="text-white font-semibold mb-2">The Arch Consulting</p>
+                <p class="text-gray-300 text-sm mb-1">Email: <a href="mailto:privacy@thearch.consulting" class="text-purple-400 hover:underline">privacy@thearch.consulting</a></p>
+                <p class="text-gray-300 text-sm">Web: <a href="https://thearch.consulting" class="text-purple-400 hover:underline">thearch.consulting</a></p>
+              </div>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">10. Modifications</h2>
+              <p class="text-gray-300 leading-relaxed">
+                Nous pouvons mettre à jour cette politique. Les modifications seront publiées sur cette page avec une nouvelle date de mise à jour.
+              </p>
+            </section>
+          </div>
+        </>
+      ) : (
+        <>
+          <!-- English Version -->
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-8">Privacy & Cookie Policy</h1>
+          
+          <div class="prose prose-invert prose-purple max-w-none">
+            <p class="text-gray-400 text-lg mb-8">Last updated: {new Date().toLocaleDateString('en-US')}</p>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">1. Introduction</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                The Arch Consulting ("we", "our", "us") is committed to protecting your privacy. 
+                This policy explains how we collect, use, and protect your personal data.
+              </p>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">2. Data Collected</h2>
+              
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">2.1 Analytics Data</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                We use analytics services to improve our website:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Vercel Analytics:</strong> Anonymous navigation data (no cookies, GDPR compliant)</li>
+                <li><strong>Google Analytics (optional):</strong> Anonymized usage data</li>
+                <li><strong>Plausible (optional):</strong> Privacy-friendly analytics</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">2.2 Data You Provide</h3>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li>Email address (if you subscribe to our newsletter)</li>
+                <li>Name and contact details (if you book a consultation)</li>
+                <li>Project information (if you contact us)</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">2.3 Technical Data</h3>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li>IP address (anonymized)</li>
+                <li>Browser type and operating system</li>
+                <li>Pages visited and time spent</li>
+                <li>Referral source</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">3. Cookie Usage</h2>
+              
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">3.1 Essential Cookies</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                These cookies are necessary for the site to function:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><code class="text-purple-400">cookie-consent</code>: Stores your consent choice</li>
+                <li><code class="text-purple-400">lang-preference</code>: Saves your language preference</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">3.2 Analytics Cookies (with consent)</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                These cookies help us understand how you use our site:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><code class="text-purple-400">_ga</code>: Google Analytics (if enabled)</li>
+                <li><code class="text-purple-400">_gid</code>: Google Analytics (if enabled)</li>
+              </ul>
+
+              <h3 class="text-2xl font-semibold text-white mb-3 mt-6">3.3 Cookie Management</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                You can manage your cookie preferences at any time:
+              </p>
+              <button 
+                id="reset-cookie-consent" 
+                class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-semibold"
+              >
+                Change Cookie Preferences
+              </button>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">4. Your Rights (GDPR)</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Under GDPR, you have the right to:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Access:</strong> Request a copy of your personal data</li>
+                <li><strong>Rectification:</strong> Correct inaccurate data</li>
+                <li><strong>Erasure:</strong> Request deletion of your data</li>
+                <li><strong>Portability:</strong> Receive your data in a structured format</li>
+                <li><strong>Object:</strong> Object to processing of your data</li>
+                <li><strong>Restriction:</strong> Limit processing of your data</li>
+              </ul>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                To exercise these rights, contact us at: <a href="mailto:privacy@thearch.consulting" class="text-purple-400 hover:text-purple-300 underline">privacy@thearch.consulting</a>
+              </p>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">5. Data Security</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                We implement appropriate security measures to protect your data:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li>SSL/TLS encryption for all communications</li>
+                <li>Restricted access to personal data</li>
+                <li>Secure servers (Vercel, certified infrastructure)</li>
+                <li>Regular security audits</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">6. Data Sharing</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                We never sell your data. We only share it with:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Service providers:</strong> Vercel (hosting), Resend (emails), Cal.com (appointments)</li>
+                <li><strong>Legal obligations:</strong> If required by law</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">7. Data Retention</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                We retain your data for:
+              </p>
+              <ul class="text-gray-300 space-y-2 mb-4 list-disc list-inside">
+                <li><strong>Analytics data:</strong> 26 months maximum</li>
+                <li><strong>Newsletter emails:</strong> Until unsubscribe</li>
+                <li><strong>Contact data:</strong> 3 years after last contact</li>
+              </ul>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">8. Third-Party Services</h2>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6 mb-4">
+                <h4 class="text-white font-semibold mb-2">Vercel Analytics</h4>
+                <p class="text-gray-300 text-sm">No cookies, GDPR compliant by default</p>
+                <a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" class="text-purple-400 text-sm hover:underline">Privacy Policy →</a>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6 mb-4">
+                <h4 class="text-white font-semibold mb-2">Resend (Email)</h4>
+                <p class="text-gray-300 text-sm">Transactional email service</p>
+                <a href="https://resend.com/legal/privacy-policy" target="_blank" class="text-purple-400 text-sm hover:underline">Privacy Policy →</a>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6">
+                <h4 class="text-white font-semibold mb-2">Cal.com (Scheduling)</h4>
+                <p class="text-gray-300 text-sm">Consultation scheduling</p>
+                <a href="https://cal.com/privacy" target="_blank" class="text-purple-400 text-sm hover:underline">Privacy Policy →</a>
+              </div>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">9. Contact</h2>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                For any questions about this policy:
+              </p>
+              <div class="bg-white/5 border border-white/10 rounded-lg p-6">
+                <p class="text-white font-semibold mb-2">The Arch Consulting</p>
+                <p class="text-gray-300 text-sm mb-1">Email: <a href="mailto:privacy@thearch.consulting" class="text-purple-400 hover:underline">privacy@thearch.consulting</a></p>
+                <p class="text-gray-300 text-sm">Web: <a href="https://thearch.consulting" class="text-purple-400 hover:underline">thearch.consulting</a></p>
+              </div>
+            </section>
+
+            <section class="mb-12">
+              <h2 class="text-3xl font-bold text-white mb-4">10. Changes</h2>
+              <p class="text-gray-300 leading-relaxed">
+                We may update this policy. Changes will be posted on this page with a new update date.
+              </p>
+            </section>
+          </div>
+        </>
+      )}
+
+    </div>
+  </main>
+
+  <Footer lang={typedLang} />
+</I18nLayout>
+
+<script>
+  // Reset cookie consent when button clicked
+  document.getElementById('reset-cookie-consent')?.addEventListener('click', () => {
+    localStorage.removeItem('cookie-consent');
+    window.location.reload();
+  });
+</script>

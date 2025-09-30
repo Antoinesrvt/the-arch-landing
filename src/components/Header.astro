@@ -40,7 +40,8 @@ const t = useTranslations(currentLang) as TranslationFunction;
                     <a href="#services" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.services')}</a>
                     <a href="#founders" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.founders')}</a>
                     <a href="#guests" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.guests')}</a>
-                    <a href="#case-studies" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.case-studies')}</a>
+                    <a href={`${Astro.url.origin}/${currentLang === 'fr' ? '' : currentLang + '/'}live`} class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.live')}</a>
+                    <a href="#media" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.media')}</a>
                     <a href="#contact" class="nav-link text-text-secondary hover:text-text-primary transition-colors duration-fast">{t('nav.contact')}</a>
                 </nav>
                 
@@ -70,7 +71,8 @@ const t = useTranslations(currentLang) as TranslationFunction;
                     <a href="#services" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.services')}</a>
                     <a href="#founders" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.founders')}</a>
                     <a href="#guests" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.guests')}</a>
-                    <a href="#case-studies" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.case-studies')}</a>
+                    <a href={`${Astro.url.origin}/${currentLang === 'fr' ? '' : currentLang + '/'}live`} class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.live')}</a>
+                    <a href="#media" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.media')}</a>
                     <a href="#contact" class="mobile-nav-link text-xl sm:text-2xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast py-3 px-4 rounded-lg hover:bg-surface">{t('nav.contact')}</a>
                     <div class="pt-4 border-t border-border">
                         <a 

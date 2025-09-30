@@ -1,0 +1,201 @@
+---
+// Analytics Component - Multi-platform tracking for Astro + Vercel
+// Supports: Vercel Analytics, Vercel Speed Insights, Google Analytics 4, Plausible
+
+export interface Props {
+  // Optional: Google Analytics 4 measurement ID
+  gaId?: string;
+  // Optional: Plausible domain (privacy-friendly alternative)
+  plausibleDomain?: string;
+  // Environment check
+  isDev?: boolean;
+}
+
+const { 
+  gaId = import.meta.env.PUBLIC_GA_ID,
+  plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN,
+  isDev = import.meta.env.DEV 
+} = Astro.props;
+
+// Don't track in development
+const shouldTrack = !isDev;
+---
+
+{shouldTrack && (
+  <>
+    {/* VERCEL ANALYTICS - Recommended (built-in, privacy-friendly, fast) */}
+    <script>
+      import { inject } from '@vercel/analytics';
+      inject();
+    </script>
+
+    {/* VERCEL SPEED INSIGHTS - Performance monitoring */}
+    <script>
+      import { injectSpeedInsights } from '@vercel/speed-insights';
+      injectSpeedInsights();
+    </script>
+
+    {/* GOOGLE ANALYTICS 4 - Most comprehensive (optional) */}
+    {gaId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} is:inline></script>
+        <script define:vars={{ gaId }} is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', gaId, {
+            page_path: window.location.pathname,
+            // Respect user privacy
+            anonymize_ip: true,
+            allow_google_signals: false,
+            allow_ad_personalization_signals: false
+          });
+        </script>
+      </>
+    )}
+
+    {/* PLAUSIBLE ANALYTICS - Privacy-first, GDPR compliant (optional) */}
+    {plausibleDomain && (
+      <script 
+        defer 
+        data-domain={plausibleDomain}
+        src="https://plausible.io/js/script.js"
+        is:inline
+      ></script>
+    )}
+  </>
+)}
+
+{/* CUSTOM EVENT TRACKING - Works with all analytics platforms */}
+<script>
+  // Wait for DOM to be ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTracking);
+  } else {
+    initTracking();
+  }
+
+  function initTracking() {
+    // Track CTA clicks
+    trackCTAClicks();
+    
+    // Track scroll depth
+    trackScrollDepth();
+    
+    // Track time on page
+    trackTimeOnPage();
+    
+    // Track external link clicks
+    trackExternalLinks();
+  }
+
+  // Track all CTA button clicks
+  function trackCTAClicks() {
+    const ctaSelectors = [
+      'a[href*="cal.com"]',
+      'a[href*="tally.so"]',
+      'button[data-cta]',
+      '.animated-button',
+      '.btn-secondary-animated'
+    ];
+
+    document.querySelectorAll(ctaSelectors.join(', ')).forEach(element => {
+      element.addEventListener('click', (e) => {
+        const target = e.currentTarget as HTMLElement;
+        const ctaText = target.textContent?.trim() || 'Unknown';
+        const ctaHref = target.getAttribute('href') || target.dataset.href || 'Unknown';
+        const section = target.closest('section')?.id || 'unknown';
+        
+        // Send to all analytics platforms
+        trackEvent('cta_click', {
+          cta_text: ctaText,
+          cta_destination: ctaHref,
+          page_section: section,
+          button_type: target.classList.contains('animated-button') ? 'primary' : 'secondary'
+        });
+      });
+    });
+  }
+
+  // Track scroll depth (25%, 50%, 75%, 100%)
+  function trackScrollDepth() {
+    const milestones = [25, 50, 75, 100];
+    const reached = new Set<number>();
+
+    window.addEventListener('scroll', () => {
+      const scrollPercent = Math.round(
+        (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      );
+
+      milestones.forEach(milestone => {
+        if (scrollPercent >= milestone && !reached.has(milestone)) {
+          reached.add(milestone);
+          trackEvent('scroll_depth', {
+            depth: milestone,
+            page: window.location.pathname
+          });
+        }
+      });
+    });
+  }
+
+  // Track time on page
+  function trackTimeOnPage() {
+    const startTime = Date.now();
+    
+    // Track on page unload
+    window.addEventListener('beforeunload', () => {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000); // in seconds
+      
+      // Send time spent
+      trackEvent('time_on_page', {
+        duration_seconds: timeSpent,
+        page: window.location.pathname
+      });
+    });
+  }
+
+  // Track external links
+  function trackExternalLinks() {
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && !href.includes(window.location.hostname)) {
+        link.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLAnchorElement;
+          trackEvent('external_link_click', {
+            url: target.href,
+            text: target.textContent?.trim() || 'Unknown'
+          });
+        });
+      }
+    });
+  }
+
+  // Universal event tracking function
+  function trackEvent(eventName: string, eventData: Record<string, any>) {
+    const win = window as any;
+    
+    // Google Analytics 4
+    if (typeof win.gtag !== 'undefined') {
+      win.gtag('event', eventName, eventData);
+    }
+
+    // Plausible
+    if (typeof win.plausible !== 'undefined') {
+      win.plausible(eventName, { props: eventData });
+    }
+
+    // Vercel Analytics (custom events - requires Pro plan)
+    if (typeof win.va !== 'undefined') {
+      win.va.track(eventName, eventData);
+    }
+
+    // Console log in development
+    if (import.meta.env.DEV) {
+      console.log('📊 Analytics Event:', eventName, eventData);
+    }
+  }
+
+  // Make trackEvent available globally for custom tracking
+  (window as any).trackEvent = trackEvent;
+</script>

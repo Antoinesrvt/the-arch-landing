@@ -17,13 +17,15 @@ export const ui = {
     "nav.media": "Média",
     "nav.case-studies": "Études de Cas",
     "nav.contact": "Contact",
+    "nav.home": "Accueil",
+    "nav.live": "Lives & Articles",
 
     // Hero Section
     "hero.title": "Votre Partenaire Web3 Complet",
     "hero.subtitle":
       "3 experts fondateurs pour la stratégie + un réseau de spécialistes pour l'exécution. De la vision à la réalisation, nous orchestrons votre succès Web3.",
-    "hero.cta1": "Découvrir notre approche",
-    "hero.cta2": "Voir notre média",
+    "hero.cta1": "Télécharger le Guide Gratuit",
+    "hero.cta2": "Réserver un appel",
 
     // Hybrid Approach
     "approach.title":
@@ -42,21 +44,21 @@ export const ui = {
 
     // Services
     "services.title":
-      '<span class="font-playfair">Une offre</span> de services <i class="font-playfair">360°</i>',
+      '<span class="font-playfair">Notre Offre</span> <i class="font-playfair">360°</i>',
     "services.subtitle":
       "Nous couvrons l'ensemble du cycle de vie de votre projet Web3.",
     "service1.title": "Tech & Sécurité",
     "service1.desc":
-      "Architecture de solutions blockchain, développement et audit de smart contracts, optimisation des performances et des coûts (gas fees).",
+      "Architecture blockchain, développement et audit de smart contracts, optimisation des coûts gas.",
     "service2.title": "Finance & Tokenomics",
     "service2.desc":
-      "Conception de modèles économiques durables, stratégie de levée de fonds (IDO, private rounds), listing sur exchanges et conformité réglementaire.",
+      "Modèles économiques durables, levée de fonds, listing exchanges et conformité réglementaire.",
     "service3.title": "Marketing & Croissance",
     "service3.desc":
-      "Stratégies de croissance et d'engagement, community building, marketing et PR, amplifiés par notre propre plateforme média.",
+      "Croissance organique, construction de communauté et amplification média via notre plateforme.",
     "service4.title": "Stratégie & Coordination",
     "service4.desc":
-      "Vision globale, coordination des experts, gestion de projet et suivi des objectifs pour assurer la cohérence de votre écosystème.",
+      "Vision globale, orchestration d'experts et gestion de projet pour garantir la cohérence.",
 
     // Philosophy
     "philosophy.title":
@@ -220,13 +222,15 @@ export const ui = {
     "nav.media": "Media",
     "nav.case-studies": "Case Studies",
     "nav.contact": "Contact",
+    "nav.home": "Home",
+    "nav.live": "Lives & Articles",
 
     // Hero Section
     "hero.title": "Your Complete Web3 Partner",
     "hero.subtitle":
       "3 founding experts for strategy + a network of specialists for execution. From vision to realization, we orchestrate your Web3 success.",
-    "hero.cta1": "Discover our approach",
-    "hero.cta2": "See our media",
+    "hero.cta1": "Download Free Guide",
+    "hero.cta2": "Schedule a call",
 
     // Hybrid Approach
     "approach.title":
@@ -249,16 +253,16 @@ export const ui = {
     "services.subtitle": "We cover the entire lifecycle of your Web3 project.",
     "service1.title": "Tech & Security",
     "service1.desc":
-      "Blockchain solution architecture, smart contract development and auditing, performance and cost optimization (gas fees).",
+      "Blockchain architecture, smart contract development and auditing, gas cost optimization.",
     "service2.title": "Finance & Tokenomics",
     "service2.desc":
-      "Design of sustainable economic models, fundraising strategy (IDO, private rounds), exchange listings and regulatory compliance.",
+      "Sustainable economic models, fundraising strategy, exchange listings and regulatory compliance.",
     "service3.title": "Marketing & Growth",
     "service3.desc":
-      "Growth and engagement strategies, community building, marketing and PR, amplified by our own media platform.",
+      "Organic growth, community building and media amplification via our platform.",
     "service4.title": "Strategy & Coordination",
     "service4.desc":
-      "Global vision, expert coordination, project management and goal tracking to ensure your ecosystem coherence.",
+      "Global vision, expert orchestration and project management to ensure coherence.",
 
     // Philosophy
     "philosophy.title":

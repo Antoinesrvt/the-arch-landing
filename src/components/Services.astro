@@ -1,5 +1,5 @@
 ---
-// Services Section Component
+// Services Section Component - TRUE CIRCULAR 360° Design
 import { useTranslations } from '../i18n/utils';
 import type { Language, TranslationFunction } from '../types';
 
@@ -11,168 +11,324 @@ const { lang } = Astro.props;
 const t = useTranslations(lang) as TranslationFunction;
 ---
 
-<!-- Services Section -->
 <section id="services" class="py-24 relative overflow-hidden" aria-labelledby="services-title">
   <!-- Animated background gradient -->
   <div class="absolute inset-0 animated-gradient opacity-30" aria-hidden="true"></div>
   
   <div class="container mx-auto px-6 relative z-10">
-    <div class="text-center mb-16">
+    <!-- Section Header -->
+    <div class="text-center mb-20">
       <h2 id="services-title" class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4 animate-title" set:html={t('services.title')}></h2>
       <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
         {t('services.subtitle')}
       </p>
     </div>
 
-    <!-- Modern Bento Grid Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 max-w-7xl mx-auto">
-      <!-- Tech Service Card - Large Featured Card -->
-      <article class="glass-card p-8 lg:p-10 rounded-3xl lg:col-span-2 lg:row-span-2 relative overflow-hidden group">
-        <!-- Gradient overlay -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-700"></div>
+    <!-- TRUE CIRCULAR LAYOUT - Desktop Only -->
+    <div class="hidden lg:block max-w-5xl mx-auto mb-20">
+      <div class="relative w-full aspect-square max-w-[700px] mx-auto">
         
-        <div class="relative z-10">
-          <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 mb-6 group-hover:scale-110 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
+        <!-- Central Hub -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+          <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 border-4 border-white/20 backdrop-blur-lg flex items-center justify-center shadow-2xl shadow-purple-500/50 group hover:scale-110 transition-transform duration-500">
+            <div class="text-center">
+              <div class="text-4xl md:text-5xl font-bold text-white mb-1">360°</div>
+              <div class="text-xs md:text-sm text-purple-200 font-semibold uppercase tracking-wide">
+                {lang === 'fr' ? 'Couverture' : 'Coverage'}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Animated Circle Border -->
+          <svg class="absolute inset-0 w-full h-full -z-10 animate-spin-slow" viewBox="0 0 100 100">
+            <circle 
+              cx="50" 
+              cy="50" 
+              r="48" 
+              fill="none" 
+              stroke="url(#gradient1)" 
+              stroke-width="0.5" 
+              stroke-dasharray="4 4"
+              opacity="0.5"
+            />
+            <defs>
+              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- Service Cards in Circle -->
+        
+        <!-- TOP: TECH -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/4 w-64 group">
+          <div class="glass-card p-6 rounded-2xl border-2 border-indigo-500/30 hover:border-indigo-500/60 transition-all duration-300 hover:scale-105 hover:-translate-y-2">
+            <!-- Connector Line -->
+            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0.5 h-12 md:h-16 bg-gradient-to-b from-indigo-500 to-transparent"></div>
+            
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-indigo-500/20 border-2 border-indigo-500/40 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-400">
+                  <path d="m18 16 4-4-4-4"/>
+                  <path d="m6 8-4 4 4 4"/>
+                  <path d="m14.5 4-5 16"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">
+                  {t('service1.title')}
+                </h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  {t('service1.desc')}
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md">Smart Contracts</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md">Audits</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md">Gas Optim.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: FINANCE -->
+        <div class="absolute top-1/2 right-0 translate-x-1/4 -translate-y-1/2 w-64 group">
+          <div class="glass-card p-6 rounded-2xl border-2 border-green-500/30 hover:border-green-500/60 transition-all duration-300 hover:scale-105 hover:translate-x-2">
+            <!-- Connector Line -->
+            <div class="absolute left-0 top-1/2 -translate-y-1/2 w-12 md:w-16 h-0.5 bg-gradient-to-l from-green-500 to-transparent"></div>
+            
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-green-500/20 border-2 border-green-500/40 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-400">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white mb-1 group-hover:text-green-300 transition-colors">
+                  {t('service2.title')}
+                </h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  {t('service2.desc')}
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-green-500/10 border border-green-500/30 text-green-300 rounded-md">Tokenomics</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-green-500/10 border border-green-500/30 text-green-300 rounded-md">Fundraising</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-green-500/10 border border-green-500/30 text-green-300 rounded-md">Compliance</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM: MARKETING -->
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/4 w-64 group">
+          <div class="glass-card p-6 rounded-2xl border-2 border-purple-500/30 hover:border-purple-500/60 transition-all duration-300 hover:scale-105 hover:translate-y-2">
+            <!-- Connector Line -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-12 md:h-16 bg-gradient-to-t from-purple-500 to-transparent"></div>
+            
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-purple-500/20 border-2 border-purple-500/40 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-400">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white mb-1 group-hover:text-purple-300 transition-colors">
+                  {t('service3.title')}
+                </h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  {t('service3.desc')}
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-md">Community</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-md">Content</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-md">Media</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEFT: STRATEGY -->
+        <div class="absolute top-1/2 left-0 -translate-x-1/4 -translate-y-1/2 w-64 group">
+          <div class="glass-card p-6 rounded-2xl border-2 border-yellow-500/30 hover:border-yellow-500/60 transition-all duration-300 hover:scale-105 hover:-translate-x-2">
+            <!-- Connector Line -->
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-12 md:w-16 h-0.5 bg-gradient-to-r from-yellow-500 to-transparent"></div>
+            
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border-2 border-yellow-500/40 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yellow-400">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white mb-1 group-hover:text-yellow-300 transition-colors">
+                  {t('service4.title')}
+                </h3>
+                <p class="text-sm text-gray-400 leading-relaxed">
+                  {t('service4.desc')}
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-md">Vision</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-md">Coordination</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-md">Management</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Version: Stack Vertically -->
+    <div class="lg:hidden grid gap-6 max-w-xl mx-auto mb-20">
+      
+      <!-- 360° Badge for Mobile -->
+      <div class="flex justify-center mb-4">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-600 to-indigo-600 border-4 border-white/20 flex items-center justify-center shadow-xl shadow-purple-500/50">
+          <div class="text-center">
+            <div class="text-3xl font-bold text-white">360°</div>
+            <div class="text-xs text-purple-200 font-semibold uppercase">
+              {lang === 'fr' ? 'Offre' : 'Service'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 1: Tech (Mobile) -->
+      <article class="glass-card p-6 rounded-2xl border-2 border-indigo-500/30">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/20 border-2 border-indigo-500/40 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-indigo-400">
               <path d="m18 16 4-4-4-4"/>
               <path d="m6 8-4 4 4 4"/>
               <path d="m14.5 4-5 16"/>
             </svg>
           </div>
-          
-          <h3 class="text-3xl font-bold text-white mb-4">{t('service1.title')}</h3>
-          <p class="text-gray-300 text-lg mb-6 leading-relaxed">
-            {t('service1.desc')}
-          </p>
-          
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-              <svg class="w-5 h-5 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-              </svg>
-              <div>
-                <div class="text-white font-semibold text-sm">Smart contracts & audits</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-              <svg class="w-5 h-5 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-              </svg>
-              <div>
-                <div class="text-white font-semibold text-sm">Blockchain architecture</div>
-              </div>
-            </div>
-            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 sm:col-span-2">
-              <svg class="w-5 h-5 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-              </svg>
-              <div>
-                <div class="text-white font-semibold text-sm">Gas fees optimization</div>
-              </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service1.title')}</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-3">{t('service1.desc')}</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md">Smart Contracts</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md">Audits</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 rounded-md">Gas Optim.</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- Finance Service Card - Compact Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl relative overflow-hidden group">
-        <!-- Gradient glow -->
-        <div class="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-green-500/20 to-emerald-500/20 rounded-full blur-2xl -ml-16 -mb-16 group-hover:scale-150 transition-transform duration-700"></div>
-        
-        <div class="relative z-10">
-          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/30 mb-4 group-hover:scale-110 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400">
+      <!-- Service 2: Finance (Mobile) -->
+      <article class="glass-card p-6 rounded-2xl border-2 border-green-500/30">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-green-500/20 border-2 border-green-500/40 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-400">
               <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
             </svg>
           </div>
-          
-          <h3 class="text-xl font-bold text-white mb-3">{t('service2.title')}</h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed">
-            {t('service2.desc')}
-          </p>
-          
-          <div class="space-y-2">
-            <div class="flex items-center text-xs text-gray-300">
-              <div class="w-1.5 h-1.5 rounded-full bg-green-400 mr-2"></div>
-              Sustainable economic models
-            </div>
-            <div class="flex items-center text-xs text-gray-300">
-              <div class="w-1.5 h-1.5 rounded-full bg-green-400 mr-2"></div>
-              Fundraising strategy
-            </div>
-            <div class="flex items-center text-xs text-gray-300">
-              <div class="w-1.5 h-1.5 rounded-full bg-green-400 mr-2"></div>
-              Regulatory compliance
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Marketing Service Card - Wide Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl lg:col-span-2 relative overflow-hidden group">
-        <!-- Gradient glow -->
-        <div class="absolute top-0 left-1/2 w-48 h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl -ml-24 -mt-24 group-hover:scale-150 transition-transform duration-700"></div>
-        
-        <div class="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
-          <div class="flex-shrink-0">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 group-hover:scale-110 transition-transform duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-            </div>
-          </div>
-          
-          <div class="flex-grow">
-            <h3 class="text-2xl font-bold text-white mb-3">{t('service3.title')}</h3>
-            <p class="text-gray-300 mb-4 leading-relaxed">
-              {t('service3.desc')}
-            </p>
-            
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service2.title')}</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-3">{t('service2.desc')}</p>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1 text-xs font-medium bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-full">Community building</span>
-              <span class="px-3 py-1 text-xs font-medium bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-full">Growth strategies</span>
-              <span class="px-3 py-1 text-xs font-medium bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-full">Media amplification</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-green-500/10 border border-green-500/30 text-green-300 rounded-md">Tokenomics</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-green-500/10 border border-green-500/30 text-green-300 rounded-md">Fundraising</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-green-500/10 border border-green-500/30 text-green-300 rounded-md">Compliance</span>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- Strategy Service Card - Compact Card -->
-      <article class="glass-card p-6 lg:p-8 rounded-2xl relative overflow-hidden group">
-        <!-- Gradient glow -->
-        <div class="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-yellow-500/20 to-orange-500/20 rounded-full blur-2xl -mr-16 -mb-16 group-hover:scale-150 transition-transform duration-700"></div>
-        
-        <div class="relative z-10">
-          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/30 mb-4 group-hover:scale-110 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400">
+      <!-- Service 3: Marketing (Mobile) -->
+      <article class="glass-card p-6 rounded-2xl border-2 border-purple-500/30">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/20 border-2 border-purple-500/40 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-400">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service3.title')}</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-3">{t('service3.desc')}</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-md">Community</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-md">Content</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-md">Media</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Service 4: Strategy (Mobile) -->
+      <article class="glass-card p-6 rounded-2xl border-2 border-yellow-500/30">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border-2 border-yellow-500/40 flex items-center justify-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yellow-400">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
           </div>
-          
-          <h3 class="text-xl font-bold text-white mb-3">{t('service4.title')}</h3>
-          <p class="text-gray-400 text-sm mb-4 leading-relaxed">
-            {t('service4.desc')}
-          </p>
-          
-          <div class="space-y-2">
-            <div class="flex items-center text-xs text-gray-300">
-              <div class="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-2"></div>
-              Global strategic vision
-            </div>
-            <div class="flex items-center text-xs text-gray-300">
-              <div class="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-2"></div>
-              Expert coordination
-            </div>
-            <div class="flex items-center text-xs text-gray-300">
-              <div class="w-1.5 h-1.5 rounded-full bg-yellow-400 mr-2"></div>
-              Project management
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white mb-2">{t('service4.title')}</h3>
+            <p class="text-sm text-gray-400 leading-relaxed mb-3">{t('service4.desc')}</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 text-xs font-semibold bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-md">Vision</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-md">Coordination</span>
+              <span class="px-2 py-1 text-xs font-semibold bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 rounded-md">Management</span>
             </div>
           </div>
         </div>
       </article>
     </div>
+
+    <!-- Key Benefits Below Circle -->
+    <div class="mt-20 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div class="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h4 class="text-white font-bold mb-2">{lang === 'fr' ? 'Approche Intégrée' : 'Integrated Approach'}</h4>
+        <p class="text-sm text-gray-400">{lang === 'fr' ? 'Tous les aspects en synergie' : 'All aspects in synergy'}</p>
+      </div>
+      
+      <div class="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-green-500/30 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h4 class="text-white font-bold mb-2">{lang === 'fr' ? 'Expertise Prouvée' : 'Proven Expertise'}</h4>
+        <p class="text-sm text-gray-400">{lang === 'fr' ? '3 fondateurs + réseau spécialisé' : '3 founders + specialist network'}</p>
+      </div>
+      
+      <div class="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 hover:border-indigo-500/30 transition-all duration-300 group">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500/20 to-blue-500/20 border border-indigo-500/30 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h4 class="text-white font-bold mb-2">{lang === 'fr' ? 'Résultats Mesurables' : 'Measurable Results'}</h4>
+        <p class="text-sm text-gray-400">{lang === 'fr' ? 'Suivi transparent des objectifs' : 'Transparent goal tracking'}</p>
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .animate-spin-slow {
+    animation: spin-slow 20s linear infinite;
+  }
+</style>

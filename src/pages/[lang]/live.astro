@@ -1,374 +1,493 @@
 ---
-// Live Showcase Page - Modernized with Search & Filter
+import { getCollection } from 'astro:content';
 import I18nLayout from '../../layouts/I18nLayout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { useTranslations, getStaticPaths } from '../../i18n/utils';
-import type { Language } from '../../types';
-import { episodes, getAllCategories } from '../../data/episodes';
+import { useTranslations, type Lang } from '../../i18n/utils';
+import type { TranslationFunction } from '../../types';
 
-export { getStaticPaths };
+// Prerender this page as static HTML
+export const prerender = true;
 
-const { lang } = Astro.params;
-const typedLang = lang as Language;
-const t = useTranslations(typedLang);
+export async function getStaticPaths() {
+  const supportedLangs: Lang[] = ['fr', 'en'];
+  return supportedLangs.map(lang => ({ params: { lang } }));
+}
 
-const allCategories = getAllCategories();
+// Get the lang from params
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang) as TranslationFunction;
 
-// SEO Meta Tags
-const title = t('live.title');
-const description = t('live.description');
+//Get all episodes
+const allEpisodes = await getCollection('episodes', ({ data }) => {
+  return data.lang === lang;
+});
+
+// Sort by date (newest first)
+const episodes = allEpisodes.sort((a, b) => 
+  b.data.publishedDate.getTime() - a.data.publishedDate.getTime()
+);
+
+// Get unique categories
+const categories = [...new Set(episodes.map(ep => ep.data.category))];
+
+// Count published vs coming soon
+const publishedCount = episodes.filter(ep => ep.data.status === 'published').length;
+const comingSoonCount = episodes.filter(ep => ep.data.status === 'coming-soon').length;
+
+const pageTitle = lang === 'fr' ? 'Lives & Articles Web3' : 'Lives & Web3 Articles';
+const pageDescription = lang === 'fr' 
+  ? 'Découvrez nos interviews approfondies avec les acteurs clés de l\'écosystème Web3 français et international. Analyses, insights et retours d\'expérience.'
+  : 'Discover our in-depth interviews with key players in the French and international Web3 ecosystem. Analysis, insights and feedback.';
 ---
 
 <I18nLayout 
-  lang={typedLang}
-  title={title}
-  description={description}
+  lang={lang}
+  title={pageTitle}
+  description={pageDescription}
 >
-  <Header currentLang={typedLang} />
-  
-  <main id="main-content" class="min-h-screen">
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 px-6 overflow-hidden">
-      <!-- Animated background -->
-      <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-purple-900/20 to-slate-900" aria-hidden="true"></div>
-      <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 2px 2px, rgba(139, 92, 246, 0.15) 1px, transparent 0); background-size: 40px 40px;" aria-hidden="true"></div>
-      
-      <div class="container mx-auto max-w-7xl relative z-10">
-        <div class="text-center max-w-4xl mx-auto">
-          <!-- Badge -->
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-sm mb-8 animate-fade-in">
-            <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span class="text-sm font-semibold text-purple-300">{episodes.length} Épisodes Exclusifs</span>
-          </div>
-          
-          <!-- Main Title -->
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
-            <span class="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">
-              {t('live.heroTitle')}
-            </span>
+    <!-- Hero Section - Magazine Style -->
+  <section class="relative overflow-hidden border-b border-white/10">
+    <div class="absolute inset-0 animated-gradient opacity-20 parallax-bg" aria-hidden="true" id="hero-bg"></div>
+    <div class="container mx-auto px-6 py-12 relative z-10">
+      <!-- Header -->
+      <div class="mb-12">
+        <div class="flex items-baseline gap-4 mb-4">
+          <h1 class="text-4xl md:text-5xl font-bold text-white">
+            {lang === 'fr' ? 'Insights Web3' : 'Web3 Insights'}
           </h1>
-          
-          <!-- Subtitle -->
-          <p class="text-xl md:text-2xl text-gray-300 leading-relaxed mb-12">
-            {t('live.heroSubtitle')}
-          </p>
-          
-          <!-- Stats -->
-          <div class="flex flex-wrap justify-center gap-8 text-sm">
-            <div class="flex items-center gap-2">
-              <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
-                <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-              </div>
-              <div class="text-left">
-                <div class="text-2xl font-bold text-white">{episodes.length}+</div>
-                <div class="text-gray-400">Épisodes</div>
-              </div>
+          <div class="flex items-center gap-3 text-sm">
+            <div class="flex items-center gap-1.5">
+              <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+              <span class="text-gray-400"><strong class="text-white">{publishedCount}</strong> {lang === 'fr' ? 'publiés' : 'published'}</span>
             </div>
-            
-            <div class="flex items-center gap-2">
-              <div class="w-12 h-12 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                </svg>
-              </div>
-              <div class="text-left">
-                <div class="text-2xl font-bold text-white">50K+</div>
-                <div class="text-gray-400">Vues</div>
-              </div>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-              </div>
-              <div class="text-left">
-                <div class="text-2xl font-bold text-white">100%</div>
-                <div class="text-gray-400">Français</div>
-              </div>
+            <span class="text-gray-600">•</span>
+            <div class="flex items-center gap-1.5">
+              <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+              <span class="text-gray-400"><strong class="text-white">{comingSoonCount}</strong> {lang === 'fr' ? 'bientôt' : 'soon'}</span>
             </div>
           </div>
         </div>
+        <p class="text-lg text-gray-400 max-w-3xl">
+          {lang === 'fr' 
+            ? 'Interviews approfondies, analyses techniques et retours d\'expérience avec les acteurs clés de l\'écosystème.'
+            : 'In-depth interviews, technical analysis and insights from key players in the ecosystem.'}
+        </p>
+          </div>
+          
+      <!-- Featured Episode -->
+      {episodes.length > 0 && episodes[0].data.status === 'published' && (
+        <a 
+          href={`/${lang}/live/${episodes[0].slug}`}
+          class="group block mb-12 bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition-all duration-500"
+        >
+          <div class="grid md:grid-cols-2 gap-0">
+            <!-- Image -->
+            <div class="relative aspect-video md:aspect-auto overflow-hidden bg-gray-900">
+              <img 
+                src={episodes[0].data.thumbnail}
+                alt={episodes[0].data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                loading="eager"
+              />
+              <div class="absolute top-4 left-4">
+                <span class="px-3 py-1 bg-purple-500/90 text-white text-xs font-bold rounded-lg backdrop-blur-sm">
+                  {lang === 'fr' ? '⭐ À la une' : '⭐ Featured'}
+                </span>
+              </div>
+              <div class="absolute bottom-4 right-4">
+                <span class="px-2 py-1 bg-black/80 text-white text-xs font-semibold rounded backdrop-blur-sm">
+                  {episodes[0].data.duration}
+            </span>
+              </div>
+              <!-- Play Icon -->
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
+                <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                </svg>
+              </div>
+            </div>
+            
+            <!-- Content -->
+            <div class="p-8 flex flex-col justify-center">
+              <div class="mb-3">
+                <span class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-lg text-xs font-semibold">
+                  {episodes[0].data.category}
+                </span>
+              </div>
+              <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-purple-300 transition-colors">
+                {episodes[0].data.title}
+              </h2>
+              <div class="flex items-center gap-3 mb-4">
+                <img 
+                  src={episodes[0].data.guest.avatar}
+                  alt={episodes[0].data.guest.name}
+                  class="w-12 h-12 rounded-full border-2 border-white/20"
+                  loading="eager"
+                />
+                <div>
+                  <p class="text-sm font-semibold text-white">{episodes[0].data.guest.name}</p>
+                  <p class="text-xs text-gray-400">{episodes[0].data.guest.role} @ {episodes[0].data.guest.company}</p>
+                </div>
+              </div>
+              <p class="text-gray-400 mb-6 line-clamp-3">
+                {episodes[0].data.summary}
+              </p>
+              <div class="flex items-center gap-2 text-purple-400 font-semibold">
+                {lang === 'fr' ? 'Lire l\'article complet' : 'Read full article'}
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      )}
       </div>
     </section>
 
     <!-- Search & Filter Section -->
-    <section class="py-12 px-6 border-b border-white/10">
-      <div class="container mx-auto max-w-7xl">
-        <div class="flex flex-col lg:flex-row gap-6">
+  <section class="container mx-auto px-6 my-6">
+    <div class="max-w-6xl mx-auto">
           <!-- Search Bar -->
-          <div class="flex-1">
+      <div class="mb-6">
             <div class="relative">
               <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
               <input 
                 type="text" 
-                id="episode-search"
-                placeholder="Rechercher un invité, une entreprise, un sujet..."
-                class="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+            id="search-input"
+            placeholder={lang === 'fr' ? 'Rechercher par titre, invité ou tag...' : 'Search by title, guest or tag...'}
+            class="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-purple-500/50 transition-colors"
               />
             </div>
           </div>
           
-          <!-- Category Filter -->
-          <div class="lg:w-64">
-            <select 
-              id="category-filter"
-              class="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all appearance-none cursor-pointer"
-              style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"white\" viewBox=\"0 0 24 24\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.5em;"
+      <!-- Category Filters -->
+      <div class="flex flex-wrap gap-3" id="category-filters">
+        <button
+          class="category-filter active px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white font-semibold hover:bg-white/20 transition-all duration-300"
+          data-category="all"
+        >
+          {lang === 'fr' ? 'Tous' : 'All'} ({episodes.length})
+        </button>
+        {categories.map(category => {
+          const count = episodes.filter(ep => ep.data.category === category).length;
+          return (
+            <button
+              class="category-filter px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-400 font-semibold hover:bg-white/10 hover:text-white transition-all duration-300"
+              data-category={category}
             >
-              <option value="all">Toutes les catégories</option>
-              {allCategories.map(category => (
-                <option value={category}>{category}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-        
-        <!-- Results count -->
-        <div class="mt-6 text-center">
-          <p id="results-count" class="text-gray-400">
-            <span id="visible-count">{episodes.length}</span> épisode(s) affichés sur {episodes.length}
-          </p>
+              {category} ({count})
+            </button>
+          );
+        })}
         </div>
       </div>
     </section>
 
-    <!-- Episodes Grid -->
-    <section class="py-20 px-6">
-      <div class="container mx-auto max-w-7xl">
-        <div id="episodes-grid" class="grid md:grid-cols-2 gap-8">
-          {episodes.map((episode, index) => (
+    <!-- All Episodes Grid -->
+  <section class="container mx-auto px-6 py-20">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 flex items-center gap-3">
+        <span class="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
+        {lang === 'fr' ? 'Tous les articles' : 'All Articles'}
+      </h2>
+      <div id="episodes-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {episodes.slice(episodes[0]?.data.status === 'published' ? 1 : 0).map((episode) => (
             <article 
-              class="episode-card glass-card p-8 rounded-2xl group hover:scale-[1.02] transition-all duration-300 relative overflow-hidden"
-              data-category={episode.category}
-              data-searchable={JSON.stringify({
-                name: episode.guest.name,
-                company: episode.guest.company,
-                summary: episode.summary,
-                tags: episode.tags.join(' '),
-                category: episode.category
-              })}
-            >
-              <!-- Gradient overlay -->
-              <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true"></div>
-              
-              <div class="relative z-10">
-                <!-- Episode Header -->
-                <div class="flex items-start gap-6 mb-6">
-                  <div class="relative flex-shrink-0">
-                    <img 
-                      src={episode.thumbnail} 
-                      alt={`Épisode avec ${episode.guest.name}`}
-                      class="w-24 h-24 rounded-xl object-cover border-2 border-purple-500/30 group-hover:border-purple-500/60 transition-colors"
-                      onerror={`this.onerror=null;this.src='https://placehold.co/96x96/1E293B/8A70D6?text=EP${index + 1}';`}
-                    />
-                    <div class="absolute inset-0 bg-black/50 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <a 
-                        href={episode.youtube} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors hover:scale-110 transform"
-                        aria-label={`Regarder l'épisode avec ${episode.guest.name}`}
-                      >
-                        <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z"/>
+            class="episode-card group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-purple-500/30 transition-all duration-300"
+            data-category={episode.data.category}
+            data-tags={episode.data.tags.join(',')}
+            data-guest={episode.data.guest.name.toLowerCase()}
+            data-title={episode.data.title.toLowerCase()}
+            data-status={episode.data.status}
+          >
+            <!-- Thumbnail -->
+            <div class="relative aspect-video overflow-hidden bg-gray-900">
+              <img
+                src={episode.data.thumbnail}
+                alt={episode.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+              <!-- Status Badge -->
+              {episode.data.status === 'coming-soon' && (
+                <div class="absolute top-3 right-3">
+                  <span class="px-3 py-1 bg-yellow-500/90 text-gray-900 text-xs font-bold rounded-lg backdrop-blur-sm">
+                    {lang === 'fr' ? 'Bientôt' : 'Soon'}
+                  </span>
+                </div>
+              )}
+              <!-- Duration Badge -->
+              <div class="absolute bottom-3 right-3">
+                <span class="px-2 py-1 bg-black/80 text-white text-xs font-semibold rounded backdrop-blur-sm">
+                  {episode.data.duration}
+                </span>
+              </div>
+              <!-- Play Icon Overlay -->
+              <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
+                <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
                         </svg>
-                      </a>
                     </div>
                   </div>
                   
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 mb-2 flex-wrap">
-                      <span class="text-xs px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-full font-semibold">
-                        {episode.category}
+            <!-- Content -->
+            <div class="p-6">
+              <!-- Category Tag -->
+              <div class="mb-3">
+                <span class="px-3 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-lg text-xs font-semibold">
+                  {episode.data.category}
                       </span>
-                      <span class="text-xs text-gray-400">{episode.duration}</span>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">{episode.guest.name}</h3>
-                    <p class="text-base text-purple-400 font-semibold mb-1">{episode.guest.role}</p>
-                    <p class="text-sm text-gray-400 truncate">{episode.guest.company}</p>
-                  </div>
                 </div>
 
-                <!-- Summary -->
-                <div class="mb-6">
-                  <p class="text-gray-300 leading-relaxed line-clamp-3">{episode.summary}</p>
+              <!-- Title -->
+              <h3 class="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors">
+                {episode.data.title}
+              </h3>
+
+              <!-- Guest Info -->
+              <div class="flex items-center gap-3 mb-4">
+                <img
+                  src={episode.data.guest.avatar}
+                  alt={episode.data.guest.name}
+                  class="w-10 h-10 rounded-full border border-white/20"
+                  loading="lazy"
+                />
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-semibold text-white truncate">{episode.data.guest.name}</p>
+                  <p class="text-xs text-gray-400 truncate">{episode.data.guest.company}</p>
+                </div>
                 </div>
 
-                <!-- Key Insights -->
-                <div class="mb-6">
-                  <h4 class="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              <!-- Summary -->
+              <p class="text-sm text-gray-400 mb-4 line-clamp-3">
+                {episode.data.summary}
+              </p>
+
+              <!-- Reading Time & Status -->
+              <div class="flex items-center gap-3 mb-4 text-xs text-gray-500">
+                <span class="flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                  </svg>
+                  {Math.ceil((episode.body?.length || 1000) / 1000)} min
+                </span>
+                {episode.data.status === 'published' ? (
+                  <span class="flex items-center gap-1 text-green-400">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    Points clés
-                  </h4>
-                  <ul class="space-y-1">
-                    {episode.keyInsights.slice(0, 2).map((insight) => (
-                      <li class="flex items-start gap-2 text-sm text-gray-300">
-                        <svg class="w-3 h-3 text-purple-400 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <span class="line-clamp-2">{insight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <!-- Tags -->
-                <div class="flex flex-wrap gap-2 mb-6">
-                  {episode.tags.slice(0, 4).map((tag) => (
-                    <span class="text-xs px-3 py-1 bg-white/5 border border-white/10 text-gray-300 rounded-full">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-
-                <!-- Actions -->
-                <div class="flex gap-3">
-                  <a 
-                    href={episode.youtube} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-xl transition-all hover:scale-105"
-                  >
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
+                    {lang === 'fr' ? 'Publié' : 'Published'}
+                  </span>
+                ) : (
+                  <span class="flex items-center gap-1 text-yellow-400">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
                     </svg>
-                    <span class="hidden sm:inline">Regarder</span>
-                  </a>
-                  <a 
-                    href={episode.guest.linkedin} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="px-4 py-3 border border-white/20 text-gray-300 hover:text-white hover:border-purple-500/50 hover:bg-white/5 rounded-xl transition-all"
-                    aria-label={`LinkedIn de ${episode.guest.name}`}
-                  >
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    {lang === 'fr' ? 'Bientôt' : 'Soon'}
+                  </span>
+                )}
+              </div>
+
+              <!-- Read More Button -->
+              <a
+                href={`/${lang}/live/${episode.slug}`}
+                class="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-semibold text-sm group-hover:gap-3 transition-all duration-300"
+              >
+                {lang === 'fr' ? 'Lire l\'article' : 'Read article'}
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
                   </a>
-                </div>
               </div>
             </article>
           ))}
         </div>
         
-        <!-- No results -->
+      <!-- No Results Message -->
         <div id="no-results" class="hidden text-center py-20">
-          <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-500/10 border border-purple-500/30 mb-6">
-            <svg class="w-10 h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        <svg class="w-20 h-20 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-white mb-2">Aucun épisode trouvé</h3>
-          <p class="text-gray-400">Essayez avec d'autres mots-clés</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-24 px-6 bg-gradient-to-r from-purple-900/20 via-pink-900/20 to-purple-900/20 border-t border-white/10">
-      <div class="container mx-auto max-w-4xl text-center">
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
-          {t('live.ctaTitle')}
-        </h2>
-        <p class="text-xl text-gray-300 mb-10">
-          {t('live.ctaSubtitle')}
+        <h3 class="text-2xl font-bold text-white mb-2">
+          {lang === 'fr' ? 'Aucun résultat' : 'No results'}
+        </h3>
+        <p class="text-gray-400">
+          {lang === 'fr' ? 'Essayez une autre recherche ou catégorie' : 'Try another search or category'}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a 
-            href="https://cal.com/thearch/meet-the-arch"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-900 bg-white rounded-xl hover:scale-105 transition-all"
-          >
-            {t('live.cta1')}
-          </a>
-          <a 
-            href="https://www.youtube.com/@jointhearch"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white rounded-xl border-2 border-white/20 hover:bg-white/5 transition-all"
-          >
-            {t('live.cta2')}
-          </a>
         </div>
       </div>
     </section>
-  </main>
 
-  <Footer lang={typedLang} />
-</I18nLayout>
+  <!-- Scroll Animation & Search Script -->
+<script>
+  // Intersection Observer for scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Observe all episode cards
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.episode-card');
+    cards.forEach((card) => {
+      card.classList.add('opacity-0');
+      observer.observe(card);
+    });
+
+    // Parallax effect on scroll
+    const heroBg = document.getElementById('hero-bg');
+    if (heroBg) {
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const parallaxSpeed = 0.5;
+        heroBg.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+      });
+    }
+  });
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('episode-search') as HTMLInputElement;
-    const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
-    const episodesGrid = document.getElementById('episodes-grid');
+      const searchInput = document.getElementById('search-input') as HTMLInputElement;
+      const categoryFilters = document.querySelectorAll('.category-filter');
+      const episodeCards = document.querySelectorAll('.episode-card');
     const noResults = document.getElementById('no-results');
-    const visibleCount = document.getElementById('visible-count');
-    const allCards = document.querySelectorAll('.episode-card');
+      
+      let activeCategory = 'all';
+      let searchQuery = '';
 
     function filterEpisodes() {
-      const searchTerm = searchInput.value.toLowerCase().trim();
-      const selectedCategory = categoryFilter.value;
-      let visibleCards = 0;
+        let visibleCount = 0;
 
-      allCards.forEach((card) => {
+        episodeCards.forEach(card => {
         const cardElement = card as HTMLElement;
         const category = cardElement.dataset.category || '';
-        const searchableData = JSON.parse(cardElement.dataset.searchable || '{}');
-        
-        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
-        const matchesSearch = !searchTerm || 
-          Object.values(searchableData).some(value => 
-            String(value).toLowerCase().includes(searchTerm)
-          );
+          const tags = cardElement.dataset.tags || '';
+          const guest = cardElement.dataset.guest || '';
+          const title = cardElement.dataset.title || '';
+          
+          const matchesCategory = activeCategory === 'all' || category === activeCategory;
+          const matchesSearch = searchQuery === '' || 
+            title.includes(searchQuery) ||
+            guest.includes(searchQuery) ||
+            tags.toLowerCase().includes(searchQuery);
 
         if (matchesCategory && matchesSearch) {
           cardElement.classList.remove('hidden');
-          visibleCards++;
+            visibleCount++;
         } else {
           cardElement.classList.add('hidden');
         }
       });
 
-      if (visibleCount) visibleCount.textContent = String(visibleCards);
-
-      if (episodesGrid && noResults) {
-        if (visibleCards === 0) {
-          episodesGrid.classList.add('hidden');
+        // Show/hide no results message
+        if (noResults) {
+          if (visibleCount === 0) {
           noResults.classList.remove('hidden');
         } else {
-          episodesGrid.classList.remove('hidden');
           noResults.classList.add('hidden');
         }
       }
     }
 
-    if (searchInput) searchInput.addEventListener('input', filterEpisodes);
-    if (categoryFilter) categoryFilter.addEventListener('change', filterEpisodes);
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && searchInput) {
-        searchInput.value = '';
-        categoryFilter.value = 'all';
+      // Search input handler
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
         filterEpisodes();
+        });
       }
+
+      // Category filter handlers
+      categoryFilters.forEach(filter => {
+        filter.addEventListener('click', () => {
+          // Update active state
+          categoryFilters.forEach(f => f.classList.remove('active', 'bg-white/10', 'border-white/20', 'text-white'));
+          categoryFilters.forEach(f => f.classList.add('bg-white/5', 'border-white/10', 'text-gray-400'));
+          
+          filter.classList.remove('bg-white/5', 'border-white/10', 'text-gray-400');
+          filter.classList.add('active', 'bg-white/10', 'border-white/20', 'text-white');
+          
+          // Update active category
+          activeCategory = filter.getAttribute('data-category') || 'all';
+          filterEpisodes();
+        });
     });
   });
 </script>
 
 <style>
+    .animated-gradient {
+      background: linear-gradient(
+        45deg,
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-accent)
+      );
+      background-size: 200% 200%;
+      animation: gradient 15s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .animate-title {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll-triggered fade-in animation */
+    .animate-fade-in {
+      animation: fadeInScale 0.6s ease-out forwards;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Parallax effect for hero background */
+    .parallax-bg {
+      transition: transform 0.3s ease-out;
+    }
+
+    /* Utility classes for line clamping */
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -383,3 +502,4 @@ const description = t('live.description');
     overflow: hidden;
   }
 </style>
+</I18nLayout>
